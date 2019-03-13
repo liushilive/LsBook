@@ -1,21 +1,25 @@
 import logging
 
-# region 配置参数
-from fuck_gitbook.utils.argument import cmd_argument
-from fuck_gitbook.utils.logger import log_init
-from fuck_gitbook.utils.tools_path import process_input_output_path
+from .models.book import Book
+from .output.generateBook import generateBook
+from .utils.argument import cmd_argument
+from .utils.logger import log_init
 
-args = cmd_argument()
-build: bool = args.build
-book: str = args.book
-output: str = args.output
-log_level: str = args.log
 
-log_init(log_level)
+def main():
+    args = cmd_argument()
+    build: bool = args.build
+    book_path: str = args.book
+    book_output: str = args.output
+    log_level: str = args.log
 
-logging.debug(f"入参：{args}")
+    log_init(log_level)
 
-if build:
-    logging.info("开始构建")
+    logging.debug(f"入参：{args}")
 
-    book, output = process_input_output_path(book, output)
+    if build:
+        logging.info("开始生成书籍")
+        book = Book(book_path, book_output)
+
+        # 生成书籍
+        generateBook(book)
