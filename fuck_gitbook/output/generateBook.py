@@ -1,11 +1,11 @@
 import logging
 import time
 
-from fuck_gitbook.parse.parse_readme import parse_readme
+from fuck_gitbook.parse.parse_readme import parse_readme, readme_exist
 from ..models.book import Book
 from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
-from ..utils.fs import mkdir, rmdir
+from ..utils.fs import copytree
 from ..utils.path import process_input_output_path
 
 
@@ -30,13 +30,13 @@ def generateBook(book: Book):
     parse_summary(book)
 
     logging.info("解析 readme")
-    parse_readme(book)
-
-    logging.info("清理输出文件夹")
-    rmdir(book.book_output)
-    mkdir(book.book_output)
+    readme_exist(book)
 
     logging.info("复制资源到输出目录")
+    copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json")
+
+    logging.info("解析 readme")
+    parse_readme(book)
 
     logging.info("生成所有页面")
 

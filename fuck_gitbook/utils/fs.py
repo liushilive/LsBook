@@ -9,8 +9,8 @@ def rmdir(file_path: str):
     :param file_path:
     :return:
     """
-    logging.debug(f"删除目录：{file_path}")
     if os.path.isdir(file_path):
+        logging.debug(f"删除目录：{file_path}")
         shutil.rmtree(file_path)
 
 
@@ -24,8 +24,10 @@ def mkdir(file_path: str):
     os.makedirs(file_path)
 
 
-def copy_dir():
-    pass
+def copytree(src, dst, *ignore):
+    """复制"""
+    rmdir(dst)
+    shutil.copytree(src, dst, ignore=shutil.ignore_patterns(*ignore))
 
 
 def is_file_exist(root: str, filename):

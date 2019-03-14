@@ -9,7 +9,6 @@ def process_input_output_path(book: Book):
     """处理输入输出路径
 
     :param book: 书籍路径
-    :param output: 输出路径
     :return: book, output
     """
     if book.book_path != ".":
