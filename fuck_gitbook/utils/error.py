@@ -16,3 +16,4 @@ def dir_not_found_error(path, msg=""):
 def error(msg):
     """抛出通用异常信息"""
     logging.error(msg)
+    exit(-1)

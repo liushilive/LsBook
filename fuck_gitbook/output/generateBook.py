@@ -1,7 +1,9 @@
 import logging
 import time
 
-from fuck_gitbook.parse.parse_readme import parse_readme, readme_exist
+from fuck_gitbook.parse.parse_readme import readme_exist
+from fuck_gitbook.renderer.renderer_html import renderer_html
+from fuck_gitbook.renderer.renderer_summary import renderer_summary
 from ..models.book import Book
 from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
@@ -29,16 +31,18 @@ def generateBook(book: Book):
     logging.info("解析目录")
     parse_summary(book)
 
-    logging.info("解析 readme")
+    logging.info("验证 readme")
     readme_exist(book)
+
+    logging.info("生成所有页面的目录结构")
+    renderer_summary(book)
 
     logging.info("复制资源到输出目录")
     copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json")
-
-    logging.info("解析 readme")
-    parse_readme(book)
+    copytree(book.assets_path, book.assets_path_out)
 
     logging.info("生成所有页面")
+    renderer_html(book)
 
     logging.info("完成生成")
     end = time.time()

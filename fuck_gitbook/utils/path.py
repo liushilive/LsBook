@@ -1,5 +1,7 @@
 import logging
 import os
+import sys
+from pathlib import Path
 
 from fuck_gitbook.utils.error import dir_not_found_error
 from ..models.book import Book
@@ -22,6 +24,17 @@ def process_input_output_path(book: Book):
         book.book_output = os.path.join(book.book_path, book.book_output)
     logging.info(f"输出目录：{book.book_output}")
 
+    book.assets_path = os.path.join(os.path.split(os.path.dirname(__file__))[0], *book.assets_path)
+    logging.debug(f"资源路径：{book.assets_path}")
+
+    book.assets_path_out = os.path.join(book.book_output, book.assets_path_out)
+    logging.debug(f"资源输出路径：{book.assets_path_out}")
+
+
+def get_filename_not_ext(filename) -> str:
+    """去除文件扩展名"""
+    return os.path.splitext(filename)[0]
+
 
 def set_extension(filename, ext):
     """更改文件的扩展名
@@ -30,6 +43,9 @@ def set_extension(filename, ext):
     :param ext: 扩展名
     :return:
     """
-    # 提取文件名
-    # 修改扩展名
-    pass
+    return get_filename_not_ext(filename) + ext
+
+
+def get_pure_path(path):
+    """获取路径，分隔符为 / """
+    return Path(path).as_posix()

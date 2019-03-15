@@ -10,7 +10,7 @@ def rmdir(file_path: str):
     :return:
     """
     if os.path.isdir(file_path):
-        logging.debug(f"删除目录：{file_path}")
+        logging.debug(f"清理目录：{file_path}")
         shutil.rmtree(file_path)
 
 

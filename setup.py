@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import sys
+import os
 
 if sys.version_info < (3, 7):
     print(u"The minimum support Python 3.7\n支持最低版本 3.7")
@@ -20,6 +21,11 @@ except ImportError:
 __version = "0.1.1"
 __author = "刘士"
 
+L = []
+for path, dir_list, file_list in os.walk("./fuck_gitbook/assets"):
+    for file_name in file_list:
+        L.append(os.path.relpath(os.path.join(path, file_name), "./fuck_gitbook"))
+
 setup(
     name='fuck_gitbook',
     version=__version,
@@ -32,6 +38,7 @@ setup(
         '样板': 'https://liushilive.github.io',
     },
     packages=find_packages(),
+    package_data={"": L},
     include_package_data=True,
     license="MIT",
     zip_safe=True,
@@ -46,7 +53,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    install_requires=['mistune', 'mako'],
+    install_requires=['mistune'],
     entry_points={
         'console_scripts': [
             'lsbook = fuck_gitbook.lsbook:main',

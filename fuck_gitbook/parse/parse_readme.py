@@ -1,15 +1,7 @@
 import os
 
-from fuck_gitbook.models.book import Book
-from fuck_gitbook.parse.parse_file import parse_file
-from fuck_gitbook.utils.error import file_not_found_error, error
-
-
-def parse_readme(book: Book):
-    """解析 readme"""
-    readme = parse_file(os.path.join(book.book_path, "readme.md"))
-
-    pass
+from ..models.book import Book
+from ..utils.error import file_not_found_error, error
 
 
 def readme_exist(book: Book):

@@ -2,9 +2,13 @@ class Book(object):
     def __init__(self, book_path, book_output):
         self._book_path = book_path
         self._book_output = book_output
-        self._summary_path = "./summary_path.md"
+        self._summary_path = "summary.md"
         self._summary_json = {}
+        self._summary_level_list = []
+        self._summary_classify_list = {}
         self._config = {}
+        self._assets_path = ["assets", "gitbook"]
+        self._assets_path_out = "gitbook"
 
     @property
     def book_path(self):
@@ -28,24 +32,70 @@ class Book(object):
 
     @property
     def summary_path(self):
+        """目录路径"""
         return self._summary_path
 
     @summary_path.setter
     def summary_path(self, path):
+        """目录路径"""
         self._summary_path = path
 
     @property
     def summary(self):
+        """目录结构"""
         return self._summary_json
 
     @summary.setter
     def summary(self, summary_json):
+        """目录结构"""
         self._summary_json = summary_json
 
     @property
     def config(self):
+        """配置"""
         return self._config
 
     @config.setter
     def config(self, json):
+        """配置"""
         self._config = json
+
+    @property
+    def assets_path(self):
+        """资源路径"""
+        return self._assets_path
+
+    @assets_path.setter
+    def assets_path(self, path):
+        """资源路径"""
+        self._assets_path = path
+
+    @property
+    def assets_path_out(self):
+        """资源输出路径"""
+        return self._assets_path_out
+
+    @assets_path_out.setter
+    def assets_path_out(self, path):
+        """资源输出路径"""
+        self._assets_path_out = path
+
+    @property
+    def summary_level_list(self):
+        """目录层次列表"""
+        return self._summary_level_list
+
+    @summary_level_list.setter
+    def summary_level_list(self, item):
+        """目录层次列表"""
+        self._summary_level_list.append(item)
+
+    @property
+    def summary_classify_list(self):
+        """目录分类后结构"""
+        return self._summary_classify_list
+
+    # @summary_classify_list.setter
+    # def summary_classify_list(self, item):
+    #     """目录分类后结构"""
+    #     self._summary_classify_list = item

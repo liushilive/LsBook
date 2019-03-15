@@ -1,4 +1,5 @@
 import logging
+from multiprocessing.spawn import freeze_support
 
 from .models.book import Book
 from .output.generateBook import generateBook
@@ -23,3 +24,7 @@ def main():
 
         # 生成书籍
         generateBook(book)
+
+
+if __name__ == '__main__':
+    main()

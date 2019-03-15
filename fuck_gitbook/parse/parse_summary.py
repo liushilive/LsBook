@@ -5,44 +5,68 @@ import mistune
 
 from fuck_gitbook.models.book import Book
 from fuck_gitbook.renderer.renderer_summary import SummaryRenderer
-from fuck_gitbook.utils.error import file_not_found_error
+from fuck_gitbook.utils.error import file_not_found_error, error
+
+count_sum = 0
+data_level = []
+iter_count = 0
 
 
 def parse_summary(book: Book):
-    """解析目录
-
-    :return:
-    """
+    """解析目录"""
     # 得到目录 html
+    global count_sum, iter_count, data_level
     with open(book.summary_path, encoding="utf-8") as f:
         summary_dict = []
         summary = SummaryRenderer()
         md = mistune.Markdown(renderer=summary)
         md.parse(f.read())
+        count = 0
         for c1 in summary.toc_tree:
+            count += 1
+            count_sum += 1
+            iter_count = 0
+            data_level = data_level[:iter_count]
+            data_level.append(str(count))
+
             header_text, sub = c1
-            summary_dict.append({"title": header_text, "articles": []})
+            # summary_list['.'.join(data_level)] = [book_summary_3_head.substitute(title=header_text)]
+
+            summary_dict.append({"title": header_text, "articles": [], "data_level": f"{'.'.join(data_level)}"})
+
             if len(sub) == 0:
                 continue
-            data_json = json.loads(sub.replace("][", "],["), encoding="utf-8")
-            summary_dict[-1]["articles"] = _iter_list(data_json)
-
+            try:
+                data_json = json.loads(sub.replace("][", "],["), encoding="utf-8")
+                summary_dict[-1]["articles"] = _iter_list(book, data_json)
+            except Exception as e:
+                error(f"解析目录异常，请检查目录结构：{sub}\n{e}")
     book.summary = summary_dict
 
 
-def _iter_list(data_json):
+def _iter_list(book, data_json):
     """迭代列表项
 
     :return:
     """
+    global count_sum, iter_count, data_level
     sub = []
+    count = 0
+    iter_count += 1
     for item in data_json:
         if type(item[0]) is str:
-            sub.append({"title": item[2], "ref": item[0], "articles": []})
+            count_sum += 1
+            count += 1
+            data_level = data_level[:iter_count]
+            data_level.append(str(count))
+            data_level_str = '.'.join(data_level)
+            book.summary_level_list = [data_level_str, item[0], item[2]]
+            sub.append({"title": item[2], "ref": item[0], "articles": [], "data_level": f"{data_level_str}"})
             pass
         else:
-            sub[-1]["articles"].append(_iter_list(item))
+            sub[-1]["articles"] = _iter_list(book, item)
             pass
+    iter_count -= 1
     return sub
 
 
