@@ -1,6 +1,6 @@
 import json
 import os
-
+import re
 import mistune
 
 from fuck_gitbook.models.book import Book
@@ -18,9 +18,12 @@ def parse_summary(book: Book):
     global count_sum, iter_count, data_level
     with open(book.summary_path, encoding="utf-8") as f:
         summary_dict = []
+        page = f.read()
+        page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
+        page = re.sub(r"[\n|\r\n]+", r"\n\n", page)
         summary = SummaryRenderer()
         md = mistune.Markdown(renderer=summary)
-        md.parse(f.read())
+        md.parse(page)
         count = 0
         for c1 in summary.toc_tree:
             count += 1
@@ -40,7 +43,7 @@ def parse_summary(book: Book):
                 data_json = json.loads(sub.replace("][", "],["), encoding="utf-8")
                 summary_dict[-1]["articles"] = _iter_list(book, data_json)
             except Exception as e:
-                error(f"解析目录异常，请检查目录结构：{sub}\n{e}")
+                error(f"解析目录异常，请检查目录结构：\n{sub}\n{e}")
     book.summary = summary_dict
 
 
