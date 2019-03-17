@@ -18,13 +18,13 @@ def process_file_import(book_path, page: str):
     # 按行处理
     pages = re.split(r"\n|\r\n", page)
     tag = True
+    new_page = ""
     for line in pages:
         if line.find("```") != -1:
             tag = not tag
             continue
         match = re.match(regex, line)
         if tag and match:
-            rawBlock = match.group(0)
             mermaidContent_1 = match.group(1)
             mermaidContent_2 = match.group(2)
             mermaidContent_4 = match.group(4)
@@ -35,6 +35,6 @@ def process_file_import(book_path, page: str):
                 code = f.read()
 
             code = re.sub(r"(\r\n)|(\n)", '\n' + mermaidContent_1, code)
-            processed = f"{mermaidContent_1}```{lang}\n{mermaidContent_1}{code}\n{mermaidContent_1}```"
-            page = page.replace(rawBlock, processed)
-    return page
+            line = f"{mermaidContent_1}```{lang}\n{mermaidContent_1}{code}\n{mermaidContent_1}```"
+        new_page += line + "\n"
+    return new_page

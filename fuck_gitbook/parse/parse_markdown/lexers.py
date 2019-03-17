@@ -15,21 +15,20 @@ class Inline_Lexer(InlineLexer):
         self.rules.spoiler = re.compile(
             r'{%s%}(.*?){%ends%}'
         )
-        self.default_rules.insert(0, "spoiler")
+        self.default_rules.insert(2, "spoiler")
 
         # 处理 公式 $ $$
         self.rules.katex = re.compile(
             r'^\$(.*?)\$',
             flags=re.S
         )
-        self.default_rules.insert(0, "katex")
+        self.default_rules.insert(1, "katex")
 
         self.rules.katex_s = re.compile(
             r'^\$\$(.*?)\$\$',
             flags=re.S
         )
         self.default_rules.insert(0, "katex_s")
-
         pass
 
     def output_spoiler(self, m):
