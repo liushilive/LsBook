@@ -16,6 +16,7 @@ function mermaid_init() {
         };
         gitbook.events.bind('page.change', function () {
             init();
+            mermaid.init();
         });
     });
 }
