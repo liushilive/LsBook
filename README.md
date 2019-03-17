@@ -4,29 +4,174 @@
 
 一切照搬 `gitbook`，只为加快网站的生成速度。
 
-## 处理流程
+只支持 md 语法
 
-1. preparePages
-    列出并准备所有页面
-1. prepareAssets
-    列出书中所有的资产
-1. config
-    读取配置文件
-1. init
-    在解析书籍之前调用，然后生成输出和页面，只运行一次
-1. generateAssets
-    生成资源
-1. parseBook
-    解析书籍
-1. page:before
-    在页面上运行模板引擎之前调用
-1. blocks
-    代码块处理
-1. page
-    在输出和索引页面之前调用
-1. generateBook
-    生成书籍
-1. finish:before
-    在生成页面之后调用，在复制资源之前，覆盖，只运行一次
-1. finish
-    只运行一次
+## 编辑 book.json
+
+```json
+{
+  "author": "作者",
+  "title": "书籍标题",
+  "github_url": "主页地址"
+}
+```
+
+运行 `lsbook init` 初始化项目
+
+## 数学公式使用
+
+>支持 [KaTeX](https://khan.github.io/KaTeX/docs/supported.html) 已支持的全部符号。
+
+* 内联数学公式：
+
+      $$\int_{-\infty}^\infty g(x) dx$$
+
+      $$\fcolorbox{red}{aqua}{A}$$
+
+      $$\textcolor{#228B22}{F=ma}$$
+
+* 块级数学公式：
+
+      $$
+      \def\arraystretch{1.5}
+      \begin{array}{c|c:c}
+        a & b & c \\ \hline
+        d & e & f \\
+        \hdashline
+        g & h & i
+      \end{array}
+      $$
+
+## 流程图使用
+
+* 支持 [mermaid](https://mermaidjs.github.io/) 以支持的流程图。
+
+      ```mermaid
+      graph TD;
+        A-->B;
+        A-->C;
+        B-->D;
+        C-->D;
+      ```
+
+* 支持 [PlantUML](http://plantuml.com/) 以支持的流程图。
+
+  采用 [plantweb](https://plantweb.readthedocs.io/) 以生成所有图表类型，需链接外网
+
+   开始标签|结束标签|引擎
+   ---|---|---
+   @startuml|@enduml|plantuml
+   @startdot|@enddot|graphviz
+   @startditaa|@endditaa|ditaa
+  
+  >`@startuml`与`@enduml` 如果存在，将采用默认样式。
+  >
+  >否则采用 18 号字体，除非需要采用个性化配置，否则不加。
+
+      ```puml
+      @startuml
+
+      Class Stage
+      Class Timeout {
+        +constructor:function(cfg)
+        +timeout:function(ctx)
+        +overdue:function(ctx)
+        +stage: Stage
+      }
+      Stage <|-- Timeout
+
+      @enduml
+      ```
+
+      ```puml
+      @startdot
+      digraph one_node_graph {
+         node1 -> node2 -> node3
+      }
+      @enddot
+      ```
+
+## 代码高亮支持
+
+>采用 [prism](https://prismjs.com/) 支持所有官方支持语言。
+
+### 主题样式
+
+* 支持官方所有主题
+
+      prismjs/themes/prism.css
+
+      prismjs/themes/prism-coy.css
+
+      prismjs/themes/prism-dark.css
+
+      prismjs/themes/prism-funky.css
+
+      prismjs/themes/prism-okaidia.css
+
+      prismjs/themes/prism-solarizedlight.css
+
+      prismjs/themes/prism-tomorrow.css
+
+      prismjs/themes/prism-twilight.css
+
+* 配置
+
+  ```json
+  "pluginsConfig": {
+    "books": {
+      "prism_themes": [
+        "prismjs/themes/prism-okaidia.css"
+      ]
+    }
+  }
+  ```
+
+## 添加 github url 图标
+
+* 配置
+
+  ```json
+  "pluginsConfig": {
+    "books": {
+      "github_url": "https://liushilive.github.io/"
+    }
+  }
+  ```
+
+## 鼠标悬浮可见
+
+>用法：把要隐藏文本内容放在 `{%s%}` 和 `{%ends%}` 之间。
+
+    {%s%}Hello World.{%ends%}
+
+## 点击隐藏或显示片段
+
+>可以使用标签定义一个新的片段：（默认隐藏）
+
+```html
+<!--sec data-title="点我隐藏答案" data-show=true ces-->
+B
+<!--endsec-->
+
+<!--sec data-title="点我看分析" data-id="section2" data-show=false ces-->
+CPU
+<!--endsec-->
+
+<!--sec data-title="点我看分析" ces-->
+C
+<!--endsec-->
+```
+
+>本标签包含以下参数：
+
+* title：标题
+* show：是否初始隐藏
+
+## 导入外部代码文件
+
+`@import "你的代码文件" {语言}`
+
+`@import "你的代码文件"`
+
+>如果没有指明相关语言，将默认根据文件后缀推断语言。
