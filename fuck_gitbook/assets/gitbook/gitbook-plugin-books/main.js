@@ -564,7 +564,7 @@ function search() {
         }
 
         function launchSearch(keyword) {
-            // Add class for loading
+            // 添加加载类
             $body.addClass('with-search');
             $body.addClass('search-loading');
 
@@ -585,7 +585,7 @@ function search() {
             // Bind DOM
             var $body = $('body');
 
-            // Launch query based on input content
+            // 根据输入内容启动查询
             function handleUpdate() {
                 var $searchInput = $('#book-search-input input');
                 var keyword = $searchInput.val();
@@ -611,7 +611,7 @@ function search() {
 
             // Push to history on blur
             $body.on('blur', '#book-search-input input', function (e) {
-                // Update history state
+                // 更新历史状态
                 if (usePushState) {
                     var uri = updateQueryString('q', $(this).val());
                     window.history.pushState({
@@ -635,7 +635,7 @@ function search() {
             'acrossElements': true,
             'separateWordSearch': false
         };
-        // highlight
+        // 强调
         var highLightPageInner = function (keyword) {
             var pageInner = $('.page-inner');
             if (/(?:(.+)?\:)(.+)/.test(keyword)) {
@@ -698,7 +698,7 @@ function search() {
                     if (typeof hash[1] !== 'undefined' && hash[1] !== null) {
                         url += '#' + hash[1];
                     }
-                    return urll;
+                    return url;
                 } else {
                     return url;
                 }
