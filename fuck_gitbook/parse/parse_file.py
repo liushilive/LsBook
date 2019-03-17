@@ -1,9 +1,7 @@
 import os
 
-import mistune
-
 from fuck_gitbook.parse.parse_markdown.file_imports import process_file_import
-from fuck_gitbook.parse.parse_markdown.lexers import Inline_Lexer, Block_Lexer
+from fuck_gitbook.parse.parse_markdown.lexers import Inline_Lexer, Block_Lexer, CustomMarkdown
 from fuck_gitbook.renderer.renderer_file import FileRenderer
 
 
@@ -19,7 +17,7 @@ def parse_file(file):
     renderer = FileRenderer()
     inline = Inline_Lexer(renderer)
     block = Block_Lexer()
-    markdown = mistune.Markdown(
+    markdown = CustomMarkdown(
         renderer=renderer,
         inline=inline,
         block=block

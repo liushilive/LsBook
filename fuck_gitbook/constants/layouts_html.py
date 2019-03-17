@@ -51,8 +51,7 @@ _html_body_map = {
     "book_body": "书籍主页",
     "basePath": "本页面相对于根的相对路径",
 }
-html_body_2 = Template("""
-<div class="book-summary">
+html_body_2 = Template("""<div class="book-summary">
     <nav role="navigation">
         <ul class="summary">
             ${book_summary}
@@ -83,15 +82,19 @@ html_body_2 = Template("""
         });
     });
 </script>
+</script>
 </div>
 
 <script src="${basePath}/gitbook/gitbook.js"></script>
 <script src="${basePath}/gitbook/theme.js"></script>
+<script src="${basePath}/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
 <script src="${basePath}/gitbook/gitbook-plugin-books/jquery.mark.js"></script>
 <script src="${basePath}/gitbook/gitbook-plugin-books/bootstrap.min.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-books/main.min.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-books/lightbox.min.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/lightbox.min.js"></script>
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/katex.min.js"></script>
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/contrib/auto-render.min.js"></script>
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/main.min.js"></script>
+
 """)
 
 _book_summary_map = {

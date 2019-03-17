@@ -13,6 +13,26 @@ from fuck_gitbook.models.book import Book
 
 
 def renderer_html(book: Book):
+    # author = book.config.get("author")
+    # book_title = book.config.get("title")
+    # for item in book.summary_classify_list.values():
+    #     title = item.get("title")
+    #     level = item.get("level")
+    #     prev_title = item.get("prev_title")
+    #     prev_relative_path = item.get("prev_relative_path")
+    #     next_title = item.get("next_title")
+    #     next_relative_path = item.get("next_relative_path")
+    #     book_summary = item.get("summary")
+    #     href = item.get("href")
+    #     basePath = item.get("basePath")
+    #
+    #     L = _render_html(book_title, title, author, basePath, book_summary,
+    #                      prev_title, prev_relative_path, next_title, next_relative_path,
+    #                      href, book.book_path, book.book_output
+    #                      )
+    #
+    #     logging.debug(f"生成页面：{level, title, href}")
+    # ------------------------------------------------------------------------
     search_plus_index = {}
     P_list = []
     with ProcessPoolExecutor(1) as pool:

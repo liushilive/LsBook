@@ -15,6 +15,22 @@ function search_layouts() {
 }
 
 /**
+ * 数学公式刷新
+ */
+function Math_up() {
+    require(['gitbook', 'jQuery'], function (gitbook, $) {
+        var init = function () {
+            renderMathInElement(document.body, {
+                displayMode: false
+            });
+        };
+        gitbook.events.bind('page.change', function () {
+            init();
+        });
+    });
+}
+
+/**
  * 章节扩展
  */
 function ExpandableChapters() {
@@ -688,6 +704,7 @@ function search() {
                 }
             }
         }
+
         window.addEventListener('click', function (e) {
             if (e.target.tagName === 'A' && e.target.getAttribute('data-need-reload')) {
                 setTimeout(function () {
@@ -706,3 +723,4 @@ splitter();
 spoiler();
 copyCode();
 search();
+Math_up();
