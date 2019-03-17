@@ -23,8 +23,11 @@ class FileRenderer(mistune.Renderer):
         """
         # todo 代码渲染
         # mermaid
+        if lang == "mermaid":
+            return f'<div class="mermaid">\n{code}\n</div>\n'
         # puml
         # code
+
         code = code.rstrip('\n')
         if not lang:
             code = mistune.escape(code, smart_amp=False)

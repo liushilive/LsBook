@@ -93,8 +93,9 @@ html_body_2 = Template("""<div class="book-summary">
 <script defer src="${basePath}/gitbook/gitbook-plugin-books/lightbox.min.js"></script>
 <script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/katex.min.js"></script>
 <script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/contrib/auto-render.min.js"></script>
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/main.min.js"></script>
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/mermaid/mermaid.min.js"></script>
 
+<script defer src="${basePath}/gitbook/gitbook-plugin-books/main.min.js"></script>
 """)
 
 _book_summary_map = {

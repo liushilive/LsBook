@@ -1,4 +1,26 @@
 /**
+ * mermaid 流程图渲染
+ */
+function mermaid_init() {
+    require(['gitbook', 'jQuery'], function (gitbook, $) {
+        var init = function () {
+            var config = {
+                startOnLoad: true,
+                flowchart: {
+                    useMaxWidth: false,
+                    htmlLabels: true
+                },
+                theme: 'forest'
+            };
+            mermaid.initialize(config);
+        };
+        gitbook.events.bind('page.change', function () {
+            init();
+        });
+    });
+}
+
+/**
  * 搜索框加入
  */
 function search_layouts() {
@@ -724,3 +746,4 @@ spoiler();
 copyCode();
 search();
 Math_up();
+mermaid_init();

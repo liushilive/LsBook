@@ -22,6 +22,7 @@ def process_file_import(book_path, page: str):
     for line in pages:
         if line.find("```") != -1:
             tag = not tag
+            new_page += line + "\n"
             continue
         match = re.match(regex, line)
         if tag and match:
