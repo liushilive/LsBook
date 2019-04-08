@@ -22,12 +22,12 @@ __version = "0.1.2"
 __author = "刘士"
 
 L = []
-for path, dir_list, file_list in os.walk("./fuck_gitbook/assets"):
+for path, dir_list, file_list in os.walk("./LsBook/assets"):
     for file_name in file_list:
-        L.append(os.path.relpath(os.path.join(path, file_name), "./fuck_gitbook"))
+        L.append(os.path.relpath(os.path.join(path, file_name), "./LsBook"))
 
 setup(
-    name='fuck_gitbook',
+    name='LsBook',
     version=__version,
     description="markdown 静态网页生成器",
     long_description=__read_md,
@@ -53,10 +53,10 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    install_requires=['mistune',],
+    install_requires=['mistune', ],
     entry_points={
         'console_scripts': [
-            'lsbook = fuck_gitbook.lsbook:main',
+            'lsbook = LsBook.lsbook:main',
         ]
     }
 )

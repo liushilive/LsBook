@@ -3,9 +3,9 @@ import os
 import re
 import mistune
 
-from fuck_gitbook.models.book import Book
-from fuck_gitbook.renderer.renderer_summary import SummaryRenderer
-from fuck_gitbook.utils.error import file_not_found_error, error
+from LsBook.models.book import Book
+from LsBook.renderer.renderer_summary import SummaryRenderer
+from LsBook.utils.error import file_not_found_error, error
 
 count_sum = 0
 data_level = []

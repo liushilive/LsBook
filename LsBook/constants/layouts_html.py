@@ -3,14 +3,30 @@ from string import Template
 _html_root_map = {
     "head": "头",
     "body": "主体",
-    "lang": "语言"
+    "lang": "语言",
+    "basePath": "本页面相对于根的相对路径",
 }
 
-html_root_0 = Template("""
-<!DOCTYPE HTML>
+html_root_0 = Template("""<!DOCTYPE HTML>
 <html lang="${lang}">
-    <head>${head}</head>
-    <body><div class="book">${body}</div></body>
+<head>${head}</head>
+<body>
+<div class="book">${body}</div>
+
+<script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
+<script charset="UTF-8" src="${basePath}/_lsbook/jquery_mar/jquery.mark.js"></script>
+<script src="${basePath}/_lsbook/gitbook.js"></script>
+<script src="${basePath}/_lsbook/theme.js"></script>
+<script src="${basePath}/_lsbook/fontsettings/fontsettings.js"></script>
+<script src="${basePath}/_lsbook/katex/katex.min.js"></script>
+<script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
+<script src="${basePath}/_lsbook/lightbox/lightbox.min.js"></script>
+<script src="${basePath}/_lsbook/mermaid/mermaid.min.js"></script>
+<script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
+<script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
+
+<script src="${basePath}/_lsbook/main.js"></script>
+</body>
 </html>
 """)
 
@@ -18,7 +34,7 @@ _html_head_map = {
     "title": "标题",
     "author": "作者",
     "basePath": "本页面相对于根的相对路径",
-    "next_relative_path": "分页：下一页路径，相对于本文件的相对路径"
+    "next_relative_path": "分页：下一页路径，相对于本文件的相对路径",
 }
 html_head_1 = Template("""
 <meta charset="UTF-8">
@@ -50,9 +66,14 @@ _html_body_map = {
     "book_body": "书籍主页",
     "basePath": "本页面相对于根的相对路径",
     "language": "语言",
-    "GITBOOK_LINK": "GITBOOK_LINK"
+    "GITBOOK_LINK": "GITBOOK_LINK",
+    "SEARCH_PLACEHOLDER": "SEARCH_PLACEHOLDER",
+    "github_url": "github_url"
 }
 html_body_2 = Template("""<div class="book-summary">
+    <div id="book-search-input" role="search">
+        <input placeholder="${SEARCH_PLACEHOLDER}" type="text"/>
+    </div>
     <nav role="navigation">
         <ul class="summary">
             ${book_summary}
@@ -75,31 +96,14 @@ html_body_2 = Template("""<div class="book-summary">
     gitbook.push(function () {
         gitbook.page.hasChanged({
             "config": {
-                "pluginsConfig": {
-                    "fontsettings": {"theme": "white", "family": "sans", "size": 2}
-                }
+                "fontsettings": {"theme": "white", "family": "sans", "size": 2},
+                "github_url":"${github_url}",
             },
             "basePath": "${basePath}",
-            "book":{"language":"${language}"}
+            "book": {"language": "${language}"}
         });
     });
 </script>
-</script>
-</div>
-
-<script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
-<script src="${basePath}/_lsbook/jquery_mar/jquery.mark.js" charset="UTF-8"></script>
-<script src="${basePath}/_lsbook/gitbook.js"></script>
-<script src="${basePath}/_lsbook/theme.js"></script>
-<script src="${basePath}/_lsbook/fontsettings/fontsettings.js"></script>
-<script src="${basePath}/_lsbook/katex/katex.min.js"></script>
-<script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
-<script src="${basePath}/_lsbook/lightbox/lightbox.min.js"></script>
-<script src="${basePath}/_lsbook/mermaid/mermaid.min.js"></script>
-<script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
-<script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
-
-<script src="${basePath}/_lsbook/main.js"></script>
 """)
 
 _book_summary_map = {
@@ -145,7 +149,9 @@ _book_body_map = {
     "copyright": "版权声明",
     "toc": "页内目录",
     "footer": "页脚",
-    "book_page": "内容"
+    "book_page": "内容",
+    "SEARCH_RESULTS_TITLE": "SEARCH_RESULTS_TITLE",
+    "SEARCH_NO_RESULTS_TITLE": "SEARCH_NO_RESULTS_TITLE"
 }
 book_body_4 = Template("""<div class="body-inner">
     <div class="book-header" role="navigation">
@@ -155,14 +161,27 @@ book_body_4 = Template("""<div class="body-inner">
             <a href="${basePath}">${book_title}</a>
         </h1>
     </div>
-    
+
     <div class="page-wrapper" role="main" tabindex="-1">
         <div class="page-inner">
-            <section class="normal markdown-section">
-                ${toc}
-                ${book_page}
-                ${footer}
-            </section>
+            <div class="search-plus" id="book-search-results">
+                <div class="search-noresults">
+                    <section class="normal markdown-section">
+                        ${toc}
+                        ${book_page}
+                        ${footer}
+                    </section>
+                </div>
+                <div class="search-results">
+                    <div class="has-results">
+                        <h1 class="search-results-title">${SEARCH_RESULTS_TITLE}</h1>
+                        <ul class="search-results-list"></ul>
+                    </div>
+                    <div class="no-results">
+                        <h1 class="search-results-title">${SEARCH_NO_RESULTS_TITLE}</h1>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -1,8 +1,8 @@
 import os
 
-from fuck_gitbook.parse.parse_markdown.file_imports import process_file_import
-from fuck_gitbook.parse.parse_markdown.lexers import Inline_Lexer, Block_Lexer, CustomMarkdown
-from fuck_gitbook.renderer.renderer_file import FileRenderer
+from LsBook.parse.parse_markdown.file_imports import process_file_import
+from LsBook.parse.parse_markdown.lexers import Inline_Lexer, Block_Lexer, CustomMarkdown
+from LsBook.renderer.renderer_file import FileRenderer
 
 
 def parse_file(file):

@@ -1,4 +1,4 @@
-from fuck_gitbook.lsbook import main
+from LsBook.lsbook import main
 
 if __name__ == '__main__':
     main()

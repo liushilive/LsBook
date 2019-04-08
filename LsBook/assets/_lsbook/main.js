@@ -33,22 +33,6 @@ function mermaid_init() {
 }
 
 /**
- * 搜索框加入
- */
-function search_layouts() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
-        var init = function () {
-            $('<div id="book-search-input" role="search"><input type="text" placeholder="Type to search" /></div>').prependTo(".book-summary");
-            $(".markdown-section").wrap('<div class="search-plus" id="book-search-results"><div class="search-noresults"></div></div>');
-            $('<div class="search-results"><div class="has-results"><h1 class="search-results-title"><span class="search-results-count"></span> results matching "<span class="search-query"></span>"</h1><ul class="search-results-list"></ul></div><div class="no-results"><h1 class="search-results-title">No results matching "<span class="search-query"></span>"</h1></div></div>').appendTo("#book-search-results");
-        };
-        gitbook.events.bind('page.change', function () {
-            init();
-        });
-    });
-}
-
-/**
  * 数学公式刷新
  */
 function Math_up() {
@@ -149,7 +133,7 @@ function ExpandableChapters() {
 function GitHubButtons() {
     require(['gitbook'], function (gitbook) {
         gitbook.events.bind('start', function (e, config) {
-            var githubURL = config.books && config.books.github_url ? config.books.github_url : null;
+            var githubURL = config.github_url;
             if (githubURL) {
                 gitbook.toolbar.createButton({
                     icon: 'fa fa-github',
@@ -527,6 +511,7 @@ function search() {
 
                 if (keyword.length === 0) {
                     closeSearch();
+                    $('.page-inner').unmark();
                 } else {
                     launchSearch(keyword);
                 }
@@ -650,13 +635,12 @@ function search() {
     });
 }
 
+mermaid_init();
+sectionx();
+spoiler();
 ExpandableChapters();
 GitHubButtons();
-sectionx();
 splitter();
-spoiler();
-search();
 Math_up();
-mermaid_init();
 Prism_init();
-search_layouts();
+search();

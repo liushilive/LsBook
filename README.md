@@ -1,4 +1,4 @@
-# fuck_gitbook
+# LsBook
 
 无法忍受 `gitbook` 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
 
@@ -57,38 +57,6 @@
 ## 代码高亮支持
 
 >采用 [prism](https://prismjs.com/) 支持所有官方支持语言。
-
-### 主题样式
-
-* 支持官方所有主题
-
-      prismjs/themes/prism.css
-
-      prismjs/themes/prism-coy.css
-
-      prismjs/themes/prism-dark.css
-
-      prismjs/themes/prism-funky.css
-
-      prismjs/themes/prism-okaidia.css
-
-      prismjs/themes/prism-solarizedlight.css
-
-      prismjs/themes/prism-tomorrow.css
-
-      prismjs/themes/prism-twilight.css
-
-* 配置
-
-  ```json
-  "pluginsConfig": {
-    "books": {
-      "prism_themes": [
-        "prismjs/themes/prism-okaidia.css"
-      ]
-    }
-  }
-  ```
 
 ## 添加 github url 图标
 

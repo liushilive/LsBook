@@ -5,10 +5,10 @@ from concurrent.futures.process import ProcessPoolExecutor
 
 import mistune
 
-from fuck_gitbook.constants.layouts_html import book_summary_3_head, book_summary_3_chapter_active, \
+from LsBook.constants.layouts_html import book_summary_3_head, book_summary_3_chapter_active, \
     book_summary_3_chaptere, book_summary_3_sub_chapter_active, book_summary_3_sub_chaptere
-from fuck_gitbook.models.book import Book
-from fuck_gitbook.utils.path import get_pure_path, get_filename_not_ext
+from LsBook.models.book import Book
+from LsBook.utils.path import get_pure_path, get_filename_not_ext
 
 
 class SummaryRenderer(mistune.Renderer):
@@ -97,8 +97,8 @@ def _read_summary(book_output, book_summary, current_level, current_ref, current
         "summary": summary
     }}
     for item in book_summary:
-        title = item.get("title")
-        articles = item.get("articles")
+        title = item.get("title", "")
+        articles = item.get("articles", "")
         # data_level = item.get("data_level")
         summary += book_summary_3_head.substitute(title=title)
         if len(articles) == 0:
@@ -114,10 +114,10 @@ def _iter_summary(book_output, summary_classify_list, old_articles,
                   current_level, current_ref, current_count, summary_level_list: list):
     summary_sub = ""
     for item in old_articles:
-        title = item.get("title")
-        ref = item.get("ref")
-        articles = item.get("articles")
-        data_level = item.get("data_level")
+        title = item.get("title","")
+        ref = item.get("ref","")
+        articles = item.get("articles","")
+        data_level = item.get("data_level","")
 
         tmp_dict = {
             'title': title,

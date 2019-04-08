@@ -1,5 +1,4 @@
 import logging
-from multiprocessing.spawn import freeze_support
 
 from .models.book import Book
 from .output.generateBook import generateBook

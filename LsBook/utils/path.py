@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 
-from fuck_gitbook.utils.error import dir_not_found_error
+from LsBook.utils.error import dir_not_found_error
 from ..models.book import Book
 
 

@@ -3,7 +3,7 @@
 """
 import os
 import re
-from fuck_gitbook.constants.lang import lang_dict
+from LsBook.constants.lang import lang_dict
 
 
 def process_file_import(book_path, page: str):

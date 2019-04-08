@@ -1,9 +1,9 @@
 import logging
 import time
 
-from fuck_gitbook.parse.parse_readme import readme_exist
-from fuck_gitbook.renderer.renderer_html import renderer_html
-from fuck_gitbook.renderer.renderer_summary import renderer_summary
+from LsBook.parse.parse_readme import readme_exist
+from LsBook.renderer.renderer_html import renderer_html
+from LsBook.renderer.renderer_summary import renderer_summary
 from ..models.book import Book
 from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
