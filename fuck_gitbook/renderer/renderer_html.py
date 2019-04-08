@@ -35,10 +35,12 @@ def renderer_html(book: Book):
     # ------------------------------------------------------------------------
     search_plus_index = {}
     P_list = []
-    with ProcessPoolExecutor(1) as pool:
+    with ProcessPoolExecutor() as pool:
         # config
         author = book.config.get("author")
         book_title = book.config.get("title")
+        language = book.config.get("language")
+        GITBOOK_LINK = book.i18n.get("GITBOOK_LINK")
         for item in book.summary_classify_list.values():
             title = item.get("title")
             level = item.get("level")
@@ -53,7 +55,7 @@ def renderer_html(book: Book):
             P_list.append(
                 pool.submit(_render_html, book_title, title, author, basePath, book_summary,
                             prev_title, prev_relative_path, next_title, next_relative_path,
-                            href, book.book_path, book.book_output
+                            href, book.book_path, book.book_output, language, GITBOOK_LINK
                             )
             )
             logging.debug(f"生成页面：{level, title, href}")
@@ -66,7 +68,8 @@ def renderer_html(book: Book):
 
 
 def _render_html(book_title, title, author, basePath, book_summary,
-                 prev_title, prev_relative_path, next_title, next_relative_path, href, book_path, book_output):
+                 prev_title, prev_relative_path, next_title, next_relative_path, href, book_path, book_output,
+                 language, GITBOOK_LINK):
     """生产HTML，返回索引"""
     # 解析页面
     book_page = parse_file(os.path.join(book_path, href))
@@ -97,6 +100,8 @@ def _render_html(book_title, title, author, basePath, book_summary,
         book_summary=book_summary,
         book_body=book_body,
         basePath=basePath,
+        language=language,
+        GITBOOK_LINK=GITBOOK_LINK
     )
 
     # 组装头
@@ -111,6 +116,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
     page = html_root_0.substitute(
         head=head,
         body=body,
+        lang=language,
     )
 
     out_path = os.path.join(book_output, href)
@@ -125,8 +131,9 @@ def _render_html(book_title, title, author, basePath, book_summary,
 
     body = re.sub(r"(<([^>]+)>)", "", book_page)
     body = re.sub(r"[\n ]+", "", body)
-    # body = set(body)
+
     url = get_pure_path(os.path.relpath(out_path, book_output))
+
     return {
         url: {
             "url": url,

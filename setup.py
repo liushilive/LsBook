@@ -18,7 +18,7 @@ except ImportError:
     print(u"warning: pypandoc module not found, could not convert Markdown to RST\n警告：pypandoc模块没有找到，不能将Markdown转换为RST")
     __read_md = open('README.md', 'r', encoding="utf-8").read()
 
-__version = "0.1.1"
+__version = "0.1.2"
 __author = "刘士"
 
 L = []
@@ -53,7 +53,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    install_requires=['mistune', 'plantweb'],
+    install_requires=['mistune',],
     entry_points={
         'console_scripts': [
             'lsbook = fuck_gitbook.lsbook:main',

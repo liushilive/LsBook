@@ -54,43 +54,6 @@
         C-->D;
       ```
 
-* 支持 [PlantUML](http://plantuml.com/) 以支持的流程图。
-
-  采用 [plantweb](https://plantweb.readthedocs.io/) 以生成所有图表类型，需链接外网
-
-   开始标签|结束标签|引擎
-   ---|---|---
-   @startuml|@enduml|plantuml
-   @startdot|@enddot|graphviz
-   @startditaa|@endditaa|ditaa
-  
-  >`@startuml`与`@enduml` 如果存在，将采用默认样式。
-  >
-  >否则采用 18 号字体，除非需要采用个性化配置，否则不加。
-
-      ```puml
-      @startuml
-
-      Class Stage
-      Class Timeout {
-        +constructor:function(cfg)
-        +timeout:function(ctx)
-        +overdue:function(ctx)
-        +stage: Stage
-      }
-      Stage <|-- Timeout
-
-      @enduml
-      ```
-
-      ```puml
-      @startdot
-      digraph one_node_graph {
-         node1 -> node2 -> node3
-      }
-      @enddot
-      ```
-
 ## 代码高亮支持
 
 >采用 [prism](https://prismjs.com/) 支持所有官方支持语言。

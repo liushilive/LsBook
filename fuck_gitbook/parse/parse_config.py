@@ -1,8 +1,9 @@
 import json
+import logging
 import os
 
 from fuck_gitbook.models.book import Book
-from fuck_gitbook.utils.error import file_not_found_error
+from fuck_gitbook.utils.error import file_not_found_error, error
 
 
 def is_config_exist(book: Book):
@@ -14,3 +15,11 @@ def is_config_exist(book: Book):
         with open(book_config, encoding="utf-8") as f:
             js = json.load(f)
             book.config = js
+
+    if not os.path.isfile(os.path.join(book.assets_path, f"../i18n/{book.config.get('language')}.json")):
+        logging.error(f"语言 {book.config.get('language')} 错误，使用默认语言：zh-cn")
+        book.config['language'] = "zh-cn"
+
+    with open(os.path.join(book.assets_path, f"../i18n/{book.config.get('language')}.json"), encoding="utf-8") as f:
+        js = json.load(f)
+        book.i18n = js

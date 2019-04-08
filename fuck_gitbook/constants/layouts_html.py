@@ -2,12 +2,13 @@ from string import Template
 
 _html_root_map = {
     "head": "头",
-    "body": "主体"
+    "body": "主体",
+    "lang": "语言"
 }
 
 html_root_0 = Template("""
 <!DOCTYPE HTML>
-<html lang="zh-tw">
+<html lang="${lang}">
     <head>${head}</head>
     <body><div class="book">${body}</div></body>
 </html>
@@ -27,21 +28,19 @@ html_head_1 = Template("""
 <meta content="" name="description">
 <meta content="${author}" name="author">
 
-<link href="${basePath}/gitbook/style.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-books/bootstrap.min.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-books/stype.min.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-books/lightbox.min.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-books/katex/dist/katex.min.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-books/prismjs/themes/prism-okaidia.css" rel="stylesheet">
-<link href="${basePath}/gitbook/gitbook-plugin-fontsettings/website.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/style.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/fontsettings/website.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/prismjs/themes/prism.css" rel="stylesheet">
 
 <meta content="true" name="HandheldFriendly"/>
 <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
-<link href="${basePath}/gitbook/images/apple-touch-icon-precomposed-152.png"
+<link href="${basePath}/_lsbook/images/apple-touch-icon-precomposed-152.png"
       rel="apple-touch-icon-precomposed" sizes="152x152">
-<link href="${basePath}/gitbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="${basePath}/_lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <!--分页-->
 <link href="${next_relative_path}" rel="next"/>
 """)
@@ -50,6 +49,8 @@ _html_body_map = {
     "book_summary": "书籍目录",
     "book_body": "书籍主页",
     "basePath": "本页面相对于根的相对路径",
+    "language": "语言",
+    "GITBOOK_LINK": "GITBOOK_LINK"
 }
 html_body_2 = Template("""<div class="book-summary">
     <nav role="navigation">
@@ -57,8 +58,8 @@ html_body_2 = Template("""<div class="book-summary">
             ${book_summary}
             <li class="divider"></li>
             <li>
-                <a class="gitbook-link" href="https://github.com/liushilive/fuck_gitbook" target="blank">
-                    本书使用 Fuck GitBook 生成
+                <a class="gitbook-link" href="https://github.com/liushilive/ls_gitbook" target="blank">
+                    ${GITBOOK_LINK}
                 </a>
             </li>
         </ul>
@@ -78,24 +79,27 @@ html_body_2 = Template("""<div class="book-summary">
                     "fontsettings": {"theme": "white", "family": "sans", "size": 2}
                 }
             },
-            "basePath": "${basePath}"
+            "basePath": "${basePath}",
+            "book":{"language":"${language}"}
         });
     });
 </script>
 </script>
 </div>
 
-<script src="${basePath}/gitbook/gitbook.js"></script>
-<script src="${basePath}/gitbook/theme.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-books/jquery.mark.js"></script>
-<script src="${basePath}/gitbook/gitbook-plugin-books/bootstrap.min.js"></script>
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/lightbox.min.js"></script>
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/katex.min.js"></script>
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/katex/dist/contrib/auto-render.min.js"></script>
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/mermaid/mermaid.min.js"></script>
+<script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
+<script src="${basePath}/_lsbook/jquery_mar/jquery.mark.js" charset="UTF-8"></script>
+<script src="${basePath}/_lsbook/gitbook.js"></script>
+<script src="${basePath}/_lsbook/theme.js"></script>
+<script src="${basePath}/_lsbook/fontsettings/fontsettings.js"></script>
+<script src="${basePath}/_lsbook/katex/katex.min.js"></script>
+<script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
+<script src="${basePath}/_lsbook/lightbox/lightbox.min.js"></script>
+<script src="${basePath}/_lsbook/mermaid/mermaid.min.js"></script>
+<script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
+<script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
 
-<script defer src="${basePath}/gitbook/gitbook-plugin-books/main.min.js"></script>
+<script src="${basePath}/_lsbook/main.js"></script>
 """)
 
 _book_summary_map = {
@@ -133,7 +137,6 @@ book_summary_3_sub_chapter_active = Template("""<li class="chapter active" data-
 </li>
 """)
 
-# todo 生成正文
 _book_body_map = {
     "previous_page_link": "上一页",
     "next_page_link": "下一页",

@@ -1,6 +1,4 @@
 import mistune
-import base64
-from plantweb.render import render
 
 
 class FileRenderer(mistune.Renderer):
@@ -27,22 +25,11 @@ class FileRenderer(mistune.Renderer):
         # mermaid
         if lang and lang.lower() == "mermaid":
             return f'\n<div class="mermaid">\n{code}\n</div>\n'
-        # puml
-        if lang and lang.lower() == "puml":
-            output = render(
-                code,
-                format='png',
-                cacheopts={
-                    'use_cache': False
-                }
-            )
-            return f"\n<div style='text-align: center;'>\n<img src='data:image/png;base64," \
-                f"{str(base64.b64encode(output[0]), encoding='utf-8')}'/>\n</div>\n"
-        # code
 
+        # code
         code = code.rstrip('\n')
         if not lang:
             code = mistune.escape(code, smart_amp=False)
-            return '\n<pre><code>%s\n</code></pre>\n' % code
+            return '\n<pre class="line-numbers"><code>%s\n</code></pre>\n' % code
         code = mistune.escape(code, quote=True, smart_amp=False)
-        return '<pre><code class="lang-%s">%s\n</code></pre>\n' % (lang, code)
+        return '<pre class="line-numbers"><code class="lang-%s">%s\n</code></pre>\n' % (lang, code)

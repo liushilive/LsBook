@@ -7,8 +7,9 @@ class Book(object):
         self._summary_level_list = []
         self._summary_classify_list = {}
         self._config = {}
-        self._assets_path = ["assets", "gitbook"]
-        self._assets_path_out = "gitbook"
+        self._assets_path = ["assets", "_lsbook"]
+        self._assets_path_out = "_lsbook"
+        self._i18n = {}
 
     @property
     def book_path(self):
@@ -99,3 +100,13 @@ class Book(object):
     # def summary_classify_list(self, item):
     #     """目录分类后结构"""
     #     self._summary_classify_list = item
+
+    @property
+    def i18n(self):
+        """语言字符"""
+        return self._i18n
+
+    @i18n.setter
+    def i18n(self, lang):
+        """语言字符"""
+        self._i18n = lang
