@@ -1,4 +1,5 @@
 import logging
+from concurrent.futures.process import ProcessPoolExecutor
 
 from .models.book import Book
 from .output.generateBook import generateBook
@@ -19,7 +20,8 @@ def main():
 
     if build:
         logging.info("开始生成书籍")
-        book = Book(book_path, book_output)
+        pool = ProcessPoolExecutor()
+        book = Book(book_path, book_output, pool)
 
         # 生成书籍
         generateBook(book)

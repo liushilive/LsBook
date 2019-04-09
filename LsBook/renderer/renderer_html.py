@@ -2,7 +2,7 @@ import logging
 import os
 import re
 import json
-from concurrent.futures.process import ProcessPoolExecutor
+import time
 
 from LsBook.parse.parse_file import parse_file
 from LsBook.utils.path import set_extension, get_pure_path
@@ -13,53 +13,32 @@ from LsBook.models.book import Book
 
 
 def renderer_html(book: Book):
-    # author = book.config.get("author")
-    # book_title = book.config.get("title")
-    # for item in book.summary_classify_list.values():
-    #     title = item.get("title")
-    #     level = item.get("level")
-    #     prev_title = item.get("prev_title")
-    #     prev_relative_path = item.get("prev_relative_path")
-    #     next_title = item.get("next_title")
-    #     next_relative_path = item.get("next_relative_path")
-    #     book_summary = item.get("summary")
-    #     href = item.get("href")
-    #     basePath = item.get("basePath")
-    #
-    #     L = _render_html(book_title, title, author, basePath, book_summary,
-    #                      prev_title, prev_relative_path, next_title, next_relative_path,
-    #                      href, book.book_path, book.book_output
-    #                      )
-    #
-    #     logging.debug(f"生成页面：{level, title, href}")
-    # ------------------------------------------------------------------------
     search_plus_index = {}
     P_list = []
-    with ProcessPoolExecutor() as pool:
-        # config
-        author = book.config.get("author", "")
-        book_title = book.config.get("title", "")
-        language = book.config.get("language", "")
-        github_url = book.config.get("github_url", "")
+    # config
+    author = book.config.get("author", "")
+    book_title = book.config.get("title", "")
+    language = book.config.get("language", "")
+    github_url = book.config.get("github_url", "")
 
-        for item in book.summary_classify_list.values():
-            title = item.get("title", "")
-            level = item.get("level", "")
-            prev_title = item.get("prev_title", "")
-            prev_relative_path = item.get("prev_relative_path", "")
-            next_title = item.get("next_title", "")
-            next_relative_path = item.get("next_relative_path", "")
-            book_summary = item.get("summary", "")
-            href = item.get("href", "")
-            basePath = item.get("basePath", "")
+    for item in book.summary_classify_list.values():
+        title = item.get("title", "")
+        level = item.get("level", "")
+        prev_title = item.get("prev_title", "")
+        prev_relative_path = item.get("prev_relative_path", "")
+        next_title = item.get("next_title", "")
+        next_relative_path = item.get("next_relative_path", "")
+        book_summary = item.get("summary", "")
+        href = item.get("href", "")
+        basePath = item.get("basePath", "")
 
-            P_list.append(
-                pool.submit(_render_html, book_title, title, author, basePath, book_summary,
-                            prev_title, prev_relative_path, next_title, next_relative_path,
-                            href, book.book_path, book.book_output, language, book.i18n, github_url
-                            )
-            )
-            logging.debug(f"生成页面：{level, title, href}")
+        P_list.append(
+            book.pool.submit(_render_html, book_title, title, author, basePath, book_summary,
+                             prev_title, prev_relative_path, next_title, next_relative_path,
+                             href, book.book_path, book.book_output, language, book.i18n, github_url
+                             )
+        )
+        logging.debug(f"生成页面：{level, title, href}")
 
     for ret in P_list:
         search_plus_index.update(ret.result())
@@ -73,7 +52,38 @@ def _render_html(book_title, title, author, basePath, book_summary,
                  language, i18n, github_url):
     """生产HTML，返回索引"""
     # 解析页面
-    book_page = parse_file(os.path.join(book_path, href))
+    book_page, toc_tree = parse_file(os.path.join(book_path, href))
+    # 组装页内导航
+    toc = ""
+    if len(toc_tree) > 0:
+        toc = "<div id='anchor-navigation-ex-navbar'><i class='fa fa-anchor'></i><ul><li>" \
+              "<span class='title-icon fa fa-hand-o-right'></span>" \
+              "<a aria-label class='on-toolbar-action' href='#'>目录</a></li>"
+
+        for h1Toc in toc_tree:
+            toc += "<li><span class='title-icon fa fa-hand-o-right'></span>" \
+                   "<a href='#" + h1Toc["url"] + "'><b>" + h1Toc["level"] + "</b>" + h1Toc["name"] + "</a></li>"
+            if len(h1Toc["children"]) > 0:
+                toc += "<ul>"
+                for h2Toc in h1Toc["children"]:
+                    toc += "<li><span class='title-icon fa fa-hand-o-right'></span>" \
+                           "<a href='#" + h2Toc["url"] + "'><b>" + h2Toc["level"] + "</b>" + h2Toc["name"] + "</a></li>"
+                    if len(h2Toc["children"]) > 0:
+                        toc += "<ul>"
+                        for h3Toc in h2Toc["children"]:
+                            toc += "<li><span class='title-icon fa fa-hand-o-right'></span><a href='#" + h3Toc[
+                                "url"] + "'><b>" + h3Toc["level"] + "</b>" + h3Toc["name"] + "</a></li>"
+                        toc += "</ul>"
+                toc += "</ul>"
+
+        toc += "</ul></div><a href='#" + toc_tree[0]['url'] \
+               + "' id='anchorNavigationExGoTop'><i class='fa fa-arrow-up'></i></a>"
+
+    footer = f'<footer class="page-footer"><span class="copyright">© {time.localtime().tm_year} {author}. ' \
+        'All rights reserved.</span><span class="footer-modification">' \
+        '<span id="busuanzi_container_site_uv" style="display:none">本站访客数 <span id="busuanzi_value_site_uv">' \
+        '</span> 人次</span></span></footer>' \
+        '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>'
 
     # 上下页
     previous_page_link = prev_relative_path != "" and previous_page_link_5_1.substitute(
@@ -91,8 +101,8 @@ def _render_html(book_title, title, author, basePath, book_summary,
         next_page_link=next_page_link,
         book_title=book_title,
         basePath=basePath,
-        toc="",  # todo 插件完善
-        footer="",
+        toc=toc,
+        footer=footer,
         book_page=book_page,
         SEARCH_RESULTS_TITLE=i18n.get("SEARCH_RESULTS_TITLE"),
         SEARCH_NO_RESULTS_TITLE=i18n.get("SEARCH_NO_RESULTS_TITLE")

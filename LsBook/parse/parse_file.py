@@ -25,4 +25,4 @@ def parse_file(file):
 
     page = markdown(page)
 
-    return page
+    return page, renderer.toc_tree

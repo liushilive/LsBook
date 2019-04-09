@@ -1,7 +1,6 @@
 import logging
 import os
 import time
-from concurrent.futures.process import ProcessPoolExecutor
 
 import mistune
 
@@ -15,7 +14,6 @@ class SummaryRenderer(mistune.Renderer):
     def __init__(self):
         super().__init__()
         self.toc_tree = []
-        self.count = []
 
     def link(self, link, title, text):
         """Rendering a given link with content and title.
@@ -69,17 +67,18 @@ def renderer_summary(book: Book):
     对每个页面独立生成目录"""
     P_list = []
     start = time.time()
-    with ProcessPoolExecutor() as pool:
-        current_count = 0
-        for current_level, current_ref, current_title in book.summary_level_list:
-            ret = pool.submit(_read_summary, book.book_output, book.summary,
-                              current_level, current_ref, current_count, book.summary_level_list)
-            logging.debug(f"对每个页面独立生成目录：{current_level, current_title, current_ref}")
-            current_count += 1
-            P_list.append(ret)
+
+    current_count = 0
+    for current_level, current_ref, current_title in book.summary_level_list:
+        ret = book.pool.submit(_read_summary, book.book_output, book.summary,
+                               current_level, current_ref, current_count, book.summary_level_list)
+        logging.debug(f"对每个页面独立生成目录：{current_level, current_title, current_ref}")
+        current_count += 1
+        P_list.append(ret)
 
     for ret in P_list:
         book.summary_classify_list.update(ret.result())
+
     end = time.time()
     logging.info(f"生成 {current_count} 个目录结构，耗时：{end - start}s")
     pass
@@ -114,10 +113,10 @@ def _iter_summary(book_output, summary_classify_list, old_articles,
                   current_level, current_ref, current_count, summary_level_list: list):
     summary_sub = ""
     for item in old_articles:
-        title = item.get("title","")
-        ref = item.get("ref","")
-        articles = item.get("articles","")
-        data_level = item.get("data_level","")
+        title = item.get("title", "")
+        ref = item.get("ref", "")
+        articles = item.get("articles", "")
+        data_level = item.get("data_level", "")
 
         tmp_dict = {
             'title': title,
