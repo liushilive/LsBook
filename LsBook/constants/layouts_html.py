@@ -48,7 +48,9 @@ html_head_1 = Template("""
 <link href="${basePath}/_lsbook/fontsettings/website.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/prismjs/themes/prism.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/prismjs/themes/prism-default.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-night.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
 
 <meta content="true" name="HandheldFriendly"/>
 <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
