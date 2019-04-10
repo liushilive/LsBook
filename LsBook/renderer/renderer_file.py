@@ -11,6 +11,7 @@ class FileRenderer(mistune.Renderer):
             "h3": 0
         }
         self._id = 0
+        self._img_id = 0
 
     def header(self, text, level, raw=None):
         """Rendering header/heading tags like ``<h1>`` ``<h2>``.
@@ -93,3 +94,39 @@ class FileRenderer(mistune.Renderer):
             return '\n<pre class="line-numbers"><code>%s\n</code></pre>\n' % code
         code = mistune.escape(code, quote=True, smart_amp=False)
         return '<pre class="line-numbers"><code class="lang-%s">%s\n</code></pre>\n' % (lang, code)
+
+    def codespan(self, text):
+        """Rendering inline `code` text.
+
+        :param text: text content for inline code.
+        """
+        text = mistune.escape(text.rstrip(), smart_amp=False)
+        return f' <code class="language-markup">{text}</code> '
+
+    # todo 完善图片
+    def image(self, src, title, text):
+        """Rendering a image with title and text.
+
+        :param src: source link of the image.
+        :param title: title text of the image.
+        :param text: alt text of the image.
+        """
+        src = mistune.escape_link(src)
+        text = mistune.escape(text, quote=True)
+        # if title:
+        #     title = mistune.escape(title, quote=True)
+        #     html = '<img src="%s" alt="%s" title="%s"' % (src, text, title)
+        # else:
+        #     html = '<img src="%s" alt="%s"' % (src, text)
+        # if self.options.get('use_xhtml'):
+        #     return '%s />' % html
+        self._img_id += 1
+        _img_id = self._img_id
+        figure = f'<figure id="fig{_img_id}">' \
+            f'<a href="{src}" data-lightbox="{_img_id}">' \
+            f'<img src="{src}" alt="{text}">' \
+            f'</a>' \
+            f'<figcaption>图：{title}</figcaption>' \
+            f'</figure>'
+
+        return figure

@@ -59,6 +59,8 @@ class Block_Lexer(BlockLexer):
         })
 
 
+# todo 隐藏答案框 sectionx
+
 class CustomMarkdown(Markdown):
     def output_katex_in_block(self):
         return self.renderer.katex_in_block(self.token['text'])
