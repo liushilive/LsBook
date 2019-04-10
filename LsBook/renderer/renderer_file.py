@@ -91,9 +91,9 @@ class FileRenderer(mistune.Renderer):
         code = code.rstrip('\n')
         if not lang:
             code = mistune.escape(code, smart_amp=False)
-            return '\n<pre class="line-numbers"><code>%s\n</code></pre>\n' % code
+            return f'\n<pre class="line-numbers"><code>{code}\n</code></pre>\n'
         code = mistune.escape(code, quote=True, smart_amp=False)
-        return '<pre class="line-numbers"><code class="lang-%s">%s\n</code></pre>\n' % (lang, code)
+        return f'<pre class="line-numbers"><code class="lang-{lang}">{code}\n</code></pre>\n'
 
     def codespan(self, text):
         """Rendering inline `code` text.
@@ -113,20 +113,14 @@ class FileRenderer(mistune.Renderer):
         """
         src = mistune.escape_link(src)
         text = mistune.escape(text, quote=True)
-        # if title:
-        #     title = mistune.escape(title, quote=True)
-        #     html = '<img src="%s" alt="%s" title="%s"' % (src, text, title)
-        # else:
-        #     html = '<img src="%s" alt="%s"' % (src, text)
-        # if self.options.get('use_xhtml'):
-        #     return '%s />' % html
         self._img_id += 1
         _img_id = self._img_id
+
         figure = f'<figure id="fig{_img_id}">' \
             f'<a href="{src}" data-lightbox="{_img_id}">' \
-            f'<img src="{src}" alt="{text}">' \
+            f'<img src="{src}" alt="{text}" title="{title if title else text}">' \
             f'</a>' \
-            f'<figcaption>图：{title}</figcaption>' \
+            f'<figcaption>图：{text}</figcaption>' \
             f'</figure>'
 
         return figure

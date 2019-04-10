@@ -147,7 +147,7 @@ _book_body_map = {
     "previous_page_link": "上一页",
     "next_page_link": "下一页",
     "basePath": "本页面相对于根的相对路径",
-    "book_title": "页面文件名",
+    "title": "页面文件名",
     "copyright": "版权声明",
     "toc": "页内目录",
     "footer": "页脚",
@@ -160,7 +160,7 @@ book_body_4 = Template("""<div class="body-inner">
         <!-- Title -->
         <h1>
             <i class="fa fa-circle-o-notch fa-spin"></i>
-            <a href="${basePath}">${book_title}</a>
+            <a href="${basePath}">${title}</a>
         </h1>
     </div>
 

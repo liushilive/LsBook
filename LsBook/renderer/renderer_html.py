@@ -99,7 +99,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
     book_body = book_body_4.substitute(
         previous_page_link=previous_page_link,
         next_page_link=next_page_link,
-        book_title=book_title,
+        title=title,
         basePath=basePath,
         toc=toc,
         footer=footer,
