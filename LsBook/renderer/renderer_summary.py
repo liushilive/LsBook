@@ -47,7 +47,7 @@ class SummaryRenderer(mistune.Renderer):
         """
         body = f'[{body}]'
         if len(self.toc_tree) == 0:
-            self.toc_tree.append(["目录", []])
+            self.toc_tree.append(["", []])
 
         self.toc_tree[-1][1] = body
         return f"{body}"

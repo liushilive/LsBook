@@ -5,6 +5,7 @@ _html_root_map = {
     "body": "主体",
     "lang": "语言",
     "basePath": "本页面相对于根的相对路径",
+    "js": "js"
 }
 
 html_root_0 = Template("""<!DOCTYPE HTML>
@@ -12,7 +13,54 @@ html_root_0 = Template("""<!DOCTYPE HTML>
 <head>${head}</head>
 <body>
 <div class="book">${body}</div>
+${js}
+</body>
+</html>
+""")
 
+_html_head_map = {
+    "title": "标题",
+    "author": "作者",
+    "basePath": "本页面相对于根的相对路径",
+    "next_relative_path": "分页：下一页路径，相对于本文件的相对路径",
+    "css": "css"
+}
+html_head_1 = Template("""
+<meta charset="UTF-8">
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+<title>${title}</title>
+<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
+<meta content="" name="description">
+<meta content="${author}" name="author">
+${css}
+<meta content="true" name="HandheldFriendly"/>
+<meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<link href="${basePath}/_lsbook/images/apple-touch-icon-precomposed-152.png"
+      rel="apple-touch-icon-precomposed" sizes="152x152">
+<link href="${basePath}/_lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<!--分页-->
+<link href="${next_relative_path}" rel="next"/>
+""")
+
+_css_map = {
+    "basePath": "本页面相对于根的相对路径",
+}
+css = Template("""
+<link href="${basePath}/_lsbook/fontsettings/website.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/prismjs/themes/prism-default.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-night.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
+<link href="${basePath}/_lsbook/style.css" rel="stylesheet">
+""")
+
+_js_map = {
+    "basePath": "本页面相对于根的相对路径",
+}
+js = Template("""
 <script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
 <script charset="UTF-8" src="${basePath}/_lsbook/jquery_mar/jquery.mark.js"></script>
 <script src="${basePath}/_lsbook/gitbook.js"></script>
@@ -26,41 +74,6 @@ html_root_0 = Template("""<!DOCTYPE HTML>
 <script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
 
 <script src="${basePath}/_lsbook/main.js"></script>
-</body>
-</html>
-""")
-
-_html_head_map = {
-    "title": "标题",
-    "author": "作者",
-    "basePath": "本页面相对于根的相对路径",
-    "next_relative_path": "分页：下一页路径，相对于本文件的相对路径",
-}
-html_head_1 = Template("""
-<meta charset="UTF-8">
-<meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-<title>${title}</title>
-<meta content="IE=edge" http-equiv="X-UA-Compatible"/>
-<meta content="" name="description">
-<meta content="${author}" name="author">
-
-<link href="${basePath}/_lsbook/style.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/fontsettings/website.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/prismjs/themes/prism-default.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-night.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
-
-<meta content="true" name="HandheldFriendly"/>
-<meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
-<meta content="yes" name="apple-mobile-web-app-capable">
-<meta content="black" name="apple-mobile-web-app-status-bar-style">
-<link href="${basePath}/_lsbook/images/apple-touch-icon-precomposed-152.png"
-      rel="apple-touch-icon-precomposed" sizes="152x152">
-<link href="${basePath}/_lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
-<!--分页-->
-<link href="${next_relative_path}" rel="next"/>
 """)
 
 _html_body_map = {

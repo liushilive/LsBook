@@ -1,8 +1,8 @@
 # LsBook
 
-无法忍受 `gitbook` 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
+无法忍受 [gitbook](https://www.gitbook.com/) 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
 
-一切照搬 `gitbook`，只为加快网站的生成速度。
+一切参照 [gitbook](https://www.gitbook.com/)，只为加快网站的生成速度。
 
 只支持 md 语法
 
@@ -12,6 +12,7 @@
 {
   "author": "作者",
   "title": "书籍标题",
+  "language": "zh-cn",
   "github_url": "主页地址"
 }
 ```
@@ -58,18 +59,6 @@
 
 >采用 [prism](https://prismjs.com/) 支持所有官方支持语言。
 
-## 添加 github url 图标
-
-* 配置
-
-  ```json
-  "pluginsConfig": {
-    "books": {
-      "github_url": "https://liushilive.github.io/"
-    }
-  }
-  ```
-
 ## 鼠标悬浮可见
 
 >用法：把要隐藏文本内容放在 `{%s%}` 和 `{%ends%}` 之间。
@@ -78,7 +67,7 @@
 
 ## 点击隐藏或显示片段
 
->可以使用标签定义一个新的片段：（默认隐藏）
+>可以使用标签定义一个新的片段：（默认隐藏），不支持嵌套
 
 ```html
 <!--sec data-title="点我隐藏答案" data-show=true ces-->

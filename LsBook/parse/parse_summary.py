@@ -26,6 +26,8 @@ def parse_summary(book: Book):
         md.parse(page)
         count = 0
         for c1 in summary.toc_tree:
+            if count == 0:
+                c1[0] = c1[0] if c1[0] else book.i18n.get("SUMMARY")
             count += 1
             count_sum += 1
             iter_count = 0
@@ -33,7 +35,6 @@ def parse_summary(book: Book):
             data_level.append(str(count))
 
             header_text, sub = c1
-            # summary_list['.'.join(data_level)] = [book_summary_3_head.substitute(title=header_text)]
 
             summary_dict.append({"title": header_text, "articles": [], "data_level": f"{'.'.join(data_level)}"})
 

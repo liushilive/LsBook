@@ -46,4 +46,4 @@ def generateBook(book: Book):
 
     logging.info("完成生成")
     end = time.time()
-    logging.info(f'成功生成完毕，耗时：{end - start}s !')
+    logging.info(f'共计成功生成 {len(book.summary_classify_list)} 个页面完毕，耗时：{end - start}s !')

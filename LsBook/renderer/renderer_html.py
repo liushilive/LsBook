@@ -4,11 +4,11 @@ import re
 import json
 import time
 
-from LsBook.parse.parse_file import parse_file
+from LsBook.parse.parse_file import parse_file, sectionx
 from LsBook.utils.path import set_extension, get_pure_path
 
 from LsBook.constants.layouts_html import html_root_0, html_head_1, html_body_2, book_body_4, \
-    previous_page_link_5_1, next_page_link_5_2
+    previous_page_link_5_1, next_page_link_5_2, js, css
 from LsBook.models.book import Book
 
 
@@ -53,12 +53,14 @@ def _render_html(book_title, title, author, basePath, book_summary,
     """生产HTML，返回索引"""
     # 解析页面
     book_page, toc_tree = parse_file(os.path.join(book_path, href))
+    # 隐藏答案框
+    book_page = sectionx(book_page)
     # 组装页内导航
     toc = ""
     if len(toc_tree) > 0:
         toc = "<div id='anchor-navigation-ex-navbar'><i class='fa fa-anchor'></i><ul><li>" \
               "<span class='title-icon fa fa-hand-o-right'></span>" \
-              "<a aria-label class='on-toolbar-action' href='#'>目录</a></li>"
+            f"<a aria-label class='on-toolbar-action' href=''>{i18n.get('SUMMARY_TOGGLE')}</a></li>"
 
         for h1Toc in toc_tree:
             toc += "<li><span class='title-icon fa fa-hand-o-right'></span>" \
@@ -124,7 +126,8 @@ def _render_html(book_title, title, author, basePath, book_summary,
         title=book_title,
         author=author,
         basePath=basePath,
-        next_relative_path=next_relative_path
+        next_relative_path=next_relative_path,
+        css=css.substitute(basePath=basePath)
     )
 
     # 组装整体
@@ -133,6 +136,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
         body=body,
         lang=language,
         basePath=basePath,
+        js=js.substitute(basePath=basePath)
     )
 
     out_path = os.path.join(book_output, href)

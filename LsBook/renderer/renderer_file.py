@@ -89,11 +89,8 @@ class FileRenderer(mistune.Renderer):
 
         # code
         code = code.rstrip('\n')
-        if not lang:
-            code = mistune.escape(code, smart_amp=False)
-            return f'\n<pre class="line-numbers"><code>{code}\n</code></pre>\n'
         code = mistune.escape(code, quote=True, smart_amp=False)
-        return f'<pre class="line-numbers"><code class="lang-{lang}">{code}\n</code></pre>\n'
+        return f'<pre class="line-numbers"><code class="lang-{lang if lang else "language-markup"}">{code}\n</code></pre>\n'
 
     def codespan(self, text):
         """Rendering inline `code` text.
@@ -103,7 +100,6 @@ class FileRenderer(mistune.Renderer):
         text = mistune.escape(text.rstrip(), smart_amp=False)
         return f' <code class="language-markup">{text}</code> '
 
-    # todo 完善图片
     def image(self, src, title, text):
         """Rendering a image with title and text.
 

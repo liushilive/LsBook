@@ -3468,7 +3468,7 @@ table {
     .book.with-summary {
         overflow: hidden
     }
-    
+
     .book.with-summary .book-body {
         -moz-transform: translate(calc(100% - 60px), 0);
         -ms-transform: translate(calc(100% - 60px), 0);
@@ -3517,7 +3517,7 @@ table {
         -webkit-transition: -webkit-transform 250ms ease;
         transition: transform 250ms ease;
     }
-    
+
     .book-body .body-inner {
         min-height: calc(100% - 50px);
         position: static;
@@ -3821,7 +3821,7 @@ table {
         top: auto;
         width: 50%;
     }
-    
+
     .navigation.navigation-unique {
         max-width: 100%;
         width: 100%
@@ -4336,4 +4336,78 @@ a.anchor-navigation-ex-anchor i {
 
 #anchor-navigation-ex-pagetop-navbar ul li .title-icon {
     padding-right: 4px;
+}
+
+/*bootstrap*/
+.panel {
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    margin-bottom: 20px;
+}
+
+.panel-default > .panel-heading {
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    color: #333;
+}
+
+.panel-heading {
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    padding: 10px 15px;
+}
+
+.pull-right {
+    float: right !important
+}
+
+
+.btn {
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    margin-bottom: 0;
+    padding: 6px 12px;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.collapse.in {
+    display: block;
+}
+
+.collapse {
+    display: none
+}
+
+.panel-default {
+    border-color: #ddd;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body {
+    border-top-color: #ddd;
+}
+
+.panel-body {
+    padding: 15px
+}
+
+.mermaid {
+    text-align: center;
 }

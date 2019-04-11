@@ -2,7 +2,7 @@
  * Prism渲染
  */
 function Prism_init() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
+    require(['gitbook'], function (gitbook) {
         gitbook.events.bind('page.change', function () {
             Prism.highlightAll();
         });
@@ -13,7 +13,7 @@ function Prism_init() {
  * mermaid 流程图渲染
  */
 function mermaid_init() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
+    require(['gitbook'], function (gitbook) {
         var init = function () {
             var config = {
                 startOnLoad: true,
@@ -36,7 +36,7 @@ function mermaid_init() {
  * 数学公式刷新
  */
 function Math_up() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
+    require(['gitbook', 'jQuery'], function (gitbook) {
         var init = function () {
             renderMathInElement(document.body, {
                 displayMode: false
@@ -109,8 +109,7 @@ function ExpandableChapters() {
                 var $chapters = arguments[0];
                 $chapters.each(function (index, element) {
                     var level = $(this).data('level');
-                    var value = $(this).hasClass(TOGGLE_CLASSNAME);
-                    map[level] = value;
+                    map[level] = $(this).hasClass(TOGGLE_CLASSNAME);
                 });
                 sessionStorage.setItem(LS_NAMESPACE, JSON.stringify(map));
             } else {
@@ -153,36 +152,15 @@ function GitHubButtons() {
  */
 function sectionx() {
     require(["gitbook", "jquery"], function (gitbook, $) {
-
-        var sectionToggle = function (tar, button) {
-            var $target = $('#' + tar);
-            $target.collapse('toggle');
-            if (button)
-                $target.parents('.panel').toggle('slow');
-        };
-
-        var clickAction = function ($source, tar) {
-            $source.click(function () {
-                sectionToggle(tar, !$(this).hasClass('atTitle'));
-                if (!$(this).hasClass('atTitle'))
-                    $(this).toggleClass('btn-info').toggleClass('btn-success');
-            });
-
-            $('#' + tar).on('show.bs.collapse', function () {
-                $source.html($source.attr('hide') ?
-                    ('<b>' + $source.attr('hide') + '</b><span class="fa fa-angle-up pull-left"/>') :
-                    '<span class="fa fa-angle-up"/>');
-            });
-
-            $('#' + tar).on('hide.bs.collapse', function () {
-                $source.html($source.attr('show') ?
-                    ('<b>' + $source.attr('show') + '</b><span class="fa fa-angle-down pull-left"/>') : '<span class="fa fa-angle-down"/>');
-            });
-        };
-
         gitbook.events.bind("page.change", function () {
             $('.section').each(function () {
-                clickAction($(this), $(this).attr('target'));
+                $(this).click(function () {
+                    const target = $(this).attr('target');
+                    const show = $(this).hasClass("sec-show");
+                    $(this).toggleClass("sec-show", !show);
+                    $(this).children().toggleClass("fa-angle-up", !show).toggleClass("fa-angle-down", show);
+                    $('#' + target).toggleClass("in", !show).toggleClass("collapse", show);
+                });
             });
         });
     });
@@ -204,11 +182,10 @@ function splitter() {
             var KEY_SPLIT_STATE = 'gitbook_split';
 
             var isDraggable = false;
-            var splitState = null;
+            var splitState;
             var grabPointWidth = null;
 
             var $body = $('body');
-            var $book = $('.book');
             var $summary = $('.book-summary');
             var $bookBody = $('.book-body');
             var $divider = $('<div class="divider-content-summary">' +
@@ -228,16 +205,14 @@ function splitter() {
             );
 
             setTimeout(function () {
-                var isGreaterThanEqualGitbookV2_5 = !Boolean($('.toggle-summary').length);
-
-                var $toggleSummary = isGreaterThanEqualGitbookV2_5 ? $('.fa.fa-align-justify').parent() : $('.toggle-summary');
+                var $toggleSummary = $('.fa.fa-align-justify').parent();
 
                 $toggleSummary.on('click', function () {
 
                     var summaryOffset = null;
                     var bookBodyOffset = null;
 
-                    var isOpen = isGreaterThanEqualGitbookV2_5 ? !gitbook.sidebar.isOpen() : $book.hasClass('with-summary');
+                    var isOpen = !gitbook.sidebar.isOpen();
 
                     if (isOpen) {
                         summaryOffset = -($summary.outerWidth());
@@ -258,12 +233,12 @@ function splitter() {
                 function fixationTopHight() {
                     var h = window.innerHeight || document.body.clientHeight || document.documentElement.clientHeight;
                     $(".divider-content-summary").css({
-                        top: ($('.book-summary').scrollTop()),
+                        top: ($summary.scrollTop()),
                         hight: h
                     });
                 }
 
-                $('.book-summary').scroll(
+                $summary.scroll(
                     function () {
                         fixationTopHight();
                     }
