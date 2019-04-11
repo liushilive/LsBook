@@ -116,7 +116,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
         book_body=book_body,
         basePath=basePath,
         language=language,
-        GITBOOK_LINK=i18n.get("GITBOOK_LINK"),
+        LsBook_LINK=i18n.get("LsBook_LINK"),
         github_url=github_url,
         SEARCH_PLACEHOLDER=i18n.get("SEARCH_PLACEHOLDER")
     )

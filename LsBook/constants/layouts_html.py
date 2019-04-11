@@ -63,7 +63,7 @@ _js_map = {
 js = Template("""
 <script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
 <script charset="UTF-8" src="${basePath}/_lsbook/jquery_mar/jquery.mark.js"></script>
-<script src="${basePath}/_lsbook/gitbook.js"></script>
+<script src="${basePath}/_lsbook/lsbook.js"></script>
 <script src="${basePath}/_lsbook/theme.js"></script>
 <script src="${basePath}/_lsbook/fontsettings/fontsettings.js"></script>
 <script src="${basePath}/_lsbook/katex/katex.min.js"></script>
@@ -81,7 +81,7 @@ _html_body_map = {
     "book_body": "书籍主页",
     "basePath": "本页面相对于根的相对路径",
     "language": "语言",
-    "GITBOOK_LINK": "GITBOOK_LINK",
+    "LsBook_LINK": "LsBook_LINK",
     "SEARCH_PLACEHOLDER": "SEARCH_PLACEHOLDER",
     "github_url": "github_url"
 }
@@ -94,8 +94,8 @@ html_body_2 = Template("""<div class="book-summary">
             ${book_summary}
             <li class="divider"></li>
             <li>
-                <a class="gitbook-link" href="https://github.com/liushilive/ls_gitbook" target="blank">
-                    ${GITBOOK_LINK}
+                <a class="lsbook-link" href="https://github.com/liushilive/ls_lsbook" target="blank">
+                    ${LsBook_LINK}
                 </a>
             </li>
         </ul>
@@ -107,9 +107,9 @@ html_body_2 = Template("""<div class="book-summary">
 </div>
 
 <script>
-    var gitbook = gitbook || [];
-    gitbook.push(function () {
-        gitbook.page.hasChanged({
+    var lsbook = lsbook || [];
+    lsbook.push(function () {
+        lsbook.page.hasChanged({
             "config": {
                 "fontsettings": {"theme": "white", "family": "sans", "size": 2},
                 "github_url":"${github_url}",

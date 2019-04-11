@@ -1,4 +1,4 @@
-require(['gitbook', 'jquery'], function (gitbook, $) {
+require(['lsbook', 'jquery'], function (lsbook, $) {
     // Configuration
     var MAX_SIZE = 4,
         MIN_SIZE = 0,
@@ -64,7 +64,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
 
     // Save current font settings
     function saveFontSettings() {
-        gitbook.storage.set('fontState', fontState);
+        lsbook.storage.set('fontState', fontState);
         update();
     }
 
@@ -102,7 +102,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
             e.preventDefault();
         }
 
-        var $book = gitbook.state.$book;
+        var $book = lsbook.state.$book;
 
         // Remove currently applied color theme
         if (fontState.theme !== 0)
@@ -140,7 +140,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
     }
 
     function update() {
-        var $book = gitbook.state.$book;
+        var $book = lsbook.state.$book;
 
         $('.font-settings .font-family-list li').removeClass('active');
         $('.font-settings .font-family-list li:nth-child(' + (fontState.family + 1) + ')').addClass('active');
@@ -163,7 +163,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
             configTheme = getThemeId(config.theme);
 
         // Instantiate font state object
-        fontState = gitbook.storage.get('fontState', {
+        fontState = lsbook.storage.get('fontState', {
             size: config.size || 2,
             family: configFamily,
             theme: configTheme
@@ -175,11 +175,11 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
     function updateButtons() {
         // Remove existing fontsettings buttons
         if (!!BUTTON_ID) {
-            gitbook.toolbar.removeButton(BUTTON_ID);
+            lsbook.toolbar.removeButton(BUTTON_ID);
         }
 
         // Create buttons in toolbar
-        BUTTON_ID = gitbook.toolbar.createButton({
+        BUTTON_ID = lsbook.toolbar.createButton({
             icon: 'fa fa-font',
             label: 'Font Settings',
             className: 'font-settings',
@@ -215,7 +215,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
     }
 
     // Init configuration at start
-    gitbook.events.bind('start', function (e, config) {
+    lsbook.events.bind('start', function (e, config) {
         var opts = config.fontsettings;
 
         // Generate buttons at start
@@ -226,7 +226,7 @@ require(['gitbook', 'jquery'], function (gitbook, $) {
     });
 
     // Expose API
-    gitbook.fontsettings = {
+    lsbook.fontsettings = {
         enlargeFontSize: enlargeFontSize,
         reduceFontSize: reduceFontSize,
         setTheme: changeColorTheme,

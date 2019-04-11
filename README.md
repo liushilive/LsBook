@@ -1,8 +1,8 @@
 # LsBook
 
-无法忍受 [gitbook](https://www.gitbook.com/) 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
+无法忍受 [lsbook](https://www.lsbook.com/) 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
 
-一切参照 [gitbook](https://www.gitbook.com/)，只为加快网站的生成速度。
+一切参照 [lsbook](https://www.lsbook.com/)，只为加快网站的生成速度。
 
 只支持 md 语法
 

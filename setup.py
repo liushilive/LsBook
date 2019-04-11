@@ -33,7 +33,7 @@ setup(
     long_description=__read_md,
     author=__author,
     author_email='liushilive@outlook.com',
-    url='https://github.com/liushilive/fuck_gitbook',
+    url='https://github.com/liushilive/fuck_lsbook',
     project_urls={
         '样板': 'https://liushilive.github.io',
     },
@@ -42,7 +42,7 @@ setup(
     include_package_data=True,
     license="MIT",
     zip_safe=True,
-    keywords='gitbook md',
+    keywords='lsbook md',
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

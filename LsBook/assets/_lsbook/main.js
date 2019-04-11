@@ -2,8 +2,8 @@
  * Prism渲染
  */
 function Prism_init() {
-    require(['gitbook'], function (gitbook) {
-        gitbook.events.bind('page.change', function () {
+    require(['lsbook'], function (lsbook) {
+        lsbook.events.bind('page.change', function () {
             Prism.highlightAll();
         });
     });
@@ -13,7 +13,7 @@ function Prism_init() {
  * mermaid 流程图渲染
  */
 function mermaid_init() {
-    require(['gitbook'], function (gitbook) {
+    require(['lsbook'], function (lsbook) {
         var init = function () {
             var config = {
                 startOnLoad: true,
@@ -25,7 +25,7 @@ function mermaid_init() {
             };
             mermaid.initialize(config);
         };
-        gitbook.events.bind('page.change', function () {
+        lsbook.events.bind('page.change', function () {
             init();
             mermaid.init();
         });
@@ -36,13 +36,13 @@ function mermaid_init() {
  * 数学公式刷新
  */
 function Math_up() {
-    require(['gitbook', 'jQuery'], function (gitbook) {
+    require(['lsbook', 'jQuery'], function (lsbook) {
         var init = function () {
             renderMathInElement(document.body, {
                 displayMode: false
             });
         };
-        gitbook.events.bind('page.change', function () {
+        lsbook.events.bind('page.change', function () {
             init();
         });
     });
@@ -52,7 +52,7 @@ function Math_up() {
  * 章节扩展
  */
 function ExpandableChapters() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
+    require(['lsbook', 'jQuery'], function (lsbook, $) {
         var TOGGLE_CLASSNAME = 'expanded',
             CHAPTER = '.chapter',
             ARTICLES = '.articles',
@@ -120,7 +120,7 @@ function ExpandableChapters() {
                 });
             }
         };
-        gitbook.events.bind('page.change', function () {
+        lsbook.events.bind('page.change', function () {
             init();
         });
     });
@@ -130,11 +130,11 @@ function ExpandableChapters() {
  * Github 按钮
  */
 function GitHubButtons() {
-    require(['gitbook'], function (gitbook) {
-        gitbook.events.bind('start', function (e, config) {
+    require(['lsbook'], function (lsbook) {
+        lsbook.events.bind('start', function (e, config) {
             var githubURL = config.github_url;
             if (githubURL) {
-                gitbook.toolbar.createButton({
+                lsbook.toolbar.createButton({
                     icon: 'fa fa-github',
                     label: 'GitHub',
                     position: 'right',
@@ -151,8 +151,8 @@ function GitHubButtons() {
  * 隐藏答案分块
  */
 function sectionx() {
-    require(["gitbook", "jquery"], function (gitbook, $) {
-        gitbook.events.bind("page.change", function () {
+    require(["lsbook", "jquery"], function (lsbook, $) {
+        lsbook.events.bind("page.change", function () {
             $('.section').each(function () {
                 $(this).click(function () {
                     const target = $(this).attr('target');
@@ -170,16 +170,16 @@ function sectionx() {
  * 左侧分离
  */
 function splitter() {
-    require(['gitbook', 'jQuery'], function (gitbook, $) {
+    require(['lsbook', 'jQuery'], function (lsbook, $) {
         if ($(window).width() <= 600) {
             return;
         }
 
-        gitbook.events.bind('start', function () {
+        lsbook.events.bind('start', function () {
         });
 
-        gitbook.events.bind('page.change', function () {
-            var KEY_SPLIT_STATE = 'gitbook_split';
+        lsbook.events.bind('page.change', function () {
+            var KEY_SPLIT_STATE = 'lsbook_split';
 
             var isDraggable = false;
             var splitState;
@@ -212,7 +212,7 @@ function splitter() {
                     var summaryOffset = null;
                     var bookBodyOffset = null;
 
-                    var isOpen = !gitbook.sidebar.isOpen();
+                    var isOpen = !lsbook.sidebar.isOpen();
 
                     if (isOpen) {
                         summaryOffset = -($summary.outerWidth());
@@ -316,8 +316,8 @@ function splitter() {
  * 划过显示
  */
 function spoiler() {
-    require(["gitbook", "jquery"], function (gitbook, $) {
-        gitbook.events.bind("page.change", function () {
+    require(["lsbook", "jquery"], function (lsbook, $) {
+        lsbook.events.bind("page.change", function () {
             $('.spoiler').hover(function () {
                 $(this).addClass('hover');
             }, function () {
@@ -333,11 +333,11 @@ function spoiler() {
  */
 function search() {
     require([
-        'gitbook',
+        'lsbook',
         'jquery'
-    ], function (gitbook, $) {
+    ], function (lsbook, $) {
         var MAX_DESCRIPTION_SIZE = 500;
-        var state = gitbook.state;
+        var state = lsbook.state;
         var INDEX_DATA = {};
         var usePushState = (typeof window.history.pushState !== 'undefined');
 
@@ -393,7 +393,7 @@ function search() {
                 var $title = $('<h3>');
 
                 var $link = $('<a>', {
-                    'href': gitbook.state.basePath + '/' + item.url + '?h=' + encodeURIComponent(res.query),
+                    'href': lsbook.state.basePath + '/' + item.url + '?h=' + encodeURIComponent(res.query),
                     'text': item.title,
                     'data-is-search': 1
                 });
@@ -516,7 +516,7 @@ function search() {
             });
         }
 
-        gitbook.events.on('start', function () {
+        lsbook.events.on('start', function () {
             bindSearch();
             $.getJSON(state.basePath + '/search_plus_index.json').then(function (data) {
                 INDEX_DATA = data;
@@ -560,7 +560,7 @@ function search() {
             }
         }
 
-        gitbook.events.on('page.change', showResult);
+        lsbook.events.on('page.change', showResult);
 
         function updateQueryString(key, value) {
             value = encodeURIComponent(value);
