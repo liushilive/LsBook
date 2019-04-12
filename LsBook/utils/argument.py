@@ -10,7 +10,7 @@ def cmd_argument():
     if len(sys.argv) == 1:
         sys.argv.append("--help")
 
-    parser = argparse.ArgumentParser(description='编译Markdown书籍为Html')
+    parser = argparse.ArgumentParser(description='编译 Markdown 书籍为 Html')
 
     parser.add_argument('-b', dest='build', action='store_true', default=False, help='编译书籍')
     parser.add_argument('--log', dest='log', choices={"debug", "info", "warn", "error", "disabled"}, default="info",

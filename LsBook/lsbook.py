@@ -25,6 +25,7 @@ def main():
 
         # 生成书籍
         generateBook(book)
+    logging.warning("lsbook 查看帮助")
 
 
 if __name__ == '__main__':
