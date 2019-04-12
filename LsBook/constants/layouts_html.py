@@ -48,13 +48,13 @@ _css_map = {
     "basePath": "本页面相对于根的相对路径",
 }
 css = Template("""
-<link href="${basePath}/_lsbook/fontsettings/website.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/fontsettings/website.min.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/prismjs/themes/prism-default.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-night.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
-<link href="${basePath}/_lsbook/style.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
+<link href="${basePath}/_lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
+<link href="${basePath}/_lsbook/style.min.css" rel="stylesheet">
 """)
 
 _js_map = {
@@ -63,9 +63,9 @@ _js_map = {
 js = Template("""
 <script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
 <script charset="UTF-8" src="${basePath}/_lsbook/jquery_mar/jquery.mark.js"></script>
-<script src="${basePath}/_lsbook/lsbook.js"></script>
-<script src="${basePath}/_lsbook/theme.js"></script>
-<script src="${basePath}/_lsbook/fontsettings/fontsettings.js"></script>
+<script src="${basePath}/_lsbook/lsbook.min.js"></script>
+<script src="${basePath}/_lsbook/theme.min.js"></script>
+<script src="${basePath}/_lsbook/fontsettings/fontsettings.min.js"></script>
 <script src="${basePath}/_lsbook/katex/katex.min.js"></script>
 <script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
 <script src="${basePath}/_lsbook/lightbox/lightbox.min.js"></script>
@@ -73,7 +73,7 @@ js = Template("""
 <script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
 <script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
 
-<script src="${basePath}/_lsbook/main.js"></script>
+<script src="${basePath}/_lsbook/main.min.js"></script>
 """)
 
 _html_body_map = {
