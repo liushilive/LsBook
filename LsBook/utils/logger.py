@@ -8,10 +8,5 @@ def log_init(log_level: str):
     :param log_level: 日志级别
     :return:
     """
-    # root_logger = logging.getLogger()
-    # root_logger.setLevel(logging.getLevelName(log_level.upper()))
-    # handler = logging.StreamHandler()
-    # formatter = logging.Formatter("%(asctime)s %(levelname)s：%(message)s")
-    # handler.setFormatter(formatter)
-    # root_logger.addHandler(handler)
-    logging.basicConfig(level=log_level.upper(), format="%(asctime)s %(levelname)s：%(message)s")
+
+    logging.basicConfig(level=log_level.upper(), format="%(asctime)s %(levelname)s:%(message)s")
