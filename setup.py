@@ -18,7 +18,7 @@ except ImportError:
     print(u"warning: pypandoc module not found, could not convert Markdown to RST\n警告：pypandoc模块没有找到，不能将Markdown转换为RST")
     __read_md = open('README.md', 'r', encoding="utf-8").read()
 
-__version = "0.1.2"
+__version = "0.1.4"
 __author = "刘士"
 
 L = []
@@ -33,13 +33,13 @@ setup(
     long_description=__read_md,
     author=__author,
     author_email='liushilive@outlook.com',
-    url='https://github.com/liushilive/fuck_lsbook',
+    url='https://github.com/liushilive/lsbook',
     project_urls={
         '样板': 'https://liushilive.github.io',
     },
     packages=find_packages(),
     package_data={"": L},
-    include_package_data=True,
+    # include_package_data=True,
     license="MIT",
     zip_safe=True,
     keywords='lsbook md',

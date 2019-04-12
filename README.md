@@ -1,8 +1,8 @@
 # LsBook
 
-无法忍受 [lsbook](https://www.lsbook.com/) 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
+无法忍受 [gitbook](https://www.gitbook.com/) 龟速的生成速度，决定自己写一个用于书写自己的书籍生成器。
 
-一切参照 [lsbook](https://www.lsbook.com/)，只为加快网站的生成速度。
+一切参照 [gitbook](https://www.gitbook.com/)，只为加快网站的生成速度。
 
 只支持 md 语法
 
@@ -12,12 +12,10 @@
 {
   "author": "作者",
   "title": "书籍标题",
-  "language": "zh-cn",
+  "language": "zh-cn", // ar bn ca cs de el en es fa fi fr he it ja ko nl no pl pt ro ru sv tr uk ui zh-cn zh-hans zh-tw
   "github_url": "主页地址"
 }
 ```
-
-运行 `lsbook init` 初始化项目
 
 ## 数学公式使用
 
