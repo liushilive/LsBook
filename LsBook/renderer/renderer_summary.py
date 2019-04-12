@@ -54,7 +54,7 @@ class SummaryRenderer(mistune.Renderer):
 
     def list_item(self, text):
         """Rendering list item snippet. Like ``<li>``."""
-        return text
+        return text.replace("\\", r"/")
 
     def newline(self):
         """Rendering newline element."""
