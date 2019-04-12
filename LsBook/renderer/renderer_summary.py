@@ -153,11 +153,15 @@ def _iter_summary(book_output, summary_classify_list, old_articles,
 
 def get_relpath(book_output, ref: str, current_ref: str):
     """转换为相对路径"""
-    if ref.lower() == "readme.md":
-        ref = "index.md"
+    _ref = ref
+    if os.path.basename(_ref).lower() == "readme.md":
+        if os.path.dirname(ref):
+            _ref = os.path.join(os.path.relpath(os.path.dirname(ref)), "index.md")
+        else:
+            _ref = "index.md"
     return get_pure_path(get_filename_not_ext(
         os.path.relpath(
-            os.path.join(book_output, ref),
+            os.path.join(book_output, _ref),
             os.path.dirname(os.path.join(book_output, current_ref))
         )
     ))
