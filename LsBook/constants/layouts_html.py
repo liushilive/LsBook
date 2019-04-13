@@ -50,7 +50,7 @@ _css_map = {
 css = Template("""
 <link href="${basePath}/_lsbook/fontsettings/website.min.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/lightbox/lightbox.min.css" rel="stylesheet">
+<link href="${basePath}/_lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
 <link href="${basePath}/_lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
 <link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
 <link href="${basePath}/_lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
@@ -68,7 +68,7 @@ js = Template("""
 <script src="${basePath}/_lsbook/fontsettings/fontsettings.min.js"></script>
 <script src="${basePath}/_lsbook/katex/katex.min.js"></script>
 <script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
-<script src="${basePath}/_lsbook/lightbox/lightbox.min.js"></script>
+<script src="${basePath}/_lsbook/lightbox/js/lightbox.min.js"></script>
 <script src="${basePath}/_lsbook/mermaid/mermaid.min.js"></script>
 <script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
 <script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>

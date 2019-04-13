@@ -23,9 +23,8 @@ def generateBook(book: Book):
 
     logging.debug("验证书籍目录是否存在")
     is_summary_exist(book)
-    logging.debug("验证配置文件是否存在")
 
-    logging.info("处理配置文件")
+    logging.debug("验证配置文件并处理")
     is_config_exist(book)
 
     logging.info("解析目录")
