@@ -2902,7 +2902,7 @@ table {
 }
 
 .book .book-summary .exc-trigger {
-    left: 12px;
+    left: 10px;
     position: absolute;
     top: 12px;
 }
@@ -3409,7 +3409,7 @@ table {
     color: #364149;
     display: block;
     overflow: hidden;
-    padding: 10px 15px 10px 30px;
+    padding: 10px 15px 10px 25px;
     position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -3430,7 +3430,7 @@ table {
 }
 
 .book-summary ul.summary li ul {
-    padding-left: 20px
+    padding-left: 15px
 }
 
 @media (max-width: 600px) {

@@ -20,7 +20,7 @@ def parse_summary(book: Book):
         summary_dict = []
         page = f.read()
         page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
-        page = re.sub(r"[\n|\r\n]+", r"\n\n", page)
+        page = re.sub(r"\s*[\n|\r\n]+", r"\n\n", page)
         summary = SummaryRenderer()
         md = mistune.Markdown(renderer=summary)
         md.parse(page)
