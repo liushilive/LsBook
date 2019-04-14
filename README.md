@@ -6,6 +6,8 @@
 
 只支持 md 语法
 
+项目示例：<https://github.com/liushilive/github_software_testing_dictionary>
+
 ## 部署
 
 部署 python，安装 `lsbook`
