@@ -37,9 +37,9 @@ ${css}
 <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
-<link href="${basePath}/_lsbook/images/apple-touch-icon-precomposed-152.png"
+<link href="${basePath}/lsbook/images/apple-touch-icon-precomposed-152.png"
       rel="apple-touch-icon-precomposed" sizes="152x152">
-<link href="${basePath}/_lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="${basePath}/lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <!--分页-->
 <link href="${next_relative_path}" rel="next"/>
 """)
@@ -48,25 +48,25 @@ _css_map = {
     "basePath": "本页面相对于根的相对路径",
 }
 css = Template("""
-<link href="${basePath}/_lsbook/fontsettings/website.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/katex/katex.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
-<link href="${basePath}/_lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
-<link href="${basePath}/_lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
-<link href="${basePath}/_lsbook/style.min.css" rel="stylesheet">
+<link href="${basePath}/lsbook/fontsettings/website.min.css" rel="stylesheet">
+<link href="${basePath}/lsbook/katex/katex.min.css" rel="stylesheet">
+<link href="${basePath}/lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="${basePath}/lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
+<link href="${basePath}/lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
+<link href="${basePath}/lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
+<link href="${basePath}/lsbook/style.min.css" rel="stylesheet">
 """)
 
 _js_map = {
     "basePath": "本页面相对于根的相对路径",
 }
 js = Template("""
-<script src="${basePath}/_lsbook/jquery-3.3.1.min.js"></script>
-<script charset="UTF-8" src="${basePath}/_lsbook/jquery_mar/jquery.mark.js"></script>
-<script src="${basePath}/_lsbook/lsbook.min.js"></script>
-<script src="${basePath}/_lsbook/theme.min.js"></script>
-<script src="${basePath}/_lsbook/fontsettings/fontsettings.min.js"></script>
-<script src="${basePath}/_lsbook/main.min.js"></script>
+<script src="${basePath}/lsbook/jquery-3.3.1.min.js"></script>
+<script charset="UTF-8" src="${basePath}/lsbook/jquery_mar/jquery.mark.js"></script>
+<script src="${basePath}/lsbook/lsbook.min.js"></script>
+<script src="${basePath}/lsbook/theme.min.js"></script>
+<script src="${basePath}/lsbook/fontsettings/fontsettings.min.js"></script>
+<script src="${basePath}/lsbook/main.min.js"></script>
 """)
 
 _html_body_map = {

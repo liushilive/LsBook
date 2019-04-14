@@ -10,8 +10,8 @@ class Book(object):
         self._summary_level_list = []
         self._summary_classify_list = {}
         self._config = {}
-        self._assets_path = ["assets", "_lsbook"]
-        self._assets_path_out = "_lsbook"
+        self._assets_path = ["assets", "lsbook"]
+        self._assets_path_out = "lsbook"
         self._i18n = {}
         self.pool = pool
 
