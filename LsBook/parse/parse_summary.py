@@ -83,6 +83,6 @@ def is_summary_exist(book: Book):
     """
     book_summary = os.path.join(book.book_path, "summary.md")
     if not os.path.isfile(book_summary):
-        file_not_found_error(book)
+        file_not_found_error(book_summary)
     else:
         book.summary_path = book_summary
