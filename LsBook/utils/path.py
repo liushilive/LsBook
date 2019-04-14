@@ -19,8 +19,7 @@ def process_input_output_path(book: Book):
     book.book_path = os.path.abspath(book.book_path)
     logging.info(f"书籍目录：{book.book_path}")
 
-    if book.book_output == "_book":
-        book.book_output = os.path.join(book.book_path, book.book_output)
+    book.book_output = os.path.join(book.book_path, book.book_output)
     logging.info(f"输出目录：{book.book_output}")
 
     book.assets_path = os.path.join(os.path.split(os.path.dirname(__file__))[0], *book.assets_path)

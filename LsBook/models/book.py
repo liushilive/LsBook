@@ -5,7 +5,7 @@ class Book(object):
     def __init__(self, book_path, book_output, pool: ProcessPoolExecutor):
         self._book_path = book_path
         self._book_output = book_output
-        self._summary_path = "summary.md"
+        self._summary_path = "SUMMARY.md"
         self._summary_json = {}
         self._summary_level_list = []
         self._summary_classify_list = {}
