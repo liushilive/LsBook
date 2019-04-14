@@ -3206,7 +3206,7 @@
                 lsbook.state.$book.toggleClass('without-animation', !animation);
                 lsbook.state.$book.toggleClass('with-summary', _state);
 
-                lsbook.storage.set('sidebar', isOpen());
+                sessionStorage.setItem('sidebar', isOpen());
             }
 
 // Return true if sidebar is open
@@ -3218,7 +3218,7 @@
             function init() {
                 // Init last state if not mobile
                 if (!platform.isMobile()) {
-                    toggleSidebar(lsbook.storage.get('sidebar', true), false);
+                    toggleSidebar(sessionStorage.getItem('sidebar') || true, false);
                 }
 
                 // Close sidebar after clicking a link on mobile
