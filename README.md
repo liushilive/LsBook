@@ -6,6 +6,20 @@
 
 只支持 md 语法
 
+## 部署
+
+部署 python，安装 `lsbook`
+
+```cmd
+pip install lsbook
+```
+
+使用
+
+```cmd
+lsbook -b --log debug <book> <output>
+```
+
 ## 编辑 book.json
 
 ```json
