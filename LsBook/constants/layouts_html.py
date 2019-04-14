@@ -66,13 +66,6 @@ js = Template("""
 <script src="${basePath}/_lsbook/lsbook.min.js"></script>
 <script src="${basePath}/_lsbook/theme.min.js"></script>
 <script src="${basePath}/_lsbook/fontsettings/fontsettings.min.js"></script>
-<script src="${basePath}/_lsbook/katex/katex.min.js"></script>
-<script src="${basePath}/_lsbook/katex/contrib/auto-render.min.js"></script>
-<script src="${basePath}/_lsbook/lightbox/js/lightbox.min.js"></script>
-<script src="${basePath}/_lsbook/mermaid/mermaid.min.js"></script>
-<script src="${basePath}/_lsbook/prismjs/js/clipboard.min.js"></script>
-<script src="${basePath}/_lsbook/prismjs/js/prism.js"></script>
-
 <script src="${basePath}/_lsbook/main.min.js"></script>
 """)
 
@@ -105,7 +98,7 @@ html_body_2 = Template("""<div class="book-summary">
 <div class="book-body">
     ${book_body}
 </div>
-
+${js}
 <script>
     var lsbook = lsbook || [];
     lsbook.push(function () {

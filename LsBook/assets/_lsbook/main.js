@@ -4,7 +4,9 @@
 function Prism_init() {
     require(['lsbook'], function (lsbook) {
         lsbook.events.bind('page.change', function () {
-            Prism.highlightAll();
+            if (typeof Prism != "undefined") {
+                Prism.highlightAll();
+            }
         });
     });
 }
@@ -14,20 +16,19 @@ function Prism_init() {
  */
 function mermaid_init() {
     require(['lsbook'], function (lsbook) {
-        var init = function () {
-            var config = {
-                startOnLoad: true,
-                flowchart: {
-                    useMaxWidth: false,
-                    htmlLabels: true
-                },
-                theme: 'forest'
-            };
-            mermaid.initialize(config);
-        };
         lsbook.events.bind('page.change', function () {
-            init();
-            mermaid.init();
+            if (typeof mermaid != "undefined") {
+                var config = {
+                    startOnLoad: true,
+                    flowchart: {
+                        useMaxWidth: false,
+                        htmlLabels: true
+                    },
+                    theme: 'forest'
+                };
+                mermaid.initialize(config);
+                mermaid.init();
+            }
         });
     });
 }
@@ -37,13 +38,12 @@ function mermaid_init() {
  */
 function Math_up() {
     require(['lsbook', 'jQuery'], function (lsbook) {
-        var init = function () {
-            renderMathInElement(document.body, {
-                displayMode: false
-            });
-        };
         lsbook.events.bind('page.change', function () {
-            init();
+            if (typeof renderMathInElement != "undefined") {
+                renderMathInElement(document.body, {
+                    displayMode: false
+                });
+            }
         });
     });
 }

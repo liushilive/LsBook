@@ -12,6 +12,10 @@ class FileRenderer(mistune.Renderer):
         }
         self._id = 0
         self._img_id = 0
+        self.tag_katex = False
+        self.tag_mermaid = False
+        self.tag_prism = False
+        self.tag_lightbox = False
 
     def header(self, text, level, raw=None):
         """Rendering header/heading tags like ``<h1>`` ``<h2>``.
@@ -71,10 +75,12 @@ class FileRenderer(mistune.Renderer):
 
     def katex_in_line(self, body):
         """行内数学公式"""
+        self.tag_katex = True
         return f'\({body}\)'
 
     def katex_in_block(self, body):
-        """行内数学公式"""
+        """块内数学公式"""
+        self.tag_katex = True
         return f'\[{body}\]'
 
     def block_code(self, code, lang=None):
@@ -85,8 +91,9 @@ class FileRenderer(mistune.Renderer):
         """
         # mermaid
         if lang and lang.lower() == "mermaid":
+            self.tag_mermaid = True
             return f'\n<div class="mermaid">\n{code}\n</div>\n'
-
+        self.tag_prism = True
         # code
         code = code.rstrip('\n')
         code = mistune.escape(code, quote=True, smart_amp=False)
@@ -97,6 +104,7 @@ class FileRenderer(mistune.Renderer):
 
         :param text: text content for inline code.
         """
+        self.tag_prism = True
         text = mistune.escape(text.rstrip(), smart_amp=False)
         return f' <code class="language-markup">{text}</code> '
 
@@ -107,6 +115,7 @@ class FileRenderer(mistune.Renderer):
         :param title: title text of the image.
         :param text: alt text of the image.
         """
+        self.tag_lightbox = True
         src = mistune.escape_link(src)
         text = mistune.escape(text, quote=True)
         self._img_id += 1

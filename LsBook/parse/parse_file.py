@@ -26,7 +26,7 @@ def parse_file(file):
 
     page = markdown(page)
 
-    return page, renderer.toc_tree
+    return page, renderer.toc_tree, renderer.tag_katex, renderer.tag_mermaid, renderer.tag_prism, renderer.tag_lightbox
 
 
 def sectionx(page, count=0):
