@@ -1,15 +1,14 @@
+import json
 import logging
 import os
 import re
-import json
 import time
 
-from LsBook.parse.parse_file import parse_file, sectionx
-from LsBook.utils.path import set_extension, get_pure_path
-
-from LsBook.constants.layouts_html import html_root_0, html_head_1, html_body_2, book_body_4, \
-    previous_page_link_5_1, next_page_link_5_2, js, css
-from LsBook.models.book import Book
+from ..constants.layouts_html import book_body_4, css, html_body_2, html_head_1, html_root_0, js, next_page_link_5_2, \
+    previous_page_link_5_1
+from ..models.book import Book
+from ..parse.parse_file import parse_file, sectionx
+from ..utils.path import get_pure_path, set_extension
 
 
 def renderer_html(book: Book):

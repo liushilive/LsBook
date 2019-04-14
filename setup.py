@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
 import os
+import sys
 
 if sys.version_info < (3, 7):
     print(u"The minimum support Python 3.7\n支持最低版本 3.7")
@@ -18,7 +18,7 @@ except ImportError:
     print(u"warning: pypandoc module not found, could not convert Markdown to RST\n警告：pypandoc模块没有找到，不能将Markdown转换为RST")
     __read_md = open('README.md', 'r', encoding="utf-8").read()
 
-__version = "0.1.15"
+__version = "0.1.16"
 __author = "刘士"
 
 L = []

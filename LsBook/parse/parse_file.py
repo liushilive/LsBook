@@ -1,9 +1,9 @@
 import os
 import re
 
-from LsBook.parse.parse_markdown.file_imports import process_file_import
-from LsBook.parse.parse_markdown.lexers import Inline_Lexer, Block_Lexer, CustomMarkdown
-from LsBook.renderer.renderer_file import FileRenderer
+from ..parse.parse_markdown.file_imports import process_file_import
+from ..parse.parse_markdown.lexers import Block_Lexer, CustomMarkdown, Inline_Lexer
+from ..renderer.renderer_file import FileRenderer
 
 
 def parse_file(file):

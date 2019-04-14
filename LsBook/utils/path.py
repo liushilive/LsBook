@@ -2,8 +2,8 @@ import logging
 import os
 from pathlib import Path
 
-from LsBook.utils.error import dir_not_found_error
 from ..models.book import Book
+from ..utils.error import dir_not_found_error
 
 
 def process_input_output_path(book: Book):
@@ -14,7 +14,7 @@ def process_input_output_path(book: Book):
     """
     if book.book_path != ".":
         if not os.path.isdir(book.book_path):
-            dir_not_found_error(book.book_path)
+            dir_not_found_error(book.book_path, "书籍路径不存在")
 
     book.book_path = os.path.abspath(book.book_path)
     logging.info(f"书籍目录：{book.book_path}")

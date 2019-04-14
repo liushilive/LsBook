@@ -1,12 +1,11 @@
 import logging
 import time
 
-from LsBook.parse.parse_readme import readme_exist
-from LsBook.renderer.renderer_html import renderer_html
-from LsBook.renderer.renderer_summary import renderer_summary
 from ..models.book import Book
 from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
+from ..renderer.renderer_html import renderer_html
+from ..renderer.renderer_summary import renderer_summary
 from ..utils.fs import copytree
 from ..utils.path import process_input_output_path
 
@@ -37,7 +36,7 @@ def generateBook(book: Book):
     renderer_summary(book)
 
     logging.info("复制资源到输出目录")
-    copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json")
+    copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json", ".*")
     copytree(book.assets_path, book.assets_path_out)
 
     logging.info("生成所有页面")

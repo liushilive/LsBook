@@ -1,7 +1,7 @@
 import os
 
 from ..models.book import Book
-from ..utils.error import file_not_found_error, error
+from ..utils.error import error, file_not_found_error
 
 
 def readme_exist(book: Book):

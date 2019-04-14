@@ -3,7 +3,8 @@
 """
 import os
 import re
-from LsBook.constants.lang import lang_dict
+
+from ...constants.lang import lang_dict
 
 
 def process_file_import(book_path, page: str):

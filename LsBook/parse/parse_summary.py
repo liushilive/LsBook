@@ -1,11 +1,12 @@
 import json
 import os
 import re
+
 import mistune
 
-from LsBook.models.book import Book
-from LsBook.renderer.renderer_summary import SummaryRenderer
-from LsBook.utils.error import file_not_found_error, error
+from ..models.book import Book
+from ..renderer.renderer_summary import SummaryRenderer
+from ..utils.error import error, file_not_found_error
 
 count_sum = 0
 data_level = []
@@ -83,8 +84,6 @@ def is_summary_exist(book: Book):
     """
     book_summary = os.path.join(book.book_path, "SUMMARY.md")
     if not os.path.isfile(book_summary):
-        book_summary = os.path.join(book.book_path, "summary.md")
-        if not os.path.isfile(book_summary):
-            file_not_found_error(book_summary)
+        file_not_found_error(book_summary, "必须存在目录，请检查文件名称是否准确：SUMMARY.md")
 
     book.summary_path = book_summary

@@ -4,10 +4,10 @@ import time
 
 import mistune
 
-from LsBook.constants.layouts_html import book_summary_3_head, book_summary_3_chapter_active, \
+from ..constants.layouts_html import book_summary_3_head, book_summary_3_chapter_active, \
     book_summary_3_chaptere, book_summary_3_sub_chapter_active, book_summary_3_sub_chaptere
-from LsBook.models.book import Book
-from LsBook.utils.path import get_pure_path, get_filename_not_ext
+from ..models.book import Book
+from ..utils.path import get_pure_path, get_filename_not_ext
 
 
 class SummaryRenderer(mistune.Renderer):

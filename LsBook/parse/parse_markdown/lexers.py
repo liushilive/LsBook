@@ -1,6 +1,6 @@
 import re
 
-from mistune import InlineLexer, BlockLexer, Markdown
+from mistune import BlockLexer, InlineLexer, Markdown
 
 
 class Inline_Lexer(InlineLexer):
@@ -62,4 +62,3 @@ class Block_Lexer(BlockLexer):
 class CustomMarkdown(Markdown):
     def output_katex_in_block(self):
         return self.renderer.katex_in_block(self.token['text'])
-
