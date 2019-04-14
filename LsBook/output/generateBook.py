@@ -30,8 +30,8 @@ def generateBook(book: Book):
     logging.info("解析目录")
     parse_summary(book)
 
-    logging.info("验证 readme")
-    readme_exist(book)
+    # logging.info("验证 readme")
+    # readme_exist(book)
 
     logging.info("生成所有页面的目录结构")
     renderer_summary(book)
