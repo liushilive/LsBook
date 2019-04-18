@@ -59,8 +59,8 @@ def _render_html(book_title, title, author, basePath, book_summary,
     toc = ""
     if len(toc_tree) > 0:
         toc = "<div id='anchor-navigation-ex-navbar'><i class='fa fa-anchor'></i><ul><li>" \
-              "<span class='title-icon fa fa-hand-o-right'></span>" \
-            f"<a aria-label class='on-toolbar-action' href=''>{i18n.get('SUMMARY_TOGGLE')}</a></li>"
+              "<span class='title-icon fa fa-hand-o-right'></span><a aria-label class='on-toolbar-action' href=''" \
+            f"""onclick="$('.fa.fa-align-justify').parent()[0].click();">{i18n.get('SUMMARY_TOGGLE')}</a></li>"""
 
         for h1Toc in toc_tree:
             toc += "<li><span class='title-icon fa fa-hand-o-right'></span>" \
@@ -98,18 +98,20 @@ def _render_html(book_title, title, author, basePath, book_summary,
         _css += f"""<link href="{basePath}/lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
 <link href="{basePath}/lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
 <link href="{basePath}/lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>"""
+
     # js
-    _js = ""
+    _js = {}
     if tag_katex:
-        _js += f"""<script src="{basePath}/lsbook/katex/katex.min.js"></script>'
-<script src="{basePath}/lsbook/katex/contrib/auto-render.min.js"></script>"""
+        _js["katex"] = [f"{basePath}/lsbook/katex/katex.min.js",
+                        f"{basePath}/lsbook/katex/contrib/auto-render.min.js"]
     if tag_lightbox:
-        _js += f"""<script src="{basePath}/lsbook/lightbox/js/lightbox.min.js"></script>"""
+        # _js['lightbox]'] = [f"{basePath}/lsbook/lightbox/js/lightbox.min.js"]
+        pass
     if tag_mermaid:
-        _js += f"""<script src="{basePath}/lsbook/mermaid/mermaid.min.js"></script>"""
+        _js["mermaid"] = [f"{basePath}/lsbook/mermaid/mermaid.min.js"]
     if tag_prism:
-        _js += f"""<script src="{basePath}/lsbook/prismjs/js/clipboard.min.js"></script>
-<script src="{basePath}/lsbook/prismjs/js/prism.js"></script>"""
+        _js["prism"] = [f"{basePath}/lsbook/prismjs/js/clipboard.min.js",
+                        f"{basePath}/lsbook/prismjs/js/prism.js"]
 
     # 上下页
     previous_page_link = prev_relative_path != "" and previous_page_link_5_1.substitute(

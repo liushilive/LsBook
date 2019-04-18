@@ -63,10 +63,9 @@ _js_map = {
 js = Template("""
 <script src="${basePath}/lsbook/jquery-3.3.1.min.js"></script>
 <script charset="UTF-8" src="${basePath}/lsbook/jquery_mar/jquery.mark.js"></script>
+<script src="${basePath}/lsbook/lightbox/js/lightbox.min.js"></script>
 <script src="${basePath}/lsbook/lsbook.min.js"></script>
-<script src="${basePath}/lsbook/theme.min.js"></script>
 <script src="${basePath}/lsbook/fontsettings/fontsettings.min.js"></script>
-<script src="${basePath}/lsbook/main.min.js"></script>
 """)
 
 _html_body_map = {
@@ -76,7 +75,8 @@ _html_body_map = {
     "language": "语言",
     "LsBook_LINK": "LsBook_LINK",
     "SEARCH_PLACEHOLDER": "SEARCH_PLACEHOLDER",
-    "github_url": "github_url"
+    "github_url": "github_url",
+    "js": "按需加载 js 字典"
 }
 html_body_2 = Template("""<div class="book-summary">
     <div id="book-search-input" role="search">
@@ -98,7 +98,6 @@ html_body_2 = Template("""<div class="book-summary">
 <div class="book-body">
     ${book_body}
 </div>
-${js}
 <script>
     var lsbook = lsbook || [];
     lsbook.push(function () {
@@ -108,7 +107,8 @@ ${js}
                 "github_url":"${github_url}",
             },
             "basePath": "${basePath}",
-            "book": {"language": "${language}"}
+            "book": {"language": "${language}"},
+            "js": ${js}
         });
     });
 </script>
