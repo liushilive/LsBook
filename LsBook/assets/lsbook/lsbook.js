@@ -1131,11 +1131,8 @@ var state = {};
 
 function setState(newState) {
   // 更新当前状态
-  // state.page = newState.page;
-  // state.file = newState.file;
   state.config = newState.config;
   state.basePath = newState.basePath;
-  state.book = newState.book;
   state.js = newState.js;
   state.$book = $('.book');
   state.root = absolute(location.protocol + '//' + location.host + location.pathname, state.basePath);
@@ -1188,7 +1185,7 @@ window.lsbook = lsbook;
 $(document).ready(function () {
   isPageReady = true;
 
-  // Call pile of function once GitBook is ready
+  // Call pile of function once lsbook is ready
   $.each(onLoad, function (i, fn) {
     fn();
   });
@@ -2491,3 +2488,229 @@ function search() {
 }
 
 search();
+
+/**
+ * 字体调节
+ */
+function fontsettings() {
+  // 配置
+  var MAX_SIZE = 4,
+    MIN_SIZE = 0,
+    BUTTON_ID;
+
+  // 当前 fontsettings 状态
+  var fontState;
+
+  // 默认主题
+  var THEMES = [
+    {
+      config: 'white',
+      text: 'White',
+      id: 0
+    },
+    {
+      config: 'sepia',
+      text: 'Sepia',
+      id: 1
+    },
+    {
+      config: 'night',
+      text: 'Night',
+      id: 2
+    }
+  ];
+
+  // 默认字体
+  var FAMILIES = [
+    {
+      config: 'serif',
+      text: 'Serif',
+      id: 0
+    },
+    {
+      config: 'sans',
+      text: 'Sans',
+      id: 1
+    }
+  ];
+
+  // 保存当前字体设置
+  function saveFontSettings() {
+    lsbook.storage.set('fontState', fontState);
+    update();
+  }
+
+  // 放大字体
+  function enlargeFontSize(e) {
+    e.preventDefault();
+    if (fontState.size >= MAX_SIZE) return;
+
+    fontState.size++;
+    saveFontSettings();
+  }
+
+  // 重置字体
+  function resetFontSize(e) {
+    e.preventDefault();
+    fontState.size = 2;
+    saveFontSettings();
+  }
+
+  // 减小字体大小
+  function reduceFontSize(e) {
+    e.preventDefault();
+    if (fontState.size <= MIN_SIZE) return;
+
+    fontState.size--;
+    saveFontSettings();
+  }
+
+  // 改变字体
+  function changeFontFamily(configName, e) {
+    if (e && e instanceof Event) {
+      e.preventDefault();
+    }
+
+    fontState.family = getFontFamilyId(configName);
+    saveFontSettings();
+  }
+
+  // 改变颜色主题的类型
+  function changeColorTheme(configName, e) {
+    if (e && e instanceof Event) {
+      e.preventDefault();
+    }
+
+    var $book = lsbook.state.$book;
+
+    // 删除当前应用的颜色主题
+    if (fontState.theme !== 0)
+      $book.removeClass('color-theme-' + fontState.theme);
+
+    // 设置新的颜色主题
+    fontState.theme = getThemeId(configName);
+    if (fontState.theme !== 0)
+      $book.addClass('color-theme-' + fontState.theme);
+
+    saveFontSettings();
+  }
+
+  // 返回字体族配置键的正确id
+  // 默认为first font-family
+  function getFontFamilyId(configName) {
+    // 搜索插件配置字体族
+    var configFamily = $.grep(FAMILIES, function (family) {
+      return family.config == configName;
+    })[0];
+    // 退回到默认字体系列
+    return (!!configFamily) ? configFamily.id : 0;
+  }
+
+  // 返回主题配置键的正确id
+  // 默认为第一个主题
+  function getThemeId(configName) {
+    // 搜索插件配置的主题
+    var configTheme = $.grep(THEMES, function (theme) {
+      return theme.config == configName;
+    })[0];
+    // 回到默认主题
+    return (!!configTheme) ? configTheme.id : 0;
+  }
+
+  function update() {
+    var $book = lsbook.state.$book;
+
+    $('.font-settings .font-family-list li').removeClass('active');
+    $('.font-settings .font-family-list li:nth-child(' + (fontState.family + 1) + ')').addClass('active');
+
+    $book[0].className = $book[0].className.replace(/\bfont-\S+/g, '');
+    $book.addClass('font-size-' + fontState.size);
+    $book.addClass('font-family-' + fontState.family);
+
+    if (fontState.theme !== 0) {
+      $book[0].className = $book[0].className.replace(/\bcolor-theme-\S+/g, '');
+      $book.addClass('color-theme-' + fontState.theme);
+    }
+  }
+
+  function init() {
+    // 搜索插件配置字体族
+    var configFamily = getFontFamilyId(),
+      configTheme = getThemeId();
+
+    // 实例化字体状态对象
+    fontState = lsbook.storage.get('fontState', {
+      size: 2,
+      family: configFamily,
+      theme: configTheme
+    });
+
+    update();
+  }
+
+  function updateButtons() {
+    // 删除现有的fontsettings按钮
+    if (!!BUTTON_ID) {
+      lsbook.toolbar.removeButton(BUTTON_ID);
+    }
+
+    // 在工具栏中创建按钮
+    BUTTON_ID = lsbook.toolbar.createButton({
+      icon: 'fa fa-font',
+      label: 'Font Settings',
+      className: 'font-settings',
+      dropdown: [
+        [
+          {
+            text: 'A',
+            className: 'font-reduce',
+            onClick: reduceFontSize
+          },
+          {
+            text: 'R',
+            className: 'font-reset',
+            onClick: resetFontSize
+          },
+          {
+            text: 'A',
+            className: 'font-enlarge',
+            onClick: enlargeFontSize
+          }
+        ],
+        $.map(FAMILIES, function (family) {
+          family.onClick = function (e) {
+            return changeFontFamily(family.config, e);
+          };
+
+          return family;
+        }),
+        $.map(THEMES, function (theme) {
+          theme.onClick = function (e) {
+            return changeColorTheme(theme.config, e);
+          };
+
+          return theme;
+        })
+      ]
+    });
+  }
+
+  // 初始化配置
+  lsbook.events.bind('start', function () {
+    // 在开始时生成按钮
+    updateButtons();
+
+    // 初始化当前设置
+    init();
+  });
+
+  // Expose API
+  lsbook.fontsettings = {
+    enlargeFontSize: enlargeFontSize,
+    reduceFontSize: reduceFontSize,
+    setTheme: changeColorTheme,
+    setFamily: changeFontFamily
+  };
+}
+
+fontsettings();

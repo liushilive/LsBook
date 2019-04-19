@@ -65,7 +65,6 @@ js = Template("""
 <script charset="UTF-8" src="${basePath}/lsbook/jquery_mar/jquery.mark.js"></script>
 <script src="${basePath}/lsbook/lightbox/js/lightbox.min.js"></script>
 <script src="${basePath}/lsbook/lsbook.min.js"></script>
-<script src="${basePath}/lsbook/fontsettings/fontsettings.min.js"></script>
 """)
 
 _html_body_map = {
@@ -103,11 +102,10 @@ html_body_2 = Template("""<div class="book-summary">
     lsbook.push(function () {
         lsbook.page.hasChanged({
             "config": {
-                "fontsettings": {"theme": "white", "family": "sans", "size": 2},
                 "github_url":"${github_url}",
+                "language": "${language}"
             },
             "basePath": "${basePath}",
-            "book": {"language": "${language}"},
             "js": ${js}
         });
     });
