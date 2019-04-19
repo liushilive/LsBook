@@ -48,13 +48,12 @@ _css_map = {
     "basePath": "本页面相对于根的相对路径",
 }
 css = Template("""
-<link href="${basePath}/lsbook/fontsettings/website.min.css" rel="stylesheet">
+<link href="${basePath}/lsbook/less/website.css" rel="stylesheet">
 <link href="${basePath}/lsbook/katex/katex.min.css" rel="stylesheet">
 <link href="${basePath}/lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
 <link href="${basePath}/lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
 <link href="${basePath}/lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
 <link href="${basePath}/lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>
-<link href="${basePath}/lsbook/style.min.css" rel="stylesheet">
 """)
 
 _js_map = {
