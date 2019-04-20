@@ -1058,31 +1058,93 @@
   }
 })(typeof window !== 'undefined' ? window : null, typeof window !== 'undefined' ? document : null);
 
-/**
- * 转换为绝对路径
- * @param base 开始路径
- * @param relative 相对路径
- */
-function absolute(base, relative) {
-  var stack = base.split("/"),
-    parts = relative.split("/");
-  stack.pop(); // remove current file name (or empty string)
-  // (omit if "base" is the current folder without trailing slash)
-  for (var i = 0; i < parts.length; i++) {
-    if (parts[i] == ".")
-      continue;
-    if (parts[i] == "..")
-      stack.pop();
-    else
-      stack.push(parts[i]);
+var util = {
+  isString: function (arg) {
+    return typeof (arg) === 'string';
+  },
+  isObject: function (arg) {
+    return typeof (arg) === 'object' && arg !== null;
+  },
+  isNull: function (arg) {
+    return arg === null;
+  },
+  isNullOrUndefined: function (arg) {
+    return arg == null;
   }
-  return stack.join("/");
-}
+};
+
+var url_lib = {
+  resolve: function () {
+
+  },
+  parse: function () {
+
+  }
+};
+
+var path_lib = {
+  dirname: function (path) {
+    if (typeof path !== 'string') path = path + '';
+    if (path.length === 0) return '.';
+    var code = path.charCodeAt(0);
+    var hasRoot = code === 47 /*/*/;
+    var end = -1;
+    var matchedSlash = true;
+    for (var i = path.length - 1; i >= 1; --i) {
+      code = path.charCodeAt(i);
+      if (code === 47 /*/*/) {
+        if (!matchedSlash) {
+          end = i;
+          break;
+        }
+      } else {
+        // We saw the first non-path separator
+        matchedSlash = false;
+      }
+    }
+
+    if (end === -1) return hasRoot ? '/' : '.';
+    if (hasRoot && end === 1) {
+      // return '//';
+      // Backwards-compat fix:
+      return '/';
+    }
+    return path.slice(0, end);
+  },
+  resolve: function () {
+    var resolvedPath = '',
+      resolvedAbsolute = false;
+
+    for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
+      var path = (i >= 0) ? arguments[i] : process.cwd();
+
+      // Skip empty and invalid entries
+      if (typeof path !== 'string') {
+        throw new TypeError('Arguments to path.resolve must be strings');
+      } else if (!path) {
+        continue;
+      }
+
+      resolvedPath = path + '/' + resolvedPath;
+      resolvedAbsolute = path.charAt(0) === '/';
+    }
+
+    // At this point the path should be resolved to a full absolute path, but
+    // handle relative paths to be safe (might happen when process.cwd() fails)
+
+    // Normalize the path
+    resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function (p) {
+      return !!p;
+    }), !resolvedAbsolute).join('/');
+
+    return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
+  }
+};
 
 // core_index
 var events = $({});
 var baseKey = '';
-var storage = {
+var local_storage = {
   setBaseKey: function (key) {
     baseKey = key;
   },
@@ -1135,7 +1197,15 @@ function setState(newState) {
   state.basePath = newState.basePath;
   state.js = newState.js;
   state.$book = $('.book');
-  state.root = absolute(location.protocol + '//' + location.host + location.pathname, state.basePath);
+  state.root = url_lib.resolve(
+    location.protocol + '//' + location.host,
+    path_lib.dirname(
+      path_lib.resolve(
+        location.pathname.replace(/\/$/, '/index.html'),
+        state.basePath
+      )
+    )
+  ).replace(/\/?$/, '/');
 }
 
 var page = {
@@ -1171,7 +1241,7 @@ var lsbook = {
   state: page.getState(),
 
   // Read/Write the localstorage
-  storage: storage,
+  storage: local_storage,
 
   // Push a function to be called once lsbook is ready
   push: function (fn) {
@@ -1483,19 +1553,17 @@ function handleScrolling() {
 var prevUri = location.href;
 
 function handleNavigation(relativeUrl, push) {
-  var prevUriParsed = $('<a>', {href: prevUri});
+  var prevUriParsed = url_lib.parse(prevUri);
 
-  var uri = absolute(window.location.pathname, relativeUrl);
-  var uriParsed = $('<a>', {href: uri});
-  var hash = uriParsed.prop('hash');
+  var uri = url_lib.resolve(window.location.pathname, relativeUrl);
+  var uriParsed = url_lib.parse(uri);
+  var hash = uriParsed.hash;
 
-  // 是相同的url(只是散列改变了)吗?
-  var pathHasChanged = (uriParsed.prop('pathname') !== prevUriParsed.prop('pathname'));
+  // Is it the same url (just hash changed?)
+  var pathHasChanged = (uriParsed.pathname !== prevUriParsed.pathname);
 
-  // 它是一个绝对url吗
-  // var isAbsolute = Boolean(uriParsed.hostname);
-  var r = new RegExp('^(?:[a-z]+:)?//', 'i');
-  var isAbsolute = r.test(relativeUrl);
+  // Is it an absolute url
+  var isAbsolute = Boolean(uriParsed.hostname);
 
   if (!usePushState || isAbsolute) {
     // 如果不支持pushState，则将页面刷新到新的URL
@@ -1647,7 +1715,7 @@ function preparePage(resetScroll) {
         href = $link.attr('href').split('#')[0];
       }
 
-      var resolvedRef = absolute(window.location.pathname, href);
+      var resolvedRef = url_lib.resolve(window.location.pathname, href);
       return window.location.pathname == resolvedRef;
     });
 
@@ -1735,7 +1803,7 @@ function toggleSidebar(_state, animation) {
   lsbook.state.$book.toggleClass('without-animation', !animation);
   lsbook.state.$book.toggleClass('with-summary', _state);
 
-  lsbook.storage.set('sidebar', isOpen());
+  sessionStorage.setItem('sidebar', isOpen());
 }
 
 // 如果侧边栏打开，返回true
@@ -1748,7 +1816,7 @@ var sidebar = {
   init: function () {
     // 初始化最后一个状态(如果不是mobile)
     if (!platform.isMobile()) {
-      toggleSidebar(lsbook.storage.get('sidebar', true), false);
+      toggleSidebar(sessionStorage.setItem('sidebar', true), false);
     }
 
     // 点击手机上的链接后关闭侧边栏

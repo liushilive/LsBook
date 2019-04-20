@@ -87,31 +87,18 @@ def _render_html(book_title, title, author, basePath, book_summary,
         '</span> 人次</span></span></footer>' \
         '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>'
 
-    # css
-
-    _css = ""
-    if tag_katex:
-        _css += f'<link href="{basePath}/lsbook/katex/katex.min.css" rel="stylesheet">'
-    if tag_lightbox:
-        _css += f'<link href="{basePath}/lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">'
-    if tag_prism:
-        _css += f"""<link href="{basePath}/lsbook/prismjs/themes/prism-default.min.css" rel="stylesheet" title="0" id='p_css_0' class='prism_css'>
-<link href="{basePath}/lsbook/prismjs/themes/prism-solarized.min.css" rel="alternate stylesheet" title="1" id='p_css_1' class='prism_css'>
-<link href="{basePath}/lsbook/prismjs/themes/prism-night.min.css" rel="alternate stylesheet" title="2" id='p_css_2' class='prism_css'>"""
-
     # js
     _js = {}
     if tag_katex:
         _js["katex"] = [f"{basePath}/lsbook/katex/katex.min.js",
                         f"{basePath}/lsbook/katex/contrib/auto-render.min.js"]
     if tag_lightbox:
-        # _js['lightbox]'] = [f"{basePath}/lsbook/lightbox/js/lightbox.min.js"]
         pass
     if tag_mermaid:
         _js["mermaid"] = [f"{basePath}/lsbook/mermaid/mermaid.min.js"]
     if tag_prism:
-        _js["prism"] = [f"{basePath}/lsbook/prismjs/js/clipboard.min.js",
-                        f"{basePath}/lsbook/prismjs/js/prism.js"]
+        _js["prism"] = [f"{basePath}/lsbook/prismjs/clipboard.min.js",
+                        f"{basePath}/lsbook/prismjs/prism.js"]
 
     # 上下页
     previous_page_link = prev_relative_path != "" and previous_page_link_5_1.substitute(
