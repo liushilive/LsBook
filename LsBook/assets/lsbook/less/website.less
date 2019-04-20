@@ -12,7 +12,9 @@
 @import "website/markup.less";
 @import "website/navigation.less";
 @import "website/search.less";
+@import "website/settings.less";
 @import "website/images.less";
+@import "website/theme.less";
 
 * {
   .box-sizing(border-box);
@@ -27,19 +29,33 @@ a {
   text-decoration: none;
 }
 
-html, body {
+html,
+body {
+  font-size: @font-size-base;
   height: 100%;
-}
-
-html {
-  font-size: 62.5%;
 }
 
 body {
   text-rendering: optimizeLegibility;
-  font-smoothing: antialiased;
+  // font-smoothing: antialiased;
   font-family: @font-family-base;
-  font-size: @font-size-base;
   letter-spacing: .2px;
   .text-adjust(100%);
+}
+
+.spoiler {
+  background-color: #2D3143;
+  color: #2D3143;
+}
+
+.spoiler.hover {
+  background-color: white;
+}
+
+.atTitle {
+  display: flex;
+}
+
+.mermaid {
+  text-align: center;
 }

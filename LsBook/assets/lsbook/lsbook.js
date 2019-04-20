@@ -2522,6 +2522,7 @@ function fontsettings() {
 
   // 默认字体
   var FAMILIES = [
+
     {
       config: 'serif',
       text: 'Serif',
@@ -2531,6 +2532,11 @@ function fontsettings() {
       config: 'sans',
       text: 'Sans',
       id: 1
+    },
+    {
+      config: 'ant',
+      text: 'Ant',
+      id: 2
     }
   ];
 
@@ -2603,7 +2609,7 @@ function fontsettings() {
       return family.config == configName;
     })[0];
     // 退回到默认字体系列
-    return (!!configFamily) ? configFamily.id : 0;
+    return (!!configFamily) ? configFamily.id : 2;
   }
 
   // 返回主题配置键的正确id

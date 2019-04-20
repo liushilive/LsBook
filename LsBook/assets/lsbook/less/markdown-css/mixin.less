@@ -1,16 +1,14 @@
-.gitbook-markdown(
-  @md-color: #000,
-  @md-line-height: 1.7,
-  @md-link-color: #4183c4,
+.gitbook-markdown(@md-color: #000,
+@md-line-height: 1.7,
+@md-link-color: #4183c4,
 
-  @md-code-background: #f7f7f7,
-  @md-code-fontsize: 0.85,
+@md-code-background: #f7f7f7,
+@md-code-fontsize: 0.85,
 
-  @md-blockquote-color: #858585,
-  @md-blockquote-border: #e5e5e5,
+@md-blockquote-color: #858585,
+@md-blockquote-border: #e5e5e5,
 
-  @md-h6-color: #777
-) {
+@md-h6-color: #777) {
   // Rate of growth for headings
   @scale: 0.25;
 
@@ -37,29 +35,45 @@
     font-size: inherit;
   }
 
-  & > *:first-child {
+  &>*:first-child {
     margin-top: 0 !important;
   }
-  & > *:last-child {
+
+  &>*:last-child {
     margin-bottom: 0 !important;
   }
 
   /* Printing */
-  pre, code, blockquote, tr, img, table, figure {
+  pre,
+  code,
+  blockquote,
+  tr,
+  img,
+  table,
+  figure {
     page-break-inside: avoid;
   }
 
-  p, h2, h3, h4, h5 {
+  p,
+  h2,
+  h3,
+  h4,
+  h5 {
     orphans: 3;
     widows: 3;
   }
 
-  h1, h2, h3, h4, h5 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
     page-break-after: avoid;
   }
 
   /* Typography */
-  strong, b {
+  strong,
+  b {
     font-weight: bold;
   }
 
@@ -68,7 +82,12 @@
   }
 
   /* Spacing */
-  p, blockquote, ul, ol, dl, table {
+  p,
+  blockquote,
+  ul,
+  ol,
+  dl,
+  table {
     margin-top: 0;
     margin-bottom: @spacing;
   }
@@ -102,7 +121,8 @@
     background-color: #e7e7e7;
     border: none;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       display: table;
       content: " ";
     }
@@ -113,10 +133,16 @@
   }
 
   /* Headings */
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     margin-top: @spacing-lg;
     margin-bottom: @spacing;
     font-weight: bold;
+    position: relative;
   }
 
   h1 {
@@ -145,7 +171,8 @@
   }
 
   /* Code blocks */
-  code, pre {
+  code,
+  pre {
     font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     direction: ltr;
     margin: 0px;
@@ -162,7 +189,7 @@
     margin-bottom: @spacing-lg;
     background: @md-code-background;
 
-    > code {
+    >code {
       display: inline;
       max-width: initial;
       padding: 0;
@@ -173,7 +200,8 @@
       white-space: pre;
       background: transparent;
 
-      &:before, &:after {
+      &:before,
+      &:after {
         content: normal;
       }
     }
@@ -185,7 +213,8 @@
     font-size: @md-code-fontsize * 1em;
     background-color: @md-code-background;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       letter-spacing: -0.2em;
       content: "\00a0";
     }
@@ -199,7 +228,8 @@
     border-spacing: 0;
     overflow: auto;
 
-    td, th {
+    td,
+    th {
       padding: 6px 13px;
       border: 1px solid #ddd;
     }
@@ -219,13 +249,15 @@
   }
 
   /* Lists */
-  ul, ol {
+  ul,
+  ol {
     padding: 0;
     margin: 0;
     margin-bottom: @spacing;
     padding-left: 2em;
 
-    ol, ul {
+    ol,
+    ul {
       margin-top: 0;
       margin-bottom: 0;
     }
@@ -275,14 +307,13 @@
   }
 
   /* Task Lists */
-  .task-list, .contains-task-list {
+  .task-list,
+  .contains-task-list {
     padding: 0;
     padding-left: 0.8em;
     list-style: none;
 
-    .task-list-item {
-
-    }
+    .task-list-item {}
 
     .task-list-item-checkbox {
       margin: 0 0.2em 0.25em 0em;
