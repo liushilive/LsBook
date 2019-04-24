@@ -2748,7 +2748,7 @@ var sidebar = {
   init: function () {
     // 初始化最后一个状态(如果不是mobile)
     if (!platform.isMobile()) {
-      toggleSidebar(sessionStorage.getItem('sidebar'), false);
+      toggleSidebar(sessionStorage.getItem('sidebar') === 'true', false);
     }
 
     // 点击手机上的链接后关闭侧边栏
