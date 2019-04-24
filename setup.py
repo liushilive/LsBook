@@ -1,25 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 import sys
 
 if sys.version_info < (3, 7):
     print(u"The minimum support Python 3.7\n支持最低版本 3.7")
     exit(1)
 
+import os
 from setuptools import find_packages
 from setuptools import setup
-
-try:
-    from pypandoc import convert_file
-
-    __read_md = convert_file('README.md', 'rst')
-except ImportError:
-    print(u"warning: pypandoc module not found, could not convert Markdown to RST\n警告：pypandoc模块没有找到，不能将Markdown转换为RST")
-    __read_md = open('README.md', 'r', encoding="utf-8").read()
-
-__version = "0.1.21"
-__author = "刘士"
+from LsBook import __author__, __version__
 
 L = []
 for path, dir_list, file_list in os.walk("./LsBook/assets"):
@@ -28,10 +18,11 @@ for path, dir_list, file_list in os.walk("./LsBook/assets"):
 
 setup(
     name='LsBook',
-    version=__version,
+    version=__version__,
     description="markdown 静态网页生成器",
-    long_description=__read_md,
-    author=__author,
+    long_description=open('README.md', 'r', encoding="utf-8").read(),
+    long_description_content_type="text/markdown",
+    author=__author__,
     author_email='liushilive@outlook.com',
     url='https://github.com/liushilive/lsbook',
     project_urls={
