@@ -59,7 +59,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
     toc = ""
     if len(toc_tree) > 0:
         toc = "<div id='anchor-navigation-ex-navbar'><i class='fa fa-anchor'></i><ul><li>" \
-              "<span class='title-icon fa fa-hand-o-right'></span><a aria-label class='on-toolbar-action' href=''" \
+              "<span class='title-icon fa fa-hand-o-right'></span><a aria-label class='on-toolbar-action' href='' " \
             f"""onclick="$('.fa.fa-align-justify').parent()[0].click();">{i18n.get('SUMMARY_TOGGLE')}</a></li>"""
 
         for h1Toc in toc_tree:

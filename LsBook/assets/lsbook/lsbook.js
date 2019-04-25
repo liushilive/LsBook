@@ -1892,7 +1892,6 @@ Url.prototype.parse = function (url, parseQueryString, slashesDenoteHost) {
     }
   }
 
-
   // chop off from the tail first.
   var hash = rest.indexOf('#');
   if (hash !== -1) {
@@ -3720,3 +3719,8 @@ function fontsettings() {
 }
 
 fontsettings();
+
+if (location.hash != "") {
+  // 刷新锚记定位
+  setTimeout("getScroller().animate({scrollTop: getElementTopPosition(location.hash)}, 800, 'swing')", 1500);
+}
