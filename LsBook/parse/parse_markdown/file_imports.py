@@ -35,8 +35,22 @@ def process_file_import(book_path, page: str):
 
             with open(os.path.join(book_path, mermaidContent_2), encoding="utf-8") as f:
                 code = f.read()
-
-            code = re.sub(r"(\r\n)|(\n)", '\n' + mermaidContent_1, code)
-            line = f"{mermaidContent_1}```{lang}\n{mermaidContent_1}{code}\n{mermaidContent_1}```"
+            if lang == 'markdown':
+                line = code
+                tag_ = True
+                new_code = ""
+                for line_ in re.split(r"\n|\r\n", code):
+                    if line_.find("```") != -1:
+                        tag = not tag
+                        new_code += line_ + "\n"
+                        continue
+                    # todo 处理引入文件中的图片问题
+                    # 将图片复制到专有图片目录下，并重建图片路径
+                    # 需要记录原有文件路径以及新的文件路径
+                    # 需要区分项目内外文件路径
+                    pass
+            else:
+                code = re.sub(r"(\r\n)|(\n)", '\n' + mermaidContent_1, code)
+                line = f"{mermaidContent_1}```{lang}\n{mermaidContent_1}{code}\n{mermaidContent_1}```"
         new_page += line + "\n"
     return new_page
