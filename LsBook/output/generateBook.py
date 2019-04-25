@@ -1,4 +1,5 @@
 import logging
+import os
 import time
 
 from ..models.book import Book
@@ -6,7 +7,7 @@ from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
 from ..renderer.renderer_html import renderer_html
 from ..renderer.renderer_summary import renderer_summary
-from ..utils.fs import copytree
+from ..utils.fs import copytree, rmdir, copy
 from ..utils.path import process_input_output_path
 
 
@@ -36,12 +37,20 @@ def generateBook(book: Book):
     renderer_summary(book)
 
     logging.info("复制资源到输出目录")
+    rmdir(book.book_output)
     copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json", ".*")
     if not book.base_assets:
+        rmdir(book.assets_path_out)
         copytree(book.assets_path, book.assets_path_out)
 
     logging.info("生成所有页面")
-    renderer_html(book)
+    assets_img = renderer_html(book)
+
+    logging.info("复制外部图片资源到输出目录")
+    img_import_path = os.path.join(book.book_output, "lsbook_import_img")
+    rmdir(img_import_path)
+    while len(assets_img):
+        copy(assets_img.pop(), img_import_path)
 
     logging.info("完成生成")
     end = time.time()

@@ -25,9 +25,15 @@ def mkdir(file_path: str):
 
 
 def copytree(src, dst, *ignore):
-    """复制"""
-    rmdir(dst)
+    """复制目录"""
     shutil.copytree(src, dst, ignore=shutil.ignore_patterns(*ignore))
+
+
+def copy(src, dst):
+    """复制文件到文件夹"""
+    if not os.path.isdir(dst):
+        mkdir(dst)
+    shutil.copy(src, dst)
 
 
 def is_file_exist(root: str, filename):

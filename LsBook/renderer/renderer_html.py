@@ -13,6 +13,7 @@ from ..utils.path import get_pure_path, set_extension
 
 def renderer_html(book: Book):
     search_plus_index = {}
+    assets_img = set()
     P_list = []
     # config
     author = book.config.get("author", "")
@@ -41,10 +42,15 @@ def renderer_html(book: Book):
         logging.debug(f"生成页面：{level, title, href}")
 
     for ret in P_list:
-        search_plus_index.update(ret.result())
+        dict_, assets_img_ = ret.result()
+        search_plus_index.update(dict_)
+        assets_img.update(assets_img_)
+
     # 写入索引
     with open(os.path.join(book.book_output, "search_plus_index.json"), 'w', encoding="utf-8") as f:
         f.write(json.dumps(search_plus_index, ensure_ascii=False))
+
+    return assets_img
 
 
 def _render_html(book_title, title, author, basePath, book_summary,
@@ -54,7 +60,11 @@ def _render_html(book_title, title, author, basePath, book_summary,
     # 解析页面
     base_assets_path = os.path.join(base_assets, basePath) if base_assets else basePath  # 资源路径
 
-    book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox = parse_file(os.path.join(book_path, href))
+    book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox, assets_img = parse_file(
+        os.path.join(book_path, href),
+        basePath
+    )
+
     # 隐藏答案框
     book_page = sectionx(book_page)
     # 组装页内导航
@@ -169,11 +179,9 @@ def _render_html(book_title, title, author, basePath, book_summary,
 
     url = get_pure_path(os.path.relpath(out_path, book_output))
 
-    return {
-        url: {
-            "url": url,
-            "title": title,
-            "keywords": "",
-            "body": body
-        }
-    }
+    return {url: {
+        "url": url,
+        "title": title,
+        "keywords": "",
+        "body": body,
+    }}, assets_img

@@ -1,29 +1,36 @@
 import json
 import logging
 import os
+from queue import Queue
 from concurrent.futures.process import ProcessPoolExecutor
-
+from threading import Thread
 from urllib import request
 
-from LsBook.utils.fs import copytree
+from LsBook.utils.fs import copytree, rmdir
 from .models.book import Book
 from .output.generateBook import generateBook
 from .utils.argument import cmd_argument
 from .utils.logger import log_init
 from . import __version__
 
+q = Queue()
 
-def main():
-    msg = None
+
+def quert_version():
     try:
         r = request.urlopen('https://pypi.org/pypi/lsbook/json', timeout=2)
         version = json.loads(r.read().decode('utf-8')).get("info").get("version")
         for x, y in zip(version.split("."), __version__.split(".")):
             if int(x) > int(y):
-                msg = f"\n当前版本：{__version__}\t已发布最新版本：{version}\t请使用命令\t'pip install -U lsbook'\t升级"
+                q.put(f"\n当前版本：{__version__}\t已发布最新版本：{version}\n请使用命令\t'pip install -U lsbook'\t升级")
                 break
     except:
         pass
+
+
+def main():
+    th = Thread(target=quert_version)
+    th.start()
 
     args = cmd_argument()
     build: bool = args.build
@@ -47,14 +54,15 @@ def main():
         elif assets:
             out = os.path.join(assets, "lsbook")
             logging.info(f"释放资源：{out}")
-            copytree(os.path.join(os.path.dirname(__file__), "assets", "lsbook"),
-                     out)
+            rmdir(out)
+            copytree(os.path.join(os.path.dirname(__file__), "assets", "lsbook"), out)
             logging.info(f"释放资源完毕")
         else:
             logging.warning("lsbook 查看帮助")
     finally:
-        if msg:
-            logging.warning(msg)
+        th.join()
+        while not q.empty():
+            logging.warning(q.get())
 
 
 if __name__ == '__main__':

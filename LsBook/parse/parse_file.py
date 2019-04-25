@@ -6,14 +6,14 @@ from ..parse.parse_markdown.lexers import Block_Lexer, CustomMarkdown, Inline_Le
 from ..renderer.renderer_file import FileRenderer
 
 
-def parse_file(file):
+def parse_file(file, base_path):
     """解析文件"""
     with open(file, encoding="utf-8") as f:
         page = f.read()
     dirname = os.path.dirname(file)
 
     # 处理引入文件
-    page = process_file_import(dirname, page)
+    page, assets_img = process_file_import(dirname, page, base_path)
 
     renderer = FileRenderer()
     inline = Inline_Lexer(renderer)
@@ -26,7 +26,8 @@ def parse_file(file):
 
     page = markdown(page)
 
-    return page, renderer.toc_tree, renderer.tag_katex, renderer.tag_mermaid, renderer.tag_prism, renderer.tag_lightbox
+    return (page, renderer.toc_tree, renderer.tag_katex, renderer.tag_mermaid,
+            renderer.tag_prism, renderer.tag_lightbox, assets_img)
 
 
 def sectionx(page, count=0):
