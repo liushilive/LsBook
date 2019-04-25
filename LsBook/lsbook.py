@@ -1,9 +1,11 @@
 import json
 import logging
+import os
 from concurrent.futures.process import ProcessPoolExecutor
 
 from urllib import request
 
+from LsBook.utils.fs import copytree
 from .models.book import Book
 from .output.generateBook import generateBook
 from .utils.argument import cmd_argument
@@ -28,7 +30,8 @@ def main():
     book_path: str = args.book
     book_output: str = args.output
     log_level: str = args.log
-
+    base_assets = args.base_assets
+    assets = args.assets
     log_init(log_level)
 
     logging.debug(f"入参：{args}")
@@ -37,10 +40,16 @@ def main():
         if build:
             logging.info("开始生成书籍")
             pool = ProcessPoolExecutor()
-            book = Book(book_path, book_output, pool)
+            book = Book(book_path, book_output, pool, base_assets)
 
             # 生成书籍
             generateBook(book)
+        elif assets:
+            out = os.path.join(assets, "lsbook")
+            logging.info(f"释放资源：{out}")
+            copytree(os.path.join(os.path.dirname(__file__), "assets", "lsbook"),
+                     out)
+            logging.info(f"释放资源完毕")
         else:
             logging.warning("lsbook 查看帮助")
     finally:

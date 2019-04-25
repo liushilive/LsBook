@@ -114,3 +114,4 @@ dmypy.json
 .pyre/
 
 tests/_book
+tests/lsbook

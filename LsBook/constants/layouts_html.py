@@ -4,7 +4,6 @@ _html_root_map = {
     "head": "头",
     "body": "主体",
     "lang": "语言",
-    "basePath": "本页面相对于根的相对路径",
     "js": "js"
 }
 
@@ -21,7 +20,7 @@ ${js}
 _html_head_map = {
     "title": "标题",
     "author": "作者",
-    "basePath": "本页面相对于根的相对路径",
+    "base_assets_path": "本页面相对于根的资源相对路径",
     "next_relative_path": "分页：下一页路径，相对于本文件的相对路径",
     "css": "css"
 }
@@ -37,30 +36,30 @@ ${css}
 <meta content="width=device-width, initial-scale=1, user-scalable=no" name="viewport">
 <meta content="yes" name="apple-mobile-web-app-capable">
 <meta content="black" name="apple-mobile-web-app-status-bar-style">
-<link href="${basePath}/lsbook/images/apple-touch-icon-precomposed-152.png"
+<link href="${base_assets_path}/lsbook/images/apple-touch-icon-precomposed-152.png"
       rel="apple-touch-icon-precomposed" sizes="152x152">
-<link href="${basePath}/lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+<link href="${base_assets_path}/lsbook/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 <!--分页-->
 <link href="${next_relative_path}" rel="next"/>
 """)
 
 _css_map = {
-    "basePath": "本页面相对于根的相对路径",
+    "base_assets_path": "本页面相对于根的资源相对路径",
 }
 css = Template("""
-<link href="${basePath}/lsbook/less/website.css" rel="stylesheet">
-<link href="${basePath}/lsbook/katex/katex.min.css" rel="stylesheet">
-<link href="${basePath}/lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
+<link href="${base_assets_path}/lsbook/less/website.css" rel="stylesheet">
+<link href="${base_assets_path}/lsbook/katex/katex.min.css" rel="stylesheet">
+<link href="${base_assets_path}/lsbook/lightbox/css/lightbox.min.css" rel="stylesheet">
 """)
 
 _js_map = {
-    "basePath": "本页面相对于根的相对路径",
+    "base_assets_path": "本页面相对于根的资源相对路径",
 }
 js = Template("""
-<script src="${basePath}/lsbook/jquery-3.3.1.min.js"></script>
-<script charset="UTF-8" src="${basePath}/lsbook/jquery_mar/jquery.mark.js"></script>
-<script src="${basePath}/lsbook/lightbox/js/lightbox.min.js"></script>
-<script src="${basePath}/lsbook/lsbook.min.js"></script>
+<script src="${base_assets_path}/lsbook/jquery-3.3.1.min.js"></script>
+<script charset="UTF-8" src="${base_assets_path}/lsbook/jquery_mar/jquery.mark.js"></script>
+<script src="${base_assets_path}/lsbook/lightbox/js/lightbox.min.js"></script>
+<script src="${base_assets_path}/lsbook/lsbook.min.js"></script>
 """)
 
 _html_body_map = {

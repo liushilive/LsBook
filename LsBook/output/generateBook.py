@@ -37,7 +37,8 @@ def generateBook(book: Book):
 
     logging.info("复制资源到输出目录")
     copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json", ".*")
-    copytree(book.assets_path, book.assets_path_out)
+    if not book.base_assets:
+        copytree(book.assets_path, book.assets_path_out)
 
     logging.info("生成所有页面")
     renderer_html(book)

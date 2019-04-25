@@ -2,7 +2,7 @@ from concurrent.futures.process import ProcessPoolExecutor
 
 
 class Book(object):
-    def __init__(self, book_path, book_output, pool: ProcessPoolExecutor):
+    def __init__(self, book_path, book_output, pool: ProcessPoolExecutor, base_assets):
         self._book_path = book_path
         self._book_output = book_output
         self._summary_path = "SUMMARY.md"
@@ -14,6 +14,7 @@ class Book(object):
         self._assets_path_out = "lsbook"
         self._i18n = {}
         self.pool = pool
+        self._base_assets = base_assets
 
     @property
     def book_path(self):
@@ -114,3 +115,7 @@ class Book(object):
     def i18n(self, lang):
         """语言字符"""
         self._i18n = lang
+
+    @property
+    def base_assets(self):
+        return self._base_assets

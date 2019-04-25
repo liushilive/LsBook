@@ -34,7 +34,8 @@ def renderer_html(book: Book):
         P_list.append(
             book.pool.submit(_render_html, book_title, title, author, basePath, book_summary,
                              prev_title, prev_relative_path, next_title, next_relative_path,
-                             href, book.book_path, book.book_output, language, book.i18n, github_url
+                             href, book.book_path, book.book_output, language, book.i18n, github_url,
+                             book.base_assets
                              )
         )
         logging.debug(f"生成页面：{level, title, href}")
@@ -48,9 +49,10 @@ def renderer_html(book: Book):
 
 def _render_html(book_title, title, author, basePath, book_summary,
                  prev_title, prev_relative_path, next_title, next_relative_path, href, book_path, book_output,
-                 language, i18n, github_url):
+                 language, i18n, github_url, base_assets):
     """生产HTML，返回索引"""
     # 解析页面
+    base_assets_path = os.path.join(base_assets, basePath) if base_assets else basePath  # 资源路径
 
     book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox = parse_file(os.path.join(book_path, href))
     # 隐藏答案框
@@ -90,15 +92,15 @@ def _render_html(book_title, title, author, basePath, book_summary,
     # js
     _js = {}
     if tag_katex:
-        _js["katex"] = [f"{basePath}/lsbook/katex/katex.min.js",
-                        f"{basePath}/lsbook/katex/contrib/auto-render.min.js"]
+        _js["katex"] = [f"{base_assets_path}/lsbook/katex/katex.min.js",
+                        f"{base_assets_path}/lsbook/katex/contrib/auto-render.min.js"]
     if tag_lightbox:
         pass
     if tag_mermaid:
-        _js["mermaid"] = [f"{basePath}/lsbook/mermaid/mermaid.min.js"]
+        _js["mermaid"] = [f"{base_assets_path}/lsbook/mermaid/mermaid.min.js"]
     if tag_prism:
-        _js["prism"] = [f"{basePath}/lsbook/prismjs/clipboard.min.js",
-                        f"{basePath}/lsbook/prismjs/prism.js"]
+        _js["prism"] = [f"{base_assets_path}/lsbook/prismjs/clipboard.min.js",
+                        f"{base_assets_path}/lsbook/prismjs/prism.js"]
 
     # 上下页
     previous_page_link = prev_relative_path != "" and previous_page_link_5_1.substitute(
@@ -139,9 +141,9 @@ def _render_html(book_title, title, author, basePath, book_summary,
     head = html_head_1.substitute(
         title=book_title,
         author=author,
-        basePath=basePath,
+        base_assets_path=base_assets_path,
         next_relative_path=next_relative_path,
-        css=css.substitute(basePath=basePath)
+        css=css.substitute(base_assets_path=base_assets_path)
     )
 
     # 组装整体
@@ -149,8 +151,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
         head=head,
         body=body,
         lang=language,
-        basePath=basePath,
-        js=js.substitute(basePath=basePath)
+        js=js.substitute(base_assets_path=base_assets_path)
     )
 
     out_path = os.path.join(book_output, href)
