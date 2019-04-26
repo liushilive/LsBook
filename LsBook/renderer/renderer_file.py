@@ -121,11 +121,8 @@ class FileRenderer(mistune.Renderer):
         self._img_id += 1
         _img_id = self._img_id
 
-        figure = f'<figure id="fig{_img_id}">' \
-            f'<a href="{src}" data-lightbox="{_img_id}">' \
-            f'<img src="{src}" alt="{text}" title="{title if title else text}">' \
-            f'</a>' \
-            f'<figcaption>图：{text}</figcaption>' \
-            f'</figure>'
+        figure = f"""<a data-lightbox="{_img_id}" href="{src}">
+  <img alt="{text}" src="{src}" title="{title if title else text}">
+</a>"""
 
         return figure
