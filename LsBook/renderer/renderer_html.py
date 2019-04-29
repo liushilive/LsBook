@@ -58,7 +58,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
                  language, i18n, github_url, base_assets):
     """生产HTML，返回索引"""
     # 解析页面
-    base_assets_path = os.path.join(base_assets, basePath) if base_assets else basePath  # 资源路径
+    base_assets_path = os.path.join(basePath, base_assets) if base_assets else basePath  # 资源路径
 
     book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox, assets_img = parse_file(
         os.path.join(book_path, href),
