@@ -149,7 +149,7 @@ def _render_html(book_title, title, author, basePath, book_summary,
 
     # 组装头
     head = html_head_1.substitute(
-        title=book_title,
+        title=f"{book_title} - {title}",
         author=author,
         base_assets_path=base_assets_path,
         next_relative_path=next_relative_path,
