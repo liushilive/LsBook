@@ -3198,6 +3198,17 @@ lsbook.events.bind('page.change', function () {
 lsbook.events.bind('page.change', function () {
   function _init() {
     if (typeof Prism != "undefined") {
+      Prism.plugins.NormalizeWhitespace.setDefaults({
+        'remove-trailing': true,
+        'remove-indent': true,
+        'left-trim': false,
+        'right-trim': true,
+        'remove-initial-line-feed': true,
+        /*'break-lines': 80,
+        'indent': 2,
+        'tabs-to-spaces': 4,
+        'spaces-to-tabs': 4*/
+      });
       Prism.highlightAll();
     }
   }
