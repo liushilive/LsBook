@@ -81,7 +81,7 @@ html_body_2 = Template("""<div class="book-summary">
             ${book_summary}
             <li class="divider"></li>
             <li>
-                <a class="lsbook-link" href="https://github.com/liushilive/ls_lsbook" target="blank">
+                <a class="lsbook-link" href="https://github.com/liushilive/lsbook" target="blank">
                     ${LsBook_LINK}
                 </a>
             </li>
