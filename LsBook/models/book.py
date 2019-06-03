@@ -15,6 +15,7 @@ class Book(object):
         self._i18n = {}
         self.pool = pool
         self._base_assets = base_assets
+        self._book_js = ""
 
     @property
     def book_path(self):
@@ -115,6 +116,16 @@ class Book(object):
     def i18n(self, lang):
         """语言字符"""
         self._i18n = lang
+
+    @property
+    def book_js(self):
+        """自定义 js"""
+        return self._book_js
+
+    @book_js.setter
+    def book_js(self, book_js):
+        """自定义 js"""
+        self._book_js = book_js
 
     @property
     def base_assets(self):

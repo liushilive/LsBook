@@ -36,7 +36,7 @@ def renderer_html(book: Book):
             book.pool.submit(_render_html, book_title, title, author, basePath, book_summary,
                              prev_title, prev_relative_path, next_title, next_relative_path,
                              href, book.book_path, book.book_output, language, book.i18n, github_url,
-                             book.base_assets
+                             book.base_assets, book.book_js
                              )
         )
         logging.debug(f"生成页面：{level, title, href}")
@@ -55,7 +55,7 @@ def renderer_html(book: Book):
 
 def _render_html(book_title, title, author, basePath, book_summary,
                  prev_title, prev_relative_path, next_title, next_relative_path, href, book_path, book_output,
-                 language, i18n, github_url, base_assets):
+                 language, i18n, github_url, base_assets, book_js):
     """生产HTML，返回索引"""
     # 解析页面
     base_assets_path = os.path.join(basePath, base_assets) if base_assets else basePath  # 资源路径
@@ -92,12 +92,14 @@ def _render_html(book_title, title, author, basePath, book_summary,
 
         toc += "</ul></div><a href='#" + toc_tree[0]['url'] \
                + "' id='anchorNavigationExGoTop'><i class='fa fa-arrow-up'></i></a>"
-
-    footer = f'<footer class="page-footer"><span class="copyright">© {time.localtime().tm_year} {author}. ' \
-        'All rights reserved.</span><span class="footer-modification">' \
-        '<span id="busuanzi_container_site_uv" style="display:none">本站访客数 <span id="busuanzi_value_site_uv">' \
-        '</span> 人次</span></span></footer>' \
-        '<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>'
+    footer = f"""<footer class="page-footer"><span class="copyright">© {time.localtime().tm_year} {author}. 
+All rights reserved.</span><span class="footer-modification">
+<span id="busuanzi_container_site_uv" style="display:none">本站访客数 <span id="busuanzi_value_site_uv">
+</span> 人次</span></span></footer>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script>
+{book_js}
+</script>"""
 
     # js
     _js = {}

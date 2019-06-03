@@ -7,7 +7,7 @@ from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
 from ..renderer.renderer_html import renderer_html
 from ..renderer.renderer_summary import renderer_summary
-from ..utils.fs import copytree, rmdir, copy
+from ..utils.fs import copytree, rmdir, copy, is_file_exist
 from ..utils.path import process_input_output_path
 
 
@@ -42,6 +42,11 @@ def generateBook(book: Book):
     if not book.base_assets:
         rmdir(book.assets_path_out)
         copytree(book.assets_path, book.assets_path_out)
+
+    # 读取自定义 js
+    if is_file_exist(book.book_path, "book.js"):
+        with open(os.path.join(book.book_path, "book.js"), encoding="utf-8") as f:
+            book.book_js = f.read()
 
     logging.info("生成所有页面")
     assets_img = renderer_html(book)

@@ -1,7 +1,6 @@
 /*
-    Search input and results, works in sync with the "search" plugin
+    Search input and results
 */
-
 #book-search-input {
   padding: 6px;
   background: transparent;
@@ -45,6 +44,7 @@
         padding-bottom: 0.5rem;
 
         /* Highlight results */
+
         p em {
           background-color: rgba(255, 220, 0, 0.4);
           font-style: normal;
@@ -94,7 +94,10 @@
   &.no-results {
     .search-results {
 
-      .no-results,
+      .no-results {
+        display: block;
+      }
+
       .has-results {
         display: none;
       }
