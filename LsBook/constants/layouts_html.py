@@ -22,7 +22,8 @@ _html_head_map = {
     "author": "作者",
     "base_assets_path": "本页面相对于根的资源相对路径",
     "next_relative_path": "分页：下一页路径，相对于本文件的相对路径",
-    "css": "css"
+    "css": "css",
+    "description": "页面描述"
 }
 html_head_1 = Template("""
 <meta charset="UTF-8">

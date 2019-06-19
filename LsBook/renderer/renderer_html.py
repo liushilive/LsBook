@@ -155,7 +155,8 @@ All rights reserved.</span><span class="footer-modification">
         author=author,
         base_assets_path=base_assets_path,
         next_relative_path=next_relative_path,
-        css=css.substitute(base_assets_path=base_assets_path)
+        css=css.substitute(base_assets_path=base_assets_path),
+        description=title
     )
 
     # 组装整体
