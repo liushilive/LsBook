@@ -41,7 +41,13 @@ def process_file_import(book_path: str, page: str, base_path: str):
 
 
 def read_code(prefix_, lang_, import_file_):
-    """"""
+    """代码文件引入
+
+    :param prefix_: 前缀
+    :param lang_: 语言
+    :param import_file_: 文件
+    :return:
+    """
     with open(import_file_, encoding="utf-8") as f:
         code = f.read()
     code = re.sub(r"(\r\n)|(\n)", '\n' + prefix_, code)

@@ -51,6 +51,7 @@ class Block_Lexer(BlockLexer):
         super(Block_Lexer, self).__init__(*args, **kwargs)
         self.rules.katex_in_block = re.compile(r'^\n*\$\$(.*?)\$\$\n', flags=re.S)
         self.default_rules.insert(0, 'katex_in_block')
+        self.list_rules = list(self.list_rules).insert(0, 'katex_in_block')
 
     def parse_katex_in_block(self, m):
         self.tokens.append({
