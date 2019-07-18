@@ -158,10 +158,10 @@ lang_dict = {
         "awk"
     ],
     "bat": [
-        "batchfile"
+        "batch"
     ],
     "cmd": [
-        "batchfile"
+        "batch"
     ],
     "befunge": [
         "befunge"
@@ -484,7 +484,7 @@ lang_dict = {
         "diff"
     ],
     "dockerfile": [
-        "dockerfile"
+        "docker"
     ],
     "djs": [
         "dogescript"

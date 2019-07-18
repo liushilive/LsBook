@@ -1,5 +1,7 @@
 import mistune
 
+from ..constants.code_extensions import Extensions
+
 
 class FileRenderer(mistune.Renderer):
     def __init__(self):
@@ -89,12 +91,15 @@ class FileRenderer(mistune.Renderer):
         :param code: text content of the code block.
         :param lang: language of the given code.
         """
+        lang = lang and lang.lower()
         # mermaid
-        if lang and lang.lower() == "mermaid":
+        if lang == "mermaid":
             self.tag_mermaid = True
             return f'\n<div class="mermaid">\n{code}\n</div>\n'
         self.tag_prism = True
         # code
+        lang = Extensions.get(lang, lang)
+
         code = code.rstrip('\n')
         code = mistune.escape(code, quote=True, smart_amp=False)
         return f'<pre class="line-numbers"><code class="lang-{lang if lang else "language-markup"}">{code}\n</code></pre>\n'
