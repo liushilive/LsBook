@@ -1,4 +1,6 @@
 Extensions = {
+    'csv': 'vim',
+    'vi': 'vim',
     'js': 'javascript',
     'py': 'python',
     'rb': 'ruby',
