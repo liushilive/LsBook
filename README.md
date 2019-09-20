@@ -84,15 +84,15 @@ lsbook -b --log debug <book> <output>
 >可以使用标签定义一个新的片段：（默认隐藏），不支持嵌套
 
 ```html
-<!--sec data-title="点我隐藏答案" data-show=true ces-->
+<!--sec title="点我隐藏答案" show=true ces-->
 B
 <!--endsec-->
 
-<!--sec data-title="点我看分析" data-id="section2" data-show=false ces-->
+<!--sec title="点我看分析" show=false ces-->
 CPU
 <!--endsec-->
 
-<!--sec data-title="点我看分析" ces-->
+<!--sec title="点我看分析" ces-->
 C
 <!--endsec-->
 ```

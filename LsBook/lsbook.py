@@ -6,11 +6,11 @@ from threading import Thread
 from urllib import request
 
 from LsBook.utils.fs import copytree, rmdir
+from . import __version__
 from .models.book import Book
 from .output.generateBook import generateBook
 from .utils.argument import cmd_argument
 from .utils.logger import log_init
-from . import __version__
 
 msg = None
 
@@ -30,9 +30,10 @@ def quert_version():
         pass
 
 
-def main():
+def main(debug=False):
     th = Thread(target=quert_version)
-    th.start()
+    if not debug:
+        th.start()
 
     args = cmd_argument()
     build: bool = args.build
@@ -62,9 +63,10 @@ def main():
         else:
             logging.warning("lsbook 查看帮助")
     finally:
-        th.join()
-        if msg:
-            logging.warning(msg)
+        if not debug:
+            th.join()
+            if msg:
+                logging.warning(msg)
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@ setup(
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
-    install_requires=['mistune', ],
+    install_requires=['mistletoe', ],
     entry_points={
         'console_scripts': [
             'lsbook = LsBook.lsbook:main',

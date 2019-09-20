@@ -8,6 +8,7 @@ Extensions = {
     'psm1': 'powershell',
     'sh': 'bash',
     'bat': 'batch',
+    'cmd': 'batch',
     'h': 'c',
     'tex': 'latex'
 }
