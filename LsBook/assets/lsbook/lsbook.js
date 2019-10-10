@@ -3333,7 +3333,7 @@ function search() {
           url: page,
           title: store.title,
           body: store.body.substr(Math.max(0, index - 50), MAX_DESCRIPTION_SIZE)
-            // .replace(/^[^\s,.]+./, '').replace(/(..*)[\s,.].*/, '$1') // prevent break word
+          // .replace(/^[^\s,.]+./, '').replace(/(..*)[\s,.].*/, '$1') // prevent break word
             .replace(keywordRe, '<span class="search-highlight-keyword">$1</span>')
         });
       }
@@ -3547,6 +3547,11 @@ function fontsettings() {
       config: 'ant',
       text: 'Ant',
       id: 2
+    },
+    {
+      config: 'ym',
+      text: 'YM',
+      id: 3
     }
   ];
 
