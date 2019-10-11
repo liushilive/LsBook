@@ -20,20 +20,39 @@
 
     .transition(top 0.5s ease);
 
+    > ul.articles {
+      padding-left: unset;
+    }
+
+    hr {
+      margin-left: 20px;
+    }
+
     .chapter {
-      >.articles {
+      > .articles {
         overflow: hidden;
         max-height: 0px;
       }
 
-      &.expanded>.articles {
-        max-height: 9999px;
+      hr {
+        display: none;
+      }
+
+      &.expanded {
+        > .articles {
+          max-height: 9999px;
+        }
+
+        >hr {
+          margin-left: 40px;
+          display: block;
+        }
       }
     }
 
     .exc-trigger {
       position: absolute;
-      left: 12px;
+      left: 5px;
       top: 12px;
 
       &:before {
@@ -42,9 +61,8 @@
     }
 
     .expanded {
-
-      >a,
-      >span {
+      > a,
+      > span {
         .exc-trigger:before {
           content: "\f107";
         }
@@ -78,7 +96,7 @@
       }
 
       &.done {
-        >a {
+        > a {
           color: @sidebar-link-completed;
           font-weight: @sidebar-link-completed-weight;
 
@@ -92,7 +110,7 @@
       span {
         display: block;
         padding: @sidebar-link-padding-v @sidebar-link-padding-h;
-        padding-left: 30px;
+        padding-left: 20px;
         border-bottom: none;
         color: @sidebar-link-color;
         background: @sidebar-link-background;
@@ -110,7 +128,7 @@
         outline: none;
       }
 
-      &.active>a {
+      &.active > a {
         color: @sidebar-link-hover-color;
         background: @sidebar-link-hover-background;
         text-decoration: none;
@@ -119,6 +137,10 @@
       ul {
         padding-left: @sidebar-nested-padding;
       }
+    }
+
+    a > b {
+      padding-right: 5px;
     }
   }
 
@@ -168,7 +190,7 @@
             color: @sidebar-icon-color-1;
           }
 
-          &.done>a {
+          &.done > a {
             color: @sidebar-link-completed-1;
           }
 
@@ -179,7 +201,7 @@
             font-weight: @sidebar-link-weight-1;
           }
 
-          &.active>a,
+          &.active > a,
           a:hover {
             color: @sidebar-link-hover-color-1;
             background: @sidebar-link-hover-background-1;
@@ -216,7 +238,7 @@
             color: @sidebar-icon-color-2;
           }
 
-          &.done>a {
+          &.done > a {
             color: @sidebar-link-completed-2;
           }
 
@@ -227,7 +249,7 @@
             font-weight: @sidebar-link-weight-2;
           }
 
-          &.active>a,
+          &.active > a,
           a:hover {
             color: @sidebar-link-hover-color-2;
             background: @sidebar-link-hover-background-2;

@@ -7,8 +7,7 @@ class Book(object):
         self._book_output = book_output
         self._summary_path = "SUMMARY.md"
         self._summary_json = {}
-        self._summary_level_list = []
-        self._summary_classify_list = {}
+        self._summary_classify_list = []
         self._config = {}
         self._assets_path = ["assets", "lsbook"]
         self._assets_path_out = "lsbook"
@@ -88,24 +87,9 @@ class Book(object):
         self._assets_path_out = path
 
     @property
-    def summary_level_list(self):
-        """目录层次列表"""
-        return self._summary_level_list
-
-    @summary_level_list.setter
-    def summary_level_list(self, item):
-        """目录层次列表"""
-        self._summary_level_list.append(item)
-
-    @property
     def summary_classify_list(self):
         """目录分类后结构"""
         return self._summary_classify_list
-
-    # @summary_classify_list.setter
-    # def summary_classify_list(self, item):
-    #     """目录分类后结构"""
-    #     self._summary_classify_list = item
 
     @property
     def i18n(self):

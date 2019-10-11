@@ -3193,6 +3193,14 @@ lsbook.events.bind('page.change', function () {
 });
 
 /**
+ * 左侧菜单滚动
+ */
+lsbook.events.bind('page.change', function () {
+  // $('.active')[0].scrollIntoView({block: 'center'});
+  setTimeout("$('.active')[0].scrollIntoView({block: 'center'});", 500);
+});
+
+/**
  * Prism渲染
  */
 lsbook.events.bind('page.change', function () {
@@ -3736,7 +3744,7 @@ function fontsettings() {
 
 fontsettings();
 
-if (location.hash != "") {
+if ("" !== location.hash) {
   // 刷新锚记定位
   setTimeout("getScroller().animate({scrollTop: getElementTopPosition(location.hash)}, 800, 'swing')", 1500);
 }

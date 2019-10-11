@@ -21,7 +21,7 @@ def renderer_html(book: Book):
     language = book.config.get("language", "")
     github_url = book.config.get("github_url", "")
 
-    for item in book.summary_classify_list.values():
+    for item in book.summary_classify_list:
         title = item.get("title", "")
         level = item.get("level", "")
         prev_title = item.get("prev_title", "")

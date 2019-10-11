@@ -6,7 +6,6 @@ from ..models.book import Book
 from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
 from ..renderer.renderer_html import renderer_html
-from ..renderer.renderer_summary import renderer_summary
 from ..utils.fs import copytree, rmdir, copy, is_file_exist
 from ..utils.path import process_input_output_path
 
@@ -32,9 +31,6 @@ def generateBook(book: Book):
 
     # logging.info("验证 readme")
     # readme_exist(book)
-
-    logging.info("生成所有页面的目录结构")
-    renderer_summary(book)
 
     logging.info("复制资源到输出目录")
     rmdir(book.book_output)

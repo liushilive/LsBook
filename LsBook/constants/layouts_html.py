@@ -117,30 +117,26 @@ _book_summary_map = {
 
 book_summary_3_head = Template("""<li class="header">${title}</li>""")
 
-book_summary_3_chaptere = Template("""<li class="chapter" data-level="${data_level}" data-path="${data_path}.html">
+book_summary_3_chaptere = Template("""<ul class="articles"><li class="chapter" data-level="${data_level}" data-path="${data_path}.html">
     <a href="${data_path}.html"><b>${data_level}.</b> ${title}</a>
-</li>
+</li></ul>
 """)
 
-book_summary_3_sub_chaptere = Template("""<li class="chapter" data-level="${data_level}" data-path="${data_path}.html">
+book_summary_3_sub_chaptere = Template("""<ul class="articles"><li class="chapter" data-level="${data_level}" data-path="${data_path}.html">
     <a href="${data_path}.html"><b>${data_level}.</b> ${title}</a>
-    <ul class="articles">
     ${chapter}
-    </ul>
-</li>
+</li></ul>
 """)
 
-book_summary_3_chapter_active = Template("""<li class="chapter active" data-level="${data_level}" data-path="${data_path}.html">
+book_summary_3_chapter_active = Template("""<ul class="articles"><li class="chapter active" data-level="${data_level}" data-path="${data_path}.html">
     <a href="${data_path}.html"><b>${data_level}.</b> ${title}</a>
-</li>
+</li></ul>
 """)
 
-book_summary_3_sub_chapter_active = Template("""<li class="chapter active" data-level="${data_level}" data-path="${data_path}.html">
+book_summary_3_sub_chapter_active = Template("""<ul class="articles"><li class="chapter active" data-level="${data_level}" data-path="${data_path}.html">
     <a href="${data_path}.html"><b>${data_level}.</b> ${title}</a>
-    <ul class="articles">
     ${chapter}
-    </ul>
-</li>
+</li></ul>
 """)
 
 _book_body_map = {

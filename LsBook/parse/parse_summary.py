@@ -1,16 +1,22 @@
-import json
+import logging
 import os
 import re
+import time
+from xml.etree import ElementTree
 
-import mistune
+import mistletoe
 
+from LsBook.utils.path import get_abspath
 from ..models.book import Book
-from ..renderer.renderer_summary import SummaryRenderer
-from ..utils.error import error, file_not_found_error
+from ..renderer.renderer_summary import SummaryRenderer, renderer_summary
+from ..utils.error import file_not_found_error
 
 count_sum = 0
 data_level = []
 iter_count = 0
+_head_count = 0
+_tree_summary = ElementTree.Element("ul")
+_tree_summary.set("class", "summary")
 
 
 def parse_summary(book: Book):
@@ -20,60 +26,27 @@ def parse_summary(book: Book):
     with open(book.summary_path, encoding="utf-8") as f:
         summary_dict = []
         page = f.read()
-        page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
-        page = re.sub(r"^(?!\s*\*|#).*", "", page, flags=re.M)
-        page = re.sub(r"\s*[\n|\r\n]+", r"\n\n", page)
-        summary = SummaryRenderer()
-        md = mistune.Markdown(renderer=summary)
-        md.parse(page)
-        count = 0
-        for c1 in summary.toc_tree:
-            if count == 0:
-                c1[0] = c1[0] if c1[0] else book.i18n.get("SUMMARY")
-            count += 1
-            count_sum += 1
-            iter_count = 0
-            data_level = data_level[:iter_count]
-            data_level.append(str(count))
+    page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
 
-            header_text, sub = c1
+    # 生成目录结构
+    with SummaryRenderer() as renderer:
+        renderer.render(mistletoe.Document(page))
 
-            summary_dict.append({"title": header_text, "articles": [], "data_level": f"{'.'.join(data_level)}"})
+    summary_classify_list = []
+    P_list = []
+    start = time.time()
+    for _index, _item in renderer.summary.items():
+        # 根据目录结构为每个页面生成目录
+        # 计算相对路径
+        # summary_classify = renderer_summary(book, _item, _index, page)
+        P_list.append(book.pool.submit(renderer_summary, book.book_output, _item, _index, page))
 
-            if len(sub) == 0:
-                continue
-            try:
-                data_json = json.loads(sub.replace("][", "],["), encoding="utf-8")
-                summary_dict[-1]["articles"] = _iter_list(book, data_json)
-            except Exception as e:
-                error(f"解析目录异常，请检查目录结构：\n{sub}\n{e}")
-    book.summary = summary_dict
+    for ret in P_list:
+        summary_classify_list.append(ret.result())
 
-
-def _iter_list(book, data_json):
-    """迭代列表项
-
-    :return:
-    """
-    global count_sum, iter_count, data_level
-    sub = []
-    count = 0
-    iter_count += 1
-    for item in data_json:
-        if type(item[0]) is str:
-            count_sum += 1
-            count += 1
-            data_level = data_level[:iter_count]
-            data_level.append(str(count))
-            data_level_str = '.'.join(data_level)
-            book.summary_level_list = [data_level_str, item[0], item[2]]
-            sub.append({"title": item[2], "ref": item[0], "articles": [], "data_level": f"{data_level_str}"})
-            pass
-        else:
-            sub[-1]["articles"] = _iter_list(book, item)
-            pass
-    iter_count -= 1
-    return sub
+    end = time.time()
+    logging.info(f"生成 {len(summary_classify_list)} 个目录结构，耗时：{end - start}s")
+    book._summary_classify_list = summary_classify_list
 
 
 def is_summary_exist(book: Book):
@@ -82,7 +55,7 @@ def is_summary_exist(book: Book):
     :param book:
     :return:
     """
-    book_summary = os.path.join(book.book_path, "SUMMARY.md")
+    book_summary = get_abspath(book.book_path, "SUMMARY.md")
     if not os.path.isfile(book_summary):
         file_not_found_error(book_summary, "必须存在目录，请检查文件名称是否准确：SUMMARY.md")
 

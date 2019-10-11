@@ -1,158 +1,178 @@
 import logging
 import os
-import time
 
-import mistune
+import mistletoe
 
-from ..constants.layouts_html import book_summary_3_head, book_summary_3_chapter_active, \
-    book_summary_3_chaptere, book_summary_3_sub_chapter_active, book_summary_3_sub_chaptere
-from ..models.book import Book
 from ..utils.path import get_pure_path, get_filename_not_ext
 
 
-class SummaryRenderer(mistune.Renderer):
-    def __init__(self):
-        super().__init__()
-        self.toc_tree = []
+class SummaryRenderer(mistletoe.HTMLRenderer):
+    def __init__(self, *extras, book_output=None, current_path=None, current_data_level=None, index=None):
+        """目录生成器
 
-    def link(self, link, title, text):
-        """Rendering a given link with content and title.
-
-        :param link: href link for ``<a>`` tag.
-        :param title: title content for `title` attribute.
-        :param text: text content for description.
+        :param extras:
+        :param book_output: 书籍输出目录
+        :param current_path: 当前文件路径
+        :param current_data_level: 当前文件级别
+        :param index: 本页所处索引位置
         """
-        link = mistune.escape_link(link)
-        return f'["{link}","{title}","{text}"]'
+        super().__init__(*extras)
+        self._data_level = []
+        self._heading_count = 0
+        self._iter_count = {}
+        self._iter_index = 0
+        # 目录结构
+        self.summary = {}
+        self._count = 0
+        # 当前文件路径
+        self._current_path = current_path
+        # 输出路径
+        self._book_output = book_output
+        # 当前页面级别
+        self._current_data_level = current_data_level
+        # 本页所处索引位置
+        self._index = index
+        # 目录字典：记录整个目录信息，包括上下页
+        self.summary_dict = {}
+        # 上一页标题
+        self.prev_title = ""
+        # 上一页相对路径：相对本页面
+        self.prev_relative_path = ""
+        # 下一页标题
+        self.next_title = ""
+        # 下一页相对路径：相对本页面
+        self.next_relative_path = ""
+        # 本页面相对于根的相对路径
+        self.basePath = "."
+        self._target = []
 
-    def paragraph(self, text):
-        """Rendering paragraph tags. Like ``<p>``."""
-        return text.strip(' ')
+    @property
+    def data_level(self):
+        tmp = [str(x) for x in self._data_level]
+        return ".".join(tmp)
 
-    def header(self, text, level, raw=None):
-        """Rendering header/heading tags like ``<h1>`` ``<h2>``.
+    def render_link(self, token):
+        template = '<a href="{target}"><b>{data_level}.</b>{inner}</a>'
+        inner = self.render_inner(token)
 
-        :param text: rendered text content for the header.
-        :param level: a number for the header level, for example: 1.
-        :param raw: raw text content of the header.
-        """
-        self.toc_tree.append([text, []])
-        return f'{{"header":["{text}"]}}'
+        target = token.target
+        if token.target[-2:].lower() == "md":
+            self._count += 1
+            if self._current_path:
+                # 计算相对路径
+                target = token.target
+                target = get_relpath(book_output=self._book_output, ref=target,
+                                     current_ref=self._current_path) + ".html"
+                # 通过当前页码计数记录前后页
+                if self._index == self._count:
+                    self.basePath = get_relative_path(self._book_output, self._current_path)
+                elif self._index - 1 == self._count:
+                    self.prev_title = inner
+                    self.prev_relative_path = target
+                elif self._index + 1 == self._count:
+                    self.next_title = inner
+                    self.next_relative_path = target
+                pass
+            else:
+                self.summary[self._count] = {"data_level": self.data_level, "target": target, "title": inner}
+                pass
+        self._target.append(target)
+        logging.info(f"{inner}\t{self.data_level}")
+        return template.format(data_level=self.data_level, inner=inner, target=target)
 
-    def list(self, body, ordered=True):
-        """Rendering list tags like ``<ul>`` and ``<ol>``.
+    def render_heading(self, token):
+        self._heading_count += 1
+        self._data_level = [self._heading_count]
+        self._iter_index = 0
 
-        :param body: body contents of the list.
-        :param ordered: whether this list is ordered or not.
-        """
-        body = f'[{body}]'
-        if len(self.toc_tree) == 0:
-            self.toc_tree.append(["", []])
+        self._iter_count = {}
 
-        self.toc_tree[-1][1] = body
-        return f"{body}"
+        template = '<li class="header">{inner}</li>'
+        inner = self.render_inner(token)
+        return template.format(inner=inner)
 
-    def list_item(self, text):
-        """Rendering list item snippet. Like ``<li>``."""
-        return text.replace("\\", r"/")
+    def render_list(self, token):
+        self._iter_index += 1
+        if self._iter_index in self._iter_count:
+            self._iter_count[self._iter_index] += 1
+        else:
+            self._iter_count[self._iter_index] = 0
 
-    def newline(self):
-        """Rendering newline element."""
-        return ''
+        template = '<{tag} {attr}>\n{inner}\n</{tag}>'
+        tag = 'ul'
+        attr = 'class="articles"'
 
+        self._suppress_ptag_stack.append(not token.loose)
 
-def renderer_summary(book: Book):
-    """生成目录结构
+        self._data_level.append(self._iter_count.get(self._iter_index))
 
-    对每个页面独立生成目录"""
-    P_list = []
-    start = time.time()
+        _inner = []
+        for child in token.children:
+            _inner.append(self.render(child))
 
-    current_count = 0
-    for current_level, current_ref, current_title in book.summary_level_list:
-        ret = book.pool.submit(_read_summary, book.book_output, book.summary,
-                               current_level, current_ref, current_count, book.summary_level_list)
-        logging.debug(f"对每个页面独立生成目录：{current_level, current_title, current_ref}")
-        current_count += 1
-        P_list.append(ret)
+        inner = "\n".join(_inner)
+        self._data_level = self._data_level[:self._iter_index]
+        self._iter_index -= 1
+        self._suppress_ptag_stack.pop()
 
-    for ret in P_list:
-        book.summary_classify_list.update(ret.result())
+        return template.format(tag=tag, attr=attr, inner=inner)
 
-    end = time.time()
-    logging.info(f"生成 {current_count} 个目录结构，耗时：{end - start}s")
+    def render_list_item(self, token):
+        if len(token.children) == 0:
+            return '<li></li>'
+        self._data_level[-1] += 1
+        inner = '\n'.join([self.render(child) for child in token.children])
+
+        if self.data_level == self._current_data_level:
+            template = '<li class="chapter active" data-level="{data_level}" data-path="{target}">\n{inner}\n</li>' \
+                .format(data_level=self.data_level, inner=inner, target=self._target.pop())
+        else:
+            template = '<li class="chapter" data-level="{data_level}" data-path="{target}">\n{inner}\n</li>' \
+                .format(data_level=self.data_level, inner=inner, target=self._target.pop())
+
+        return template
+
+    def render_paragraph(self, token):
+        return '{}'.format(self.render_inner(token))
+
+    def render_document(self, token):
+        self.footnotes.update(token.footnotes)
+        inner = '\n'.join([self.render(child) for child in token.children])
+        return '{}\n'.format(inner) if inner else ''
+
+    @staticmethod
+    def render_thematic_break(token):
+        return '<hr />'
+
     pass
 
 
-def _read_summary(book_output, book_summary, current_level, current_ref, current_count, summary_level_list):
-    summary = ""
-    summary_classify_list = {current_level: {
-        "title": "",
-        "level": current_level,
-        "prev_title": "",
-        "prev_relative_path": "",
-        "next_title": "",
-        "next_relative_path": "",
-        "summary": summary
-    }}
-    for item in book_summary:
-        title = item.get("title", "")
-        articles = item.get("articles", "")
-        # data_level = item.get("data_level")
-        summary += book_summary_3_head.substitute(title=title)
-        if len(articles) == 0:
-            continue
-
-        summary += _iter_summary(book_output, summary_classify_list, articles, current_level, current_ref,
-                                 current_count, summary_level_list)
-    summary_classify_list[current_level]["summary"] = summary
-    return summary_classify_list
-
-
-def _iter_summary(book_output, summary_classify_list, old_articles,
-                  current_level, current_ref, current_count, summary_level_list: list):
-    summary_sub = ""
-    for item in old_articles:
-        title = item.get("title", "")
-        ref = item.get("ref", "")
-        articles = item.get("articles", "")
-        data_level = item.get("data_level", "")
-
-        tmp_dict = {
-            'title': title,
-            'data_level': data_level,
-            'data_path': get_relpath(book_output, ref, current_ref),
-        }
-        if len(articles) == 0:
-            summary_sub += data_level == current_level \
-                           and book_summary_3_chapter_active.substitute(tmp_dict) \
-                           or book_summary_3_chaptere.substitute(tmp_dict)
-        else:
-            tmp_dict['chapter'] = _iter_summary(book_output, summary_classify_list,
-                                                articles, current_level, current_ref, current_count, summary_level_list)
-            summary_sub += data_level == current_level \
-                           and book_summary_3_sub_chapter_active.substitute(tmp_dict) \
-                           or book_summary_3_sub_chaptere.substitute(tmp_dict)
-
-        if data_level == current_level:
-            summary_classify_list[current_level]["title"] = title
-            summary_classify_list[current_level]["href"] = ref
-            summary_classify_list[current_level]["basePath"] = get_relative_path(book_output, ref)
-            if current_count > 0:
-                summary_classify_list[current_level]["prev_title"] = summary_level_list[current_count - 1][2]
-                summary_classify_list[current_level]["prev_relative_path"] = get_relpath(
-                    book_output, summary_level_list[current_count - 1][1], current_ref
-                ) + ".html"
-            if current_count < len(summary_level_list) - 1:
-                summary_classify_list[current_level]["next_title"] = summary_level_list[current_count + 1][2]
-                summary_classify_list[current_level]["next_relative_path"] = get_relpath(
-                    book_output, summary_level_list[current_count + 1][1], current_ref
-                ) + ".html"
-    return summary_sub
+def renderer_summary(book_output, _item, _index, page):
+    with SummaryRenderer(book_output=book_output, current_path=_item.get("target", ""),
+                         current_data_level=_item.get("data_level"), index=_index) as renderer:
+        summary = renderer.render(mistletoe.Document(page))
+    summary_classify = {
+        'title': _item.get("title", ""),
+        'level': _item.get("data_level", ""),
+        'prev_title': renderer.prev_title,
+        'prev_relative_path': renderer.prev_relative_path,
+        'next_title': renderer.next_title,
+        'next_relative_path': renderer.next_relative_path,
+        'summary': summary,
+        'href': _item.get("target", ""),
+        'basePath': renderer.basePath
+    }
+    return summary_classify
 
 
 def get_relpath(book_output, ref: str, current_ref: str):
-    """转换为相对路径"""
+    """转换为相对路径
+
+    :param book_output: 书籍目录
+    :param ref: 要转换的路径
+    :param current_ref: 当前路径
+    :return:
+    """
     _ref = ref
     if os.path.basename(_ref).lower() == "readme.md":
         if os.path.dirname(ref):
