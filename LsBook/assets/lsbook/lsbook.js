@@ -3196,8 +3196,9 @@ lsbook.events.bind('page.change', function () {
  * 左侧菜单滚动
  */
 lsbook.events.bind('page.change', function () {
-  // $('.active')[0].scrollIntoView({block: 'center'});
-  setTimeout("$('.active')[0].scrollIntoView({block: 'center'});", 500);
+  var rect = $('.active')[0].getBoundingClientRect();
+  if (rect.top < 0 || rect.bottom > $('.book-summary')[0].getBoundingClientRect().height)
+    setTimeout("$('.active')[0].scrollIntoView({block: 'center'});", 500);
 });
 
 /**
