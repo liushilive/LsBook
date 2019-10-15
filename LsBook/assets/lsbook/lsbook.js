@@ -3198,7 +3198,7 @@ lsbook.events.bind('page.change', function () {
 lsbook.events.bind('page.change', function () {
   var rect = $('.active')[0].getBoundingClientRect();
   if (rect.top < 0 || rect.bottom > $('.book-summary')[0].getBoundingClientRect().height)
-    setTimeout("$('.active')[0].scrollIntoView({block: 'center'});", 500);
+    setTimeout("$('.active')[0].scrollIntoView({block: 'center',behavior: 'smooth'});", 500);
 });
 
 /**
