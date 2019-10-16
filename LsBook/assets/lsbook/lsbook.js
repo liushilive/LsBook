@@ -3228,6 +3228,26 @@ lsbook.events.bind('page.change', function () {
 });
 
 /**
+ * 预加载
+ */
+lsbook.events.bind("page.change", function () {
+  var next_page_link = lsbook.state.config.next_page_link;
+  if (next_page_link) {
+    var _link = document.createElement("link");
+    _link.setAttribute("rel", "prefetch");
+    _link.setAttribute("href", next_page_link);
+    document.getElementsByTagName("head")[0].appendChild(_link);
+  }
+  var previous_page_link = lsbook.state.config.previous_page_link;
+  if (previous_page_link) {
+    var _link = document.createElement("link");
+    _link.setAttribute("rel", "prefetch");
+    _link.setAttribute("href", previous_page_link);
+    document.getElementsByTagName("head")[0].appendChild(_link);
+  }
+});
+
+/**
  * 搜索
  */
 function search() {

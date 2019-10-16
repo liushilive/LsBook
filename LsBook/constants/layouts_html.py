@@ -71,7 +71,9 @@ _html_body_map = {
     "LsBook_LINK": "LsBook_LINK",
     "SEARCH_PLACEHOLDER": "SEARCH_PLACEHOLDER",
     "github_url": "github_url",
-    "js": "按需加载 js 字典"
+    "js": "按需加载 js 字典",
+    "previous_page_link": "上一页",
+    "next_page_link": "下一页",
 }
 html_body_2 = Template("""<div class="book-summary">
     <div id="book-search-input" role="search">
@@ -99,7 +101,9 @@ html_body_2 = Template("""<div class="book-summary">
         lsbook.page.hasChanged({
             "config": {
                 "github_url":"${github_url}",
-                "language": "${language}"
+                "language": "${language}",
+                "previous_page_link": "${previous_page_link}",
+                "next_page_link": "${next_page_link}"
             },
             "basePath": "${basePath}",
             "js": ${js}

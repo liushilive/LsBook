@@ -153,7 +153,9 @@ All rights reserved.</span><span class="footer-modification">
         LsBook_LINK=i18n.get("LsBook_LINK"),
         github_url=github_url,
         SEARCH_PLACEHOLDER=i18n.get("SEARCH_PLACEHOLDER"),
-        js=_js
+        js=_js,
+        previous_page_link=prev_relative_path,
+        next_page_link=next_relative_path
     )
 
     # 组装头
