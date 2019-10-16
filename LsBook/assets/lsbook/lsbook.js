@@ -2475,7 +2475,7 @@ function handleScrolling() {
     $chapter = $chapters.last();
   }
 
-  setChapterActive($chapter);
+  // setChapterActive($chapter);
 }
 
 /*
@@ -2647,7 +2647,7 @@ function preparePage(resetScroll) {
       }
 
       var resolvedRef = url_lib.resolve(window.location.pathname, href);
-      return window.location.pathname == resolvedRef;
+      return decodeURI(window.location.pathname) == decodeURI(resolvedRef);
     });
 
   // 如果摘要包含到此页面的多个链接，则绑定滚动
