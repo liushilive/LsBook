@@ -98,7 +98,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         else:
             self._iter_count[self._iter_index] = 0
 
-        template = '<{tag} {attr}>\n{inner}\n</{tag}>'
+        template = '<{tag} {attr}>{inner}</{tag}>'
         tag = 'ul'
         attr = 'class="articles"'
 
@@ -124,10 +124,10 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         inner = '\n'.join([self.render(child) for child in token.children])
 
         if self.data_level == self._current_data_level:
-            template = '<li class="chapter active" data-level="{data_level}" data-path="{target}">\n{inner}\n</li>' \
+            template = '<li class="chapter active" data-level="{data_level}" data-path="{target}">{inner}</li>' \
                 .format(data_level=self.data_level, inner=inner, target=self._target.pop())
         else:
-            template = '<li class="chapter" data-level="{data_level}" data-path="{target}">\n{inner}\n</li>' \
+            template = '<li class="chapter" data-level="{data_level}" data-path="{target}">{inner}</li>' \
                 .format(data_level=self.data_level, inner=inner, target=self._target.pop())
 
         return template
@@ -138,7 +138,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
     def render_document(self, token):
         self.footnotes.update(token.footnotes)
         inner = '\n'.join([self.render(child) for child in token.children])
-        return '{}\n'.format(inner) if inner else ''
+        return '{}'.format(inner) if inner else ''
 
     @staticmethod
     def render_thematic_break(token):

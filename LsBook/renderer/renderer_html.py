@@ -4,10 +4,10 @@ import os
 import re
 import time
 
+from .html_renderer import parse_file
 from ..constants.layouts_html import book_body_4, css, html_body_2, html_head_1, html_root_0, js, next_page_link_5_2, \
     previous_page_link_5_1
 from ..models.book import Book
-from ..parse.parse_file import parse_file, sectionx
 from ..utils.path import get_pure_path, set_extension
 
 
@@ -32,12 +32,21 @@ def renderer_html(book: Book):
         href = item.get("href", "")
         basePath = item.get("basePath", "")
 
+        # dict_, assets_img_ = _render_html(book_title, title, author, basePath, book_summary,
+        #                                   prev_title, prev_relative_path, next_title, next_relative_path,
+        #                                   href, book.book_path, book.book_output, language, book.i18n, github_url,
+        #                                   book.base_assets, book.book_js)
+        #
+        # search_plus_index.update(dict_)
+        # assets_img.update(assets_img_)
+
         P_list.append(
-            book.pool.submit(_render_html, book_title, title, author, basePath, book_summary,
-                             prev_title, prev_relative_path, next_title, next_relative_path,
-                             href, book.book_path, book.book_output, language, book.i18n, github_url,
-                             book.base_assets, book.book_js
-                             )
+            book.pool.submit(
+                _render_html, book_title, title, author, basePath, book_summary,
+                prev_title, prev_relative_path, next_title, next_relative_path,
+                href, book.book_path, book.book_output, language, book.i18n, github_url,
+                book.base_assets, book.book_js
+            )
         )
         logging.debug(f"生成页面：{level, title, href}")
 
@@ -65,14 +74,12 @@ def _render_html(book_title, title, author, basePath, book_summary,
         basePath
     )
 
-    # 隐藏答案框
-    book_page = sectionx(book_page)
     # 组装页内导航
     toc = ""
     if len(toc_tree) > 0:
         toc = "<div id='anchor-navigation-ex-navbar'><i class='fa fa-anchor'></i><ul><li>" \
               "<span class='title-icon fa fa-hand-o-right'></span><a aria-label class='on-toolbar-action' href='' " \
-            f"""onclick="$('.fa.fa-align-justify').parent()[0].click();">{i18n.get('SUMMARY_TOGGLE')}</a></li>"""
+              f"""onclick="$('.fa.fa-align-justify').parent()[0].click();">{i18n.get('SUMMARY_TOGGLE')}</a></li>"""
 
         for h1Toc in toc_tree:
             toc += "<li><span class='title-icon fa fa-hand-o-right'></span>" \

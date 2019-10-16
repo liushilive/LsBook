@@ -7,7 +7,7 @@ from xml.etree import ElementTree
 import mistletoe
 
 from ..models.book import Book
-from ..renderer.renderer_summary import SummaryRenderer, renderer_summary
+from ..renderer.summary_renderer import SummaryRenderer, renderer_summary
 from ..utils.error import file_not_found_error
 from ..utils.path import get_abspath
 

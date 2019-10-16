@@ -15,7 +15,7 @@ from .utils.logger import log_init
 msg = None
 
 
-def quert_version():
+def query_version():
     try:
         global msg
         r = request.urlopen('https://pypi.org/pypi/lsbook/json', timeout=2)
@@ -31,7 +31,7 @@ def quert_version():
 
 
 def main(debug=False):
-    th = Thread(target=quert_version)
+    th = Thread(target=query_version)
     if not debug:
         th.start()
 
