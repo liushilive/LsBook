@@ -116,3 +116,5 @@ dmypy.json
 tests/_book
 tests/lsbook
 tests/asserts
+/tests/_book_gj/
+/LsBook-*/
