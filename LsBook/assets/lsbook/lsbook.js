@@ -3196,7 +3196,7 @@ lsbook.events.bind('page.change', function () {
  * 左侧菜单滚动
  */
 lsbook.events.bind('page.change', function () {
-  setTimeout("var rect = $('.active')[0].getBoundingClientRect();if (rect.top < 0 || rect.bottom > $('.book-summary')[0].getBoundingClientRect().height) {$('.active')[0].scrollIntoView({block: 'nearest', behavior: 'smooth'});}", 500);
+  setTimeout("var _top = $('.active')[0].getBoundingClientRect().top;if (_top<0 || _top+40 > $('.book-summary')[0].getBoundingClientRect().height) {$('.active')[0].scrollIntoView({block: 'nearest', behavior: 'smooth'});}", 500);
 });
 
 /**
