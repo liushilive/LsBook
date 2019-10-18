@@ -25,6 +25,11 @@
     }
 
     hr {
+      height: 2px;
+      padding: 0;
+      overflow: hidden;
+      background-color: #e7e7e7;
+      border: none;
       margin-left: 20px;
     }
 
@@ -43,7 +48,7 @@
           max-height: 9999px;
         }
 
-        >hr {
+        > hr {
           margin-left: 40px;
           display: block;
         }
@@ -208,6 +213,10 @@
             font-weight: @sidebar-link-hover-weight-1;
           }
         }
+
+        hr {
+          background-color: @page-hr-color-1;
+        }
       }
     }
   }
@@ -255,6 +264,10 @@
             background: @sidebar-link-hover-background-2;
             font-weight: @sidebar-link-hover-weight-2;
           }
+        }
+
+        hr {
+          background-color: @page-hr-color-2;
         }
       }
     }
