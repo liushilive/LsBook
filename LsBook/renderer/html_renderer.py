@@ -70,7 +70,7 @@ class SecBlock(block_token.BlockToken):
 
 
 class MathBlock(block_token.BlockToken):
-    pattern_start = re.compile(r'^[ \t]*\${1,2}[^$]')
+    pattern_start = re.compile(r'^[ \t]*\${1,2}[^$][ \t\n]*$')
     pattern_end = re.compile(r'^[ \t]*\${1,2}[^$\S]')
 
     def __init__(self, lines):

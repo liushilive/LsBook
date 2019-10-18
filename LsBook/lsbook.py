@@ -49,7 +49,10 @@ def main(debug=False):
     try:
         if build:
             logging.info("开始生成书籍")
-            pool = ProcessPoolExecutor()
+            if debug:
+                pool = ProcessPoolExecutor(1)
+            else:
+                pool = ProcessPoolExecutor()
             book = Book(book_path, book_output, pool, base_assets)
 
             # 生成书籍
