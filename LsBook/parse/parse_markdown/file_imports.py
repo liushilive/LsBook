@@ -5,6 +5,7 @@ import os
 import re
 
 from ...constants.lang import lang_dict
+from ...utils.path import get_pure_path
 
 
 def process_file_import(book_path: str, page: str, base_path: str):
@@ -68,7 +69,7 @@ def split_import(line, book_path):
         path_ = match.group(2)
         code_type_ = match.group(4)
         lang_ = code_type_ or lang_dict.get(os.path.splitext(path_)[1][1:])[0]
-        import_file_ = os.path.join(book_path, path_)
+        import_file_ = get_pure_path(book_path, path_)
 
         return prefix_, lang_, import_file_
     else:
@@ -97,11 +98,11 @@ def md_file(assets_img, base_path, book_path, import_file):
                 # 对于项目内图片，重建相对路径
                 # 对于项目外图片，记录图片路径，生成书籍后，复制图片到指定目录，重建相对路径
                 for link_0, link_1 in re.findall(r'(!\[.*?\]\((.*?)\))', line_):
-                    old_img_path = os.path.abspath(os.path.join(os.path.dirname(import_file), link_1))
+                    old_img_path = os.path.abspath(get_pure_path(os.path.dirname(import_file), link_1))
                     new_img_relpath = os.path.relpath(old_img_path, book_path)
                     if new_img_relpath.startswith(".."):
                         # 项目外图片
-                        new_img_relpath = os.path.join(
+                        new_img_relpath = get_pure_path(
                             base_path,
                             "lsbook_import_img",
                             os.path.split(link_1)[1]
@@ -112,7 +113,7 @@ def md_file(assets_img, base_path, book_path, import_file):
                 # 处理引入文件中代码引入
                 result_ = split_import(
                     line_,
-                    os.path.abspath(os.path.join(book_path, os.path.relpath(os.path.dirname(import_file), book_path)))
+                    os.path.abspath(get_pure_path(book_path, os.path.relpath(os.path.dirname(import_file), book_path)))
                 )
                 if result_:
                     # 只处理代码引入，不处理 md 引入

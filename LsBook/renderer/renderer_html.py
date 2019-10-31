@@ -56,7 +56,7 @@ def renderer_html(book: Book):
         assets_img.update(assets_img_)
 
     # 写入索引
-    with open(os.path.join(book.book_output, "search_plus_index.json"), 'w', encoding="utf-8") as f:
+    with open(get_pure_path(book.book_output, "search_plus_index.json"), 'w', encoding="utf-8") as f:
         f.write(json.dumps(search_plus_index, ensure_ascii=False))
 
     return assets_img
@@ -67,10 +67,10 @@ def _render_html(book_title, title, author, basePath, book_summary,
                  language, i18n, github_url, base_assets, book_js):
     """生产HTML，返回索引"""
     # 解析页面
-    base_assets_path = os.path.join(basePath, base_assets) if base_assets else basePath  # 资源路径
+    base_assets_path = get_pure_path(*(basePath, base_assets) if base_assets else basePath)  # 资源路径
 
     book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox, assets_img = parse_file(
-        os.path.join(book_path, href),
+        get_pure_path(book_path, href),
         basePath
     )
 
@@ -111,15 +111,15 @@ All rights reserved.</span><span class="footer-modification">
     # js
     _js = {}
     if tag_katex:
-        _js["katex"] = [f"{base_assets_path}/lsbook/katex/katex.min.js",
-                        f"{base_assets_path}/lsbook/katex/contrib/auto-render.min.js"]
+        _js["katex"] = [get_pure_path(f"{base_assets_path}/lsbook/katex/katex.min.js"),
+                        get_pure_path(f"{base_assets_path}/lsbook/katex/contrib/auto-render.min.js")]
     if tag_lightbox:
         pass
     if tag_mermaid:
-        _js["mermaid"] = [f"{base_assets_path}/lsbook/mermaid/mermaid.min.js"]
+        _js["mermaid"] = [get_pure_path(f"{base_assets_path}/lsbook/mermaid/mermaid.min.js")]
     if tag_prism:
-        _js["prism"] = [f"{base_assets_path}/lsbook/prismjs/clipboard.min.js",
-                        f"{base_assets_path}/lsbook/prismjs/prism.js"]
+        _js["prism"] = [get_pure_path(f"{base_assets_path}/lsbook/prismjs/clipboard.min.js"),
+                        get_pure_path(f"{base_assets_path}/lsbook/prismjs/prism.js")]
 
     # 上下页
     previous_page_link = prev_relative_path != "" and previous_page_link_5_1.substitute(
@@ -176,10 +176,10 @@ All rights reserved.</span><span class="footer-modification">
         js=js.substitute(base_assets_path=base_assets_path)
     )
 
-    out_path = os.path.join(book_output, href)
+    out_path = get_pure_path(book_output, href)
 
     if os.path.basename(href).lower() == "readme.md":
-        out_path = os.path.join(os.path.dirname(out_path), "index.html")
+        out_path = get_pure_path(os.path.dirname(out_path), "index.html")
     else:
         out_path = set_extension(out_path, ".html")
 

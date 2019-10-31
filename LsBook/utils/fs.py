@@ -2,6 +2,8 @@ import logging
 import os
 import shutil
 
+from ..utils.path import get_pure_path
+
 
 def rmdir(file_path: str):
     """删除目录
@@ -43,7 +45,7 @@ def is_file_exist(root: str, filename):
     :param filename:
     :return:
     """
-    path = os.path.join(root, filename)
+    path = get_pure_path(root, filename)
     if os.path.isfile(path):
         return True
     else:

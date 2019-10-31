@@ -2,6 +2,7 @@ import os
 
 from ..models.book import Book
 from ..utils.error import error, file_not_found_error
+from ..utils.path import get_pure_path
 
 
 def readme_exist(book: Book):
@@ -10,9 +11,9 @@ def readme_exist(book: Book):
     :param book:
     :return:
     """
-    readme = os.path.join(book.book_path, "readme.md")
+    readme = get_pure_path(book.book_path, "readme.md")
     if not os.path.isfile(readme):
-        readme = os.path.join(book.book_path, "README.md")
+        readme = get_pure_path(book.book_path, "README.md")
         if not os.path.isfile(readme):
             file_not_found_error(readme, "书籍目录必须存在 readme.md")
 

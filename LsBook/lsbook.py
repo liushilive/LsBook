@@ -11,6 +11,7 @@ from .models.book import Book
 from .output.generateBook import generateBook
 from .utils.argument import cmd_argument
 from .utils.logger import log_init
+from .utils.path import get_pure_path
 
 msg = None
 
@@ -58,10 +59,10 @@ def main(debug=False):
             # 生成书籍
             generateBook(book)
         elif assets:
-            out = os.path.join(assets, "lsbook")
+            out = get_pure_path(assets, "lsbook")
             logging.info(f"释放资源：{out}")
             rmdir(out)
-            copytree(os.path.join(os.path.dirname(__file__), "assets", "lsbook"), out)
+            copytree(get_pure_path(os.path.dirname(__file__), "assets", "lsbook"), out)
             logging.info(f"释放资源完毕")
         else:
             logging.warning("lsbook 查看帮助")

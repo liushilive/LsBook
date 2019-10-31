@@ -44,11 +44,11 @@ def set_extension(filename, ext):
     return get_filename_not_ext(filename) + ext
 
 
-def get_pure_path(path):
+def get_pure_path(path, *paths):
     """获取路径，分隔符为 / """
-    return Path(path).as_posix()
+    return Path(os.path.join(path, *paths)).as_posix()
 
 
 def get_abspath(path, *paths):
     """获取绝对路径"""
-    return os.path.abspath(os.path.join(path, *paths))
+    return os.path.abspath(get_pure_path(path, *paths))

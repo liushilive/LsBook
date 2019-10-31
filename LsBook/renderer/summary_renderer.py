@@ -176,17 +176,17 @@ def get_relpath(book_output, ref: str, current_ref: str):
     _ref = ref
     if os.path.basename(_ref).lower() == "readme.md":
         if os.path.dirname(ref):
-            _ref = os.path.join(os.path.relpath(os.path.dirname(ref)), "index.md")
+            _ref = get_pure_path(os.path.relpath(os.path.dirname(ref)), "index.md")
         else:
             _ref = "index.md"
     return get_pure_path(get_filename_not_ext(
         os.path.relpath(
-            os.path.join(book_output, _ref),
-            os.path.dirname(os.path.join(book_output, current_ref))
+            get_pure_path(book_output, _ref),
+            os.path.dirname(get_pure_path(book_output, current_ref))
         )
     ))
 
 
 def get_relative_path(book_output, ref: str):
     """转换本页面相对于根的相对路径"""
-    return get_pure_path(os.path.relpath(book_output, os.path.dirname(os.path.join(book_output, ref))))
+    return get_pure_path(os.path.relpath(book_output, os.path.dirname(get_pure_path(book_output, ref))))

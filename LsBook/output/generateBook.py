@@ -1,5 +1,4 @@
 import logging
-import os
 import time
 
 from ..models.book import Book
@@ -7,7 +6,7 @@ from ..parse.parse_config import is_config_exist
 from ..parse.parse_summary import is_summary_exist, parse_summary
 from ..renderer.renderer_html import renderer_html
 from ..utils.fs import copytree, rmdir, copy, is_file_exist
-from ..utils.path import process_input_output_path
+from ..utils.path import process_input_output_path, get_pure_path
 
 
 def generateBook(book: Book):
@@ -41,14 +40,14 @@ def generateBook(book: Book):
 
     # 读取自定义 js
     if is_file_exist(book.book_path, "book.js"):
-        with open(os.path.join(book.book_path, "book.js"), encoding="utf-8") as f:
+        with open(get_pure_path(book.book_path, "book.js"), encoding="utf-8") as f:
             book.book_js = f.read()
 
     logging.info("生成所有页面")
     assets_img = renderer_html(book)
 
     logging.info("复制外部图片资源到输出目录")
-    img_import_path = os.path.join(book.book_output, "lsbook_import_img")
+    img_import_path = get_pure_path(book.book_output, "lsbook_import_img")
     rmdir(img_import_path)
     while len(assets_img):
         copy(assets_img.pop(), img_import_path)
