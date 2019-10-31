@@ -45,6 +45,13 @@ class SecBlock(block_token.BlockToken):
         super().__init__(lines, block_token.tokenize)
 
     @classmethod
+    def init(cls):
+        """每个文档重置参数"""
+        cls.show = False
+        cls.title = ""
+        cls.count = 0
+
+    @classmethod
     def start(cls, line):
         match_obj = cls.pattern_start.match(line)
         if match_obj is None:
@@ -209,3 +216,7 @@ class HtmlRenderer(HTMLRenderer):
         else:
             title = f' title="{alt}"'
         return template.format(img_id=self._img_id, src=token.src, alt=alt, title=title)
+
+    def render_document(self, token):
+        SecBlock.init()
+        return super().render_document(token)
