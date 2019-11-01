@@ -155,6 +155,9 @@ class HtmlRenderer(HTMLRenderer):
             self.count["h1"] += 1
             self.count["h2"] = 0
             self.count["h3"] = 0
+            self.count["h4"] = 0
+            self.count["h5"] = 0
+            self.count["h6"] = 0
             self.toc_tree.append({
                 "name": inner,
                 "level": _level,
@@ -165,6 +168,9 @@ class HtmlRenderer(HTMLRenderer):
             if len(self.toc_tree) > 0:
                 self.count['h2'] += 1
                 self.count['h3'] = 0
+                self.count["h4"] = 0
+                self.count["h5"] = 0
+                self.count["h6"] = 0
                 _level = f"{self.count['h2']}. "
                 self.toc_tree[-1]["children"].append({
                     "name": inner,
@@ -176,6 +182,9 @@ class HtmlRenderer(HTMLRenderer):
         elif token.level == 3:
             if len(self.toc_tree) > 0 and len(self.toc_tree[-1]["children"]) > 0:
                 self.count['h3'] += 1
+                self.count["h4"] = 0
+                self.count["h5"] = 0
+                self.count["h6"] = 0
                 _level = f"{self.count['h2']}.{self.count['h3']}. "
                 self.toc_tree[-1]["children"][-1]["children"].append({
                     "name": inner,
@@ -184,6 +193,18 @@ class HtmlRenderer(HTMLRenderer):
                     "children": []
                 })
                 inner = f"{_level}{inner}"
+        elif token.level == 4:
+            self.count["h4"] += 1
+            self.count["h5"] = 0
+            self.count["h6"] = 0
+            inner = f"{self.count['h2']}.{self.count['h3']}.{self.count['h4']}. {inner}"
+        elif token.level == 5:
+            self.count["h5"] += 1
+            self.count["h6"] = 0
+            inner = f"{self.count['h2']}.{self.count['h3']}.{self.count['h4']}.{self.count['h5']}. {inner}"
+        elif token.level == 6:
+            self.count["h6"] += 1
+            inner = f"{self.count['h2']}.{self.count['h3']}.{self.count['h4']}.{self.count['h5']}.{self.count['h6']}. {inner}"
 
         return template.format(level=token.level, inner=inner, _id=_id)
 
