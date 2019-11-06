@@ -113,8 +113,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-tests/_book
+tests/_book*
 tests/lsbook
-tests/asserts
-/tests/_book_gj/
-/LsBook-*/

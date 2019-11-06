@@ -45,6 +45,8 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         # 本页面相对于根的相对路径
         self.basePath = "."
         self._target = []
+        # 标记是否为根标题
+        self._is_root_heading = False
 
     @property
     def data_level(self):
@@ -81,6 +83,9 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         return template.format(data_level=self.data_level, inner=inner, target=target)
 
     def render_heading(self, token):
+        if not self._is_root_heading:
+            raise RuntimeError("目录不允许存在非根标题节点")
+        self._is_root_heading = False
         self._heading_count += 1
         self._data_level = [self._heading_count]
         self._iter_index = 0
@@ -137,7 +142,13 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 
     def render_document(self, token):
         self.footnotes.update(token.footnotes)
-        inner = '\n'.join([self.render(child) for child in token.children])
+        _inner = []
+        for child in token.children:
+            if child.__class__.__name__ in ("Heading", "SetextHeading"):
+                self._is_root_heading = True
+            _inner.append(self.render(child))
+        inner = "\n".join(_inner)
+        # inner = '\n'.join([self.render(child) for child in token.children])
         return '{}'.format(inner) if inner else ''
 
     @staticmethod
