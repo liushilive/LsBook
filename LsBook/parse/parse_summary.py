@@ -27,7 +27,8 @@ def parse_summary(book: Book):
         summary_dict = []
         page = f.read()
     page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
-
+    # todo 不应该去除其他元素，需要根据实际情况 更新索引结构
+    page = re.sub(r"^(?!\s*\*|#).*", "", page, flags=re.M)
     # 生成目录结构
     with SummaryRenderer() as renderer:
         renderer.render(mistletoe.Document(page))
