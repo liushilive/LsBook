@@ -7,7 +7,7 @@ from ..utils.path import get_pure_path, get_filename_not_ext
 
 
 class SummaryRenderer(mistletoe.HTMLRenderer):
-    def __init__(self, *extras, book_output=None, current_path=None, current_data_level=None, index=None):
+    def __init__(self, *extras, book_output=None, current_path=None, current_data_level=None, index=None, summary=None):
         """目录生成器
 
         :param extras:
@@ -17,12 +17,14 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         :param index: 本页所处索引位置
         """
         super().__init__(*extras)
+        if summary is None:
+            summary = {}
         self._data_level = []
         self._heading_count = 0
         self._iter_count = {}
         self._iter_index = 0
         # 目录结构
-        self.summary = {}
+        self.summary = summary
         self._count = 0
         # 当前文件路径
         self._current_path = current_path
@@ -50,6 +52,9 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 
     @property
     def data_level(self):
+        if self._current_path:
+            return self.summary[self._count].get("data_level")
+
         tmp = [str(x) for x in self._data_level]
         return ".".join(tmp)
 
@@ -111,12 +116,10 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 
         self._data_level.append(self._iter_count.get(self._iter_index))
 
-        _inner = []
-        for child in token.children:
-            _inner.append(self.render(child))
+        inner = '\n'.join([self.render(child) for child in token.children])
 
-        inner = "\n".join(_inner)
         self._data_level = self._data_level[:self._iter_index]
+        self._iter_count.pop(self._iter_index)
         self._iter_index -= 1
         self._suppress_ptag_stack.pop()
 
@@ -158,10 +161,11 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
     pass
 
 
-def renderer_summary(book_output, _item, _index, page):
-    with SummaryRenderer(book_output=book_output, current_path=_item.get("target", ""),
-                         current_data_level=_item.get("data_level"), index=_index) as renderer:
-        summary = renderer.render(mistletoe.Document(page))
+def renderer_summary(_book_output, _item, _index, _page, _summary):
+    with SummaryRenderer(book_output=_book_output, current_path=_item.get("target", ""),
+                         current_data_level=_item.get("data_level"), index=_index, summary=_summary) as renderer:
+        summary = renderer.render(mistletoe.Document(_page))
+
     summary_classify = {
         'title': _item.get("title", ""),
         'level': _item.get("data_level", ""),

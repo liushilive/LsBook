@@ -27,11 +27,10 @@ def parse_summary(book: Book):
         summary_dict = []
         page = f.read()
     page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
-    # todo 不应该去除其他元素，需要根据实际情况 更新索引结构
-    page = re.sub(r"^(?!\s*\*|#).*", "", page, flags=re.M)
+    page_su = re.sub(r"^(?!\s*\*|#).*", "", page, flags=re.M)
     # 生成目录结构
     with SummaryRenderer() as renderer:
-        renderer.render(mistletoe.Document(page))
+        renderer.render(mistletoe.Document(page_su))
 
     summary_classify_list = []
     P_list = []
@@ -40,7 +39,7 @@ def parse_summary(book: Book):
         # 根据目录结构为每个页面生成目录
         # 计算相对路径
         # summary_classify = renderer_summary(book, _item, _index, page)
-        P_list.append(book.pool.submit(renderer_summary, book.book_output, _item, _index, page))
+        P_list.append(book.pool.submit(renderer_summary, book.book_output, _item, _index, page, renderer.summary))
 
     for ret in P_list:
         summary_classify_list.append(ret.result())
