@@ -2,6 +2,7 @@
 build
 dist
 LsBook.*
+__pycache__
 
 tests/_book*
 tests/lsbook
