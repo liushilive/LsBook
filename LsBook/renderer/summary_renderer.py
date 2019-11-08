@@ -50,10 +50,9 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         # 标记是否为根标题
         self._is_root_heading = False
 
-    @property
-    def data_level(self):
+    def get_data_level(self, _count=None):
         if self._current_path:
-            return self.summary[self._count].get("data_level")
+            return self.summary[_count or self._count].get("data_level")
 
         tmp = [str(x) for x in self._data_level]
         return ".".join(tmp)
@@ -81,11 +80,11 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
                     self.next_relative_path = target
                 pass
             else:
-                self.summary[self._count] = {"data_level": self.data_level, "target": target, "title": inner}
+                self.summary[self._count] = {"data_level": self.get_data_level(), "target": target, "title": inner}
                 pass
         self._target.append(target)
-        logging.info(f"{inner}\t{self.data_level}")
-        return template.format(data_level=self.data_level, inner=inner, target=target)
+        logging.info(f"{inner}\t{self.get_data_level()}")
+        return template.format(data_level=self.get_data_level(), inner=inner, target=target)
 
     def render_heading(self, token):
         if not self._is_root_heading:
@@ -108,12 +107,9 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         else:
             self._iter_count[self._iter_index] = 0
 
-        template = '<{tag} {attr}>{inner}</{tag}>'
-        tag = 'ul'
-        attr = 'class="articles"'
+        template = '<ul class="articles">{inner}</ul>'
 
         self._suppress_ptag_stack.append(not token.loose)
-
         self._data_level.append(self._iter_count.get(self._iter_index))
 
         inner = '\n'.join([self.render(child) for child in token.children])
@@ -123,20 +119,21 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         self._iter_index -= 1
         self._suppress_ptag_stack.pop()
 
-        return template.format(tag=tag, attr=attr, inner=inner)
+        return template.format(inner=inner)
 
     def render_list_item(self, token):
         if len(token.children) == 0:
             return '<li></li>'
         self._data_level[-1] += 1
+        _count = self._count + 1
         inner = '\n'.join([self.render(child) for child in token.children])
 
-        if self.data_level == self._current_data_level:
+        if self.get_data_level() == self._current_data_level:
             template = '<li class="chapter active" data-level="{data_level}" data-path="{target}">{inner}</li>' \
-                .format(data_level=self.data_level, inner=inner, target=self._target.pop())
+                .format(data_level=self.get_data_level(_count), inner=inner, target=self._target.pop())
         else:
             template = '<li class="chapter" data-level="{data_level}" data-path="{target}">{inner}</li>' \
-                .format(data_level=self.data_level, inner=inner, target=self._target.pop())
+                .format(data_level=self.get_data_level(_count), inner=inner, target=self._target.pop())
 
         return template
 
