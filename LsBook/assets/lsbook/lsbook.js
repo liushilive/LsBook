@@ -3100,15 +3100,15 @@ function ExpandableChapters() {
     }
   };
   var collapse = function ($chapter) {
-    if ($chapter.length && $chapter.hasClass(TOGGLE_CLASSNAME)) {
+    if ($chapter.length) {
       $chapter.removeClass(TOGGLE_CLASSNAME);
-      lsItem($chapter);
+      lsItem();
     }
   };
   var expand = function ($chapter) {
-    if ($chapter.length && !$chapter.hasClass(TOGGLE_CLASSNAME)) {
+    if ($chapter.length) {
       $chapter.addClass(TOGGLE_CLASSNAME);
-      lsItem($chapter);
+      lsItem();
     }
   };
   var lsItem = function () {
