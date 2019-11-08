@@ -24,7 +24,6 @@ def parse_summary(book: Book):
     # 得到目录 html
     global count_sum, iter_count, data_level
     with open(book.summary_path, encoding="utf-8") as f:
-        summary_dict = []
         page = f.read()
     page = re.sub(r"<!--.*?-->", "", page, flags=re.S)
     page_su = re.sub(r"^(?!\s*\*|#).*", "", page, flags=re.M)

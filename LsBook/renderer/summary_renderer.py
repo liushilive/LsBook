@@ -128,7 +128,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         _count = self._count + 1
         inner = '\n'.join([self.render(child) for child in token.children])
 
-        if self.get_data_level() == self._current_data_level:
+        if self.get_data_level(_count) == self._current_data_level:
             template = '<li class="chapter active" data-level="{data_level}" data-path="{target}">{inner}</li>' \
                 .format(data_level=self.get_data_level(_count), inner=inner, target=self._target.pop())
         else:

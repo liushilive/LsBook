@@ -2292,16 +2292,16 @@ function scrollToHash(hash) {
     dest = getElementTopPosition(hash);
   }
 
-  // Unbind scroll detection
+  // 解开滚动检测
   $scroller.unbind('scroll');
   $scroller.animate({
     scrollTop: dest
   }, 800, 'swing', function () {
-    // Reset scroll binding when finished
+    // 完成后重置滚动绑定
     $scroller.scroll(handleScrolling);
   });
 
-  // Directly set chapter as active
+  // 直接设置章为活动
   setChapterActive(null, hash);
 }
 
@@ -2474,8 +2474,6 @@ function handleScrolling() {
   if (!!scrollTop && (scrollHeight - scrollTop == clientHeight)) {
     $chapter = $chapters.last();
   }
-
-  // setChapterActive($chapter);
 }
 
 /*
@@ -3002,7 +3000,11 @@ lsbook.sidebar = sidebar;
 lsbook.toolbar = toolbar;
 // end_theme_index
 
-// 组件
+/**
+ * 动态加载js组件
+ * @param files
+ * @param fn
+ */
 function loadFiles(files, fn) {
   if (!files.length) {
     files = [];
@@ -3264,7 +3266,7 @@ function search() {
   var $searchResultsCount;
   var $searchQuery;
 
-  // Throttle search
+  // 节流搜索
   function throttle(fn, wait) {
     var timeout;
 
@@ -3360,7 +3362,7 @@ function search() {
           url: page,
           title: store.title,
           body: store.body.substr(Math.max(0, index - 50), MAX_DESCRIPTION_SIZE)
-          // .replace(/^[^\s,.]+./, '').replace(/(..*)[\s,.].*/, '$1') // prevent break word
+          // .replace(/^[^\s,.]+./, '').replace(/(..*)[\s,.].*/, '$1') // 防止断词
             .replace(keywordRe, '<span class="search-highlight-keyword">$1</span>')
         });
       }
@@ -3762,8 +3764,9 @@ function fontsettings() {
 }
 
 fontsettings();
-
+/**
+ * 刷新锚记定位
+ */
 if ("" !== location.hash) {
-  // 刷新锚记定位
   setTimeout("getScroller().animate({scrollTop: getElementTopPosition(location.hash)}, 800, 'swing')", 1500);
 }
