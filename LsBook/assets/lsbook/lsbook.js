@@ -3102,13 +3102,13 @@ function ExpandableChapters() {
   var collapse = function ($chapter) {
     if ($chapter.length) {
       $chapter.removeClass(TOGGLE_CLASSNAME);
-      lsItem();
+      lsItem($chapter);
     }
   };
   var expand = function ($chapter) {
     if ($chapter.length) {
       $chapter.addClass(TOGGLE_CLASSNAME);
-      lsItem();
+      lsItem($chapter);
     }
   };
   var lsItem = function () {
