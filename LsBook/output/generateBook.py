@@ -33,7 +33,7 @@ def generateBook(book: Book):
 
     logging.info("复制资源到输出目录")
     rmdir(book.book_output)
-    copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json", ".*")
+    copytree(book.book_path, book.book_output, "_book", "SUMMARY.md", "book.json", *book.config.get("ignore", ()))
     if not book.base_assets:
         rmdir(book.assets_path_out)
         copytree(book.assets_path, book.assets_path_out)

@@ -14,18 +14,18 @@ def is_config_exist(book: Book):
         file_not_found_error(book_config, "配置文件必不可缺：请确认文件名称：book.json")
     else:
         with open(book_config, encoding="utf-8") as f:
-            js = json.load(f)
-            book.config = js
+            _json = json.load(f)
+            book.config = _json
 
-    if not os.path.isfile(get_abspath(book.assets_path, f"../i18n/{book.config.get('language', 'zh-cn')}.json")):
-        logging.error(f"语言 {book.config.get('language', 'zh-cn')} 错误，使用默认语言：zh-cn")
+    if not os.path.isfile(get_abspath(book.assets_path, f"../i18n/{book.config.get('language')}.json")):
+        logging.error(f"语言配置错误，使用默认语言：zh-cn")
         book.config['language'] = "zh-cn"
 
     with open(get_abspath(book.assets_path, f"../i18n/en.json"), encoding="utf-8") as f:
-        js = json.load(f)
-        book.i18n = js
+        _json = json.load(f)
+        book.i18n = _json
 
     with open(get_abspath(book.assets_path, f"../i18n/{book.config.get('language', 'zh-cn')}.json"),
               encoding="utf-8") as f:
-        js = json.load(f)
-        book.i18n.update(js)
+        _json = json.load(f)
+        book.i18n.update(_json)

@@ -29,7 +29,12 @@ lsbook -b --log debug <book> <output>
   "author": "作者",
   "title": "书籍标题",
   "language": "zh-cn", // ar bn ca cs de el en es fa fi fr he it ja ko nl no pl pt ro ru sv tr uk ui zh-cn zh-hans zh-tw
-  "github_url": "主页地址"
+  "github_url": "主页地址",
+  "ignore": [
+    ".git",
+    ".svn",
+    "要排除的文件与文件夹"
+  ]
 }
 ```
 
