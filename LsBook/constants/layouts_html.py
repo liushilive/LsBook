@@ -11,7 +11,7 @@ html_root_0 = Template("""<!DOCTYPE HTML>
 <html lang="${lang}">
 <head>${head}</head>
 <body>
-<div class="book">${body}</div>
+<div class="book match-braces">${body}</div>
 ${js}
 </body>
 </html>

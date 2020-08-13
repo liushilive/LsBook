@@ -225,7 +225,7 @@ class HtmlRenderer(HTMLRenderer):
         self.tag_prism = True
 
         language = Extensions.get(language, language)
-        return f'<pre class="line-numbers"><code class="lang-{language}">{inner}</code></pre>'
+        return f'<pre class="line-numbers"><code class="lang-{language} rainbow-braces">{inner}</code></pre>'
 
     def render_image(self, token):
         self.tag_lightbox = True
