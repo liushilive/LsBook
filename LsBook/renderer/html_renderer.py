@@ -11,6 +11,11 @@ from mistletoe.html_renderer import HTMLRenderer
 from ..constants.code_extensions import Extensions
 from ..parse.parse_markdown.file_imports import process_file_import
 
+postfix = list(map(lambda x: x.upper(), [
+    "sh", "ISO", "RAR", "zip", "7z", "exe", "pdf", "xls", "txt",
+    "doc", "docx", "xlsx", "ppt", "mpp", "mpt", "xps", "xlsb", "csv", "xml"
+]))
+
 
 def parse_file(file, base_path):
     """解析文件"""
@@ -241,3 +246,40 @@ class HtmlRenderer(HTMLRenderer):
     def render_document(self, token):
         SecBlock.init()
         return super().render_document(token)
+
+    @staticmethod
+    def if_blank(target):
+        if re.match(r'^https?:/{2}\w.+$', target):
+            return True
+        _postfix = re.match(r'.*\.(\w*)$', target)
+        if _postfix and _postfix.group(1).upper() in postfix:
+            return True
+        return False
+
+    def render_link(self, token):
+        target = self.escape_url(token.target)
+
+        if self.if_blank(target):
+            template = '<a target=_Blank href="{target}"{title}>{inner}</a>'
+        else:
+            template = '<a href="{target}"{title}>{inner}</a>'
+
+        if token.title:
+            title = ' title="{}"'.format(self.escape_html(token.title))
+        else:
+            title = ''
+        inner = self.render_inner(token)
+        return template.format(target=target, title=title, inner=inner)
+
+    def render_auto_link(self, token):
+        if token.mailto:
+            target = 'mailto:{}'.format(token.target)
+        else:
+            target = self.escape_url(token.target)
+
+        if self.if_blank(target):
+            template = '<a target=_Blank href="{target}">{inner}</a>'
+        else:
+            template = '<a href="{target}">{inner}</a>'
+        inner = self.render_inner(token)
+        return template.format(target=target, inner=inner)
