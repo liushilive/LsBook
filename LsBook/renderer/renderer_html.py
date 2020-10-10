@@ -97,17 +97,22 @@ def _render_html(book_title, title, author, basePath, book_summary,
                         toc += "</ul>"
                 toc += "</ul>"
 
-        toc += "</ul></div><a href='#" + toc_tree[0]['url'] \
-               + "' id='anchorNavigationExGoTop'><i class='fa fa-arrow-up'></i></a>"
-    footer = f"""<footer class="page-footer"><span class="copyright">© {time.localtime().tm_year} {author}. 
-All rights reserved.</span><span class="footer-modification">
+        toc += "</ul></div><a href='#" + toc_tree[0]['url'] + \
+               "' id='anchorNavigationExGoTop'><i class='fa fa-arrow-up'></i></a>"
+    footer = f"""<footer class="page-footer">
+<span class="copyright">© {time.localtime().tm_year} {author}. All rights reserved.</span>
+<span class="footer-modification">
 <span id="busuanzi_container_site_uv" style="display:none">本站访客数 <span id="busuanzi_value_site_uv">
-</span> 人次</span></span></footer>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script>
+</span> 人次</span></span>
+</footer>""" + """<script>
+function busuanzi(){
+    if (document.domain != "127.0.0.1") {$.getScript("//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js");}
+}
+setTimeout('busuanzi()', 2000);
+</script>""" + f"""<script>
 {book_js}
 </script>"""
-
+    # <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     # js
     _js = {}
     if tag_katex:
