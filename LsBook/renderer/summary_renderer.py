@@ -58,7 +58,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         return ".".join(tmp)
 
     def render_link(self, token):
-        template = '<a href="{target}"><b>{data_level}.</b>{inner}</a>'
+        template = '<a href="{target}" title="{inner}"><b>{data_level}.</b>{inner}</a>'
         inner = self.render_inner(token)
 
         target = token.target
@@ -96,7 +96,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 
         self._iter_count = {}
 
-        template = '<li class="header">{inner}</li>'
+        template = """<li class="header" title="{inner}">{inner}</li>"""
         inner = self.render_inner(token)
         return template.format(inner=inner)
 
