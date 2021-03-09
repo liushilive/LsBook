@@ -46,11 +46,16 @@ body {
 
 .spoiler {
   background-color: #2D3143;
-  color: #2D3143;
+  //color: #2D3143;
+  .spoiler_span {
+    opacity: 0;
+  }
 }
 
 .spoiler.hover {
-  background-color: white;
+  .spoiler_span {
+    opacity: 1;
+  }
 }
 
 .atTitle {

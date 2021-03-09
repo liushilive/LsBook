@@ -112,7 +112,7 @@ class Math(span_token.SpanToken):
 
 class Spoiler(span_token.SpanToken):
     pattern = re.compile(r'{%s%}(.*?){%ends%}')
-    parse_inner = False
+    parse_inner = True
     parse_group = 1
 
 
@@ -144,10 +144,10 @@ class HtmlRenderer(HTMLRenderer):
         self.tag_katex = True
         return rf"\[{token.content}\]"
 
-    @staticmethod
-    def render_spoiler(token):
+    def render_spoiler(self, token):
         """鼠标扫过显示"""
-        return f'<span class="spoiler">{token.content}</span>'
+        # return f'<span class="spoiler">{token.content}</span>'
+        return f'<span class="spoiler"><span class="spoiler_span">{"".join(map(self.render, token.children))}</span></span>'
 
     def render_heading(self, token):
         template = """<h{level} id="{_id}"><a class="anchor-navigation-ex-anchor" href="#{_id}" name="{_id}"><i aria-hidden="true" class="fa fa-link"></i></a>{inner}</h{level}>"""
