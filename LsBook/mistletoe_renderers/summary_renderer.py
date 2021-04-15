@@ -1,12 +1,11 @@
 import logging
-import os
 
-import mistletoe
+from . import Document
+from .html_renderer import HTMLRenderer
+from ..utils.path import get_rel_path, get_relative_path
 
-from ..utils.path import get_pure_path, get_filename_not_ext
 
-
-class SummaryRenderer(mistletoe.HTMLRenderer):
+class SummaryRenderer(HTMLRenderer):
     def __init__(self, *extras, book_output=None, current_path=None, current_data_level=None, index=None, summary=None):
         """目录生成器
 
@@ -67,8 +66,8 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
             if self._current_path:
                 # 计算相对路径
                 target = token.target
-                target = get_relpath(book_output=self._book_output, ref=target,
-                                     current_ref=self._current_path) + ".html"
+                target = get_rel_path(book_output=self._book_output, ref=target,
+                                      current_ref=self._current_path) + ".html"
                 # 通过当前页码计数记录前后页
                 if self._index == self._count:
                     self.basePath = get_relative_path(self._book_output, self._current_path)
@@ -83,7 +82,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
                 self.summary[self._count] = {"data_level": self.get_data_level(), "target": target, "title": inner}
                 pass
         self._target.append(target)
-        logging.info(f"{inner}\t{self.get_data_level()}")
+        logging.info(f"{inner}\t\t{self.get_data_level()}")
         return template.format(data_level=self.get_data_level(), inner=inner, target=target)
 
     def render_heading(self, token):
@@ -109,7 +108,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 
         template = '<ul class="articles">{inner}</ul>'
 
-        self._suppress_ptag_stack.append(not token.loose)
+        self._suppress_p_tag_stack.append(not token.loose)
         self._data_level.append(self._iter_count.get(self._iter_index))
 
         inner = '\n'.join([self.render(child) for child in token.children])
@@ -117,7 +116,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
         self._data_level = self._data_level[:self._iter_index]
         self._iter_count.pop(self._iter_index)
         self._iter_index -= 1
-        self._suppress_ptag_stack.pop()
+        self._suppress_p_tag_stack.pop()
 
         return template.format(inner=inner)
 
@@ -161,7 +160,7 @@ class SummaryRenderer(mistletoe.HTMLRenderer):
 def renderer_summary(_book_output, _item, _index, _page, _summary):
     with SummaryRenderer(book_output=_book_output, current_path=_item.get("target", ""),
                          current_data_level=_item.get("data_level"), index=_index, summary=_summary) as renderer:
-        summary = renderer.render(mistletoe.Document(_page))
+        summary = renderer.render(Document(_page))
 
     summary_classify = {
         'title': _item.get("title", ""),
@@ -175,30 +174,3 @@ def renderer_summary(_book_output, _item, _index, _page, _summary):
         'basePath': renderer.basePath
     }
     return summary_classify
-
-
-def get_relpath(book_output, ref: str, current_ref: str):
-    """转换为相对路径
-
-    :param book_output: 书籍目录
-    :param ref: 要转换的路径
-    :param current_ref: 当前路径
-    :return:
-    """
-    _ref = ref
-    if os.path.basename(_ref).lower() == "readme.md":
-        if os.path.dirname(ref):
-            _ref = get_pure_path(os.path.relpath(os.path.dirname(ref)), "index.md")
-        else:
-            _ref = "index.md"
-    return get_pure_path(get_filename_not_ext(
-        os.path.relpath(
-            get_pure_path(book_output, _ref),
-            os.path.dirname(get_pure_path(book_output, current_ref))
-        )
-    ))
-
-
-def get_relative_path(book_output, ref: str):
-    """转换本页面相对于根的相对路径"""
-    return get_pure_path(os.path.relpath(book_output, os.path.dirname(get_pure_path(book_output, ref))))

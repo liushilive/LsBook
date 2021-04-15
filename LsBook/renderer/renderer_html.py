@@ -14,7 +14,7 @@ from ..utils.path import get_pure_path, set_extension
 def renderer_html(book: Book):
     search_plus_index = {}
     assets_img = set()
-    P_list = []
+    p_list = []
     # config
     author = book.config.get("author", "")
     book_title = book.config.get("title", "")
@@ -30,7 +30,7 @@ def renderer_html(book: Book):
         next_relative_path = item.get("next_relative_path", "")
         book_summary = item.get("summary", "")
         href = item.get("href", "")
-        basePath = item.get("basePath", "")
+        base_path = item.get("basePath", "")
 
         # dict_, assets_img_ = _render_html(book_title, title, author, basePath, book_summary,
         #                                   prev_title, prev_relative_path, next_title, next_relative_path,
@@ -40,9 +40,9 @@ def renderer_html(book: Book):
         # search_plus_index.update(dict_)
         # assets_img.update(assets_img_)
 
-        P_list.append(
+        p_list.append(
             book.pool.submit(
-                _render_html, book_title, title, author, basePath, book_summary,
+                _render_html, book_title, title, author, base_path, book_summary,
                 prev_title, prev_relative_path, next_title, next_relative_path,
                 href, book.book_path, book.book_output, language, book.i18n, github_url,
                 book.base_assets, book.book_js
@@ -50,7 +50,7 @@ def renderer_html(book: Book):
         )
         logging.debug(f"生成页面：{level, title, href}")
 
-    for ret in P_list:
+    for ret in p_list:
         dict_, assets_img_ = ret.result()
         search_plus_index.update(dict_)
         assets_img.update(assets_img_)
@@ -62,16 +62,16 @@ def renderer_html(book: Book):
     return assets_img
 
 
-def _render_html(book_title, title, author, basePath, book_summary,
+def _render_html(book_title, title, author, base_path, book_summary,
                  prev_title, prev_relative_path, next_title, next_relative_path, href, book_path, book_output,
                  language, i18n, github_url, base_assets, book_js):
     """生产HTML，返回索引"""
     # 解析页面
-    base_assets_path = get_pure_path(*(basePath, base_assets) if base_assets else basePath)  # 资源路径
+    base_assets_path = get_pure_path(*(base_path, base_assets) if base_assets else base_path)  # 资源路径
 
     book_page, toc_tree, tag_katex, tag_mermaid, tag_prism, tag_lightbox, assets_img = parse_file(
         get_pure_path(book_path, href),
-        basePath
+        base_path
     )
 
     # 组装页内导航
@@ -141,7 +141,7 @@ setTimeout('busuanzi()', 2000);
         previous_page_link=previous_page_link,
         next_page_link=next_page_link,
         title=title,
-        basePath=basePath,
+        basePath=base_path,
         toc=toc,
         footer=footer,
         book_page=book_page,
@@ -153,7 +153,7 @@ setTimeout('busuanzi()', 2000);
     body = html_body_2.substitute(
         book_summary=book_summary,
         book_body=book_body,
-        basePath=basePath,
+        basePath=base_path,
         language=language,
         LsBook_LINK=i18n.get("LsBook_LINK"),
         github_url=github_url,
