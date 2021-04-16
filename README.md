@@ -4,7 +4,7 @@
 
 一切参照 [gitbook](https://www.gitbook.com/)，只为加快网站的生成速度。
 
-只支持 md 语法
+只支持 md 语法：[CommonMark 规格](https://spec.commonmark.org/)
 
 项目示例：<https://github.com/liushilive/github_software_testing_dictionary>
 
@@ -28,7 +28,8 @@ lsbook -b --log debug <book> <output>
 {
   "author": "作者",
   "title": "书籍标题",
-  "language": "zh-cn", // ar bn ca cs de el en es fa fi fr he it ja ko nl no pl pt ro ru sv tr uk ui zh-cn zh-hans zh-tw
+  "language": "zh-cn",
+  // ar bn ca cs de el en es fa fi fr he it ja ko nl no pl pt ro ru sv tr uk ui zh-cn zh-hans zh-tw
   "github_url": "主页地址",
   "ignore": [
     ".git",
@@ -40,7 +41,7 @@ lsbook -b --log debug <book> <output>
 
 ## 数学公式使用
 
->支持 [KaTeX](https://khan.github.io/KaTeX/docs/supported.html) 已支持的全部符号。
+> 支持 [KaTeX](https://khan.github.io/KaTeX/docs/supported.html) 已支持的全部符号。
 
 * 内联数学公式：
 
@@ -76,17 +77,17 @@ lsbook -b --log debug <book> <output>
 
 ## 代码高亮支持
 
->采用 [prism](https://prismjs.com/) 支持所有官方支持语言。
+> 采用 [prism](https://prismjs.com/) 支持所有官方支持语言。
 
 ## 鼠标悬浮可见
 
->用法：把要隐藏文本内容放在 `{%s%}` 和 `{%ends%}` 之间。
+> 用法：把要隐藏文本内容放在 `{%s%}` 和 `{%ends%}` 之间。
 
     {%s%}Hello World.{%ends%}
 
 ## 点击隐藏或显示片段
 
->可以使用标签定义一个新的片段：（默认隐藏），不支持嵌套
+> 可以使用标签定义一个新的片段：（默认隐藏），不支持嵌套
 
 ```html
 <!--sec title="点我隐藏答案" show=true ces-->
@@ -102,7 +103,7 @@ C
 <!--endsec-->
 ```
 
->本标签包含以下参数：
+> 本标签包含以下参数：
 
 * title：标题
 * show：是否初始隐藏
@@ -113,7 +114,7 @@ C
 
 `@import "你的代码文件"`
 
->如果没有指明相关语言，将默认根据文件后缀推断语言。
+> 如果没有指明相关语言，将默认根据文件后缀推断语言。
 
 如果文件为 `markdown`，将直接引入文件中内容。文件中图片会导入到当前项目中。
 
