@@ -4,7 +4,6 @@ HTML renderer for mistletoe.
 
 import html
 import re
-from urllib.parse import quote
 
 from .base_renderer import BaseRenderer
 from .block_token import SecBlock
@@ -41,7 +40,10 @@ class HTMLRenderer(BaseRenderer):
         self.count = {
             "h1": 0,
             "h2": 0,
-            "h3": 0
+            "h3": 0,
+            "h4": 0,
+            "h5": 0,
+            "h6": 0,
         }
         self._id = 0
         self._img_id = 0
@@ -90,7 +92,7 @@ class HTMLRenderer(BaseRenderer):
         return template.format(img_id=self._img_id, src=token.src, alt=alt, title=title)
 
     def render_link(self, token):
-        target = self.escape_url(token.target)
+        target = token.target
 
         if self.if_blank(target):
             template = '<a target=_Blank href="{target}"{title}>{inner}</a>'
@@ -108,7 +110,7 @@ class HTMLRenderer(BaseRenderer):
         if token.mailto:
             target = 'mailto:{}'.format(token.target)
         else:
-            target = self.escape_url(token.target)
+            target = token.target
 
         if self.if_blank(target):
             template = '<a target=_Blank href="{target}">{inner}</a>'
@@ -128,7 +130,12 @@ class HTMLRenderer(BaseRenderer):
         return token.content
 
     def render_heading(self, token):
-        template = """<h{level} id="{_id}"><a class="anchor-navigation-ex-anchor" href="#{_id}" name="{_id}"><i aria-hidden="true" class="fa fa-link"></i></a>{inner}</h{level}>"""
+        template = """\
+<h{level} id="{_id}">
+    <a class="anchor-navigation-ex-anchor" href="#{_id}" name="{_id}">
+        <i aria-hidden="true" class="fa fa-link"></i>
+    </a>{inner}
+</h{level}>"""
         inner = self.render_inner(token)
 
         self._id += 1
@@ -299,13 +306,6 @@ class HTMLRenderer(BaseRenderer):
     @staticmethod
     def escape_html(raw):
         return html.escape(html.unescape(raw)).replace('&#x27;', "'")
-
-    @staticmethod
-    def escape_url(raw):
-        """
-        Escape urls to prevent code injection craziness. (Hopefully.)
-        """
-        return html.escape(quote(html.unescape(raw), safe='/#:()*?=%@+,&'))
 
     def render_sec_block(self, token):
         inner = ''.join([self.render(child) for child in token.children])
