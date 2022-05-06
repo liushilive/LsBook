@@ -1,3 +1,6 @@
+@REM pip install wheel
+@REM pip install twine
+
 rem python setup.py sdist upload
 python setup.py sdist bdist_wheel
 
