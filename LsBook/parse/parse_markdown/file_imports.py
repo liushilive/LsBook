@@ -67,8 +67,11 @@ def split_import(line, book_path):
     if match:
         prefix_ = match.group(1)
         path_ = match.group(2)
-        code_type_ = match.group(4)
-        lang_ = code_type_ or lang_dict.get(os.path.splitext(path_)[1][1:])[0]
+        lang_ = match.group(4)
+        # lang_ = code_type_ or lang_dict.get(os.path.splitext(path_)[1][1:])[0]
+        if not lang_:
+            lang_ = os.path.splitext(path_)[1] or os.path.split(path_)[1]
+            lang_ = lang_dict.get(lang_.lower(), [""])[0] or os.path.split(path_)[1]
         import_file_ = get_pure_path(book_path, path_)
 
         return prefix_, lang_, import_file_

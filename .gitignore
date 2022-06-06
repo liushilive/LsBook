@@ -6,4 +6,5 @@ __pycache__
 
 tests/_book*
 tests/lsbook
+tests/test_book
 venv
